@@ -12,3 +12,5 @@ import mido
 #Compute novelty function based on spectral flux
 def compute_novelty_function():
     end
+
+    #this is a test
