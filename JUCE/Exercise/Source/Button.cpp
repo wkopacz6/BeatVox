@@ -37,6 +37,7 @@ void Button::paint (juce::Graphics& g)
     g.setFont (26.0f);
     g.drawText ("BeatVOX", getWidth()/4, 20, getWidth()/2, 40,
                 juce::Justification::centred, true);   // draw some placeholder text
+                
 }
 
 void Button::resized()

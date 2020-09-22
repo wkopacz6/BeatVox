@@ -9,6 +9,7 @@
 #include <JuceHeader.h>
 #include "Button.h"
 
+
 //==============================================================================
 class ExerciseApplication  : public juce::JUCEApplication
 {
@@ -29,6 +30,7 @@ public:
     {
         mainWindow = nullptr;
     }
+    
 private:
     class MainWindow : juce::DocumentWindow
     {
@@ -46,6 +48,7 @@ private:
     {
         juce::JUCEApplication::getInstance()->systemRequestedQuit();
     }
+    
     private:
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(MainWindow)
     };
