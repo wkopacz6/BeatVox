@@ -14,17 +14,21 @@
 //==============================================================================
 Button::Button()
 {
-    setSize(400, 300);
+    setLookAndFeel(&lookAndFeel);
+
+    addAndMakeVisible(button1);
+    setSize(300, 200);
 }
 
 Button::~Button()
 {
+    setLookAndFeel(nullptr);
 }
 
 void Button::paint (juce::Graphics& g)
 {
 
-    g.fillAll (juce::Colours::lightblue);
+    g.fillAll(getLookAndFeel().findColour(juce::ResizableWindow::backgroundColourId));
 
     g.setColour (juce::Colours::red);
     g.fillRect(getWidth() / 4, getHeight() / 4, getWidth() / 2, getHeight() / 2);
@@ -37,5 +41,11 @@ void Button::paint (juce::Graphics& g)
 
 void Button::resized()
 {
+    auto border = 4;
+    auto area = getLocalBounds();
+
+    auto buttonHeight = 30;
+
+    button1.setBounds(area.removeFromTop(buttonHeight).reduced(border));
 
 }

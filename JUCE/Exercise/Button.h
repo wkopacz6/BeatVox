@@ -15,6 +15,36 @@
 //==============================================================================
 /*
 */
+
+class LookAndFeel : public juce::LookAndFeel_V4
+{
+public:
+    LookAndFeel() {}
+    void drawButtonBackground(juce::Graphics& g, juce::Button& button, const juce::Colour& backgroundColour,
+        bool isMouseOverButton, bool isButtonDown) override
+    {
+        auto buttonArea = button.getLocalBounds();
+        auto edge = 4;
+
+        buttonArea.removeFromLeft(edge);
+        buttonArea.removeFromTop(edge);
+
+        g.setColour(juce::Colours::darkgrey.withAlpha(0.5f));
+        g.fillRect(buttonArea);
+
+        auto offset = isButtonDown ? -edge / 2 : -edge;
+        buttonArea.translate(offset, offset);
+
+        if (isMouseOverButton == true) {
+            g.setColour(juce::Colours::red);
+        }
+        else {
+            g.setColour(backgroundColour);
+        }
+        g.fillRect(buttonArea);
+    }
+};
+
 class Button  : public juce::Component
 {
 public:
@@ -25,6 +55,7 @@ public:
     void resized() override;
 
 private:
-    juce::String currentSizeAsString;
+    LookAndFeel lookAndFeel;
+    juce::TextButton button1;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Button)
 };
