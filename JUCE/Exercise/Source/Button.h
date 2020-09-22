@@ -36,7 +36,7 @@ public:
         buttonArea.translate(offset, offset);
 
         if (isMouseOverButton == true) {
-            g.setColour(juce::Colours::red);
+            g.setColour(juce::Colours::yellow);
         }
         else {
             g.setColour(backgroundColour);
