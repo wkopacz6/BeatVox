@@ -60,8 +60,26 @@ def compute_novelty_function(x, method):
 
     end
 
+#moving average filter used in peak picking
+def moving_average(a, n=3) :
+    ret = np.cumsum(a, dtype=float)
+    ret[n:] = ret[n:] - ret[:-n]
+    return ret[n - 1:] / n
 
-nov = compute_novelty_function(y, 'laroche')
+def pick_peaks(nov, thres):
+    #determine adaptive threshold
+    #take the moving average of the novelty function
+    nov = moving_average(nov, n=3)
+
+    #use scipy find peaks
+    peaks = sp.signal.find_peaks(nov, threshold=thres)
+    return (peaks)
+
+    end
+
+
+nov = compute_novelty_function(y, 'log-mag')
+peaks, yeah = pick_peaks(nov, .02)
 fig = plt.figure()
 fig.add_subplot(111)
 fig = plt.plot(nov)
