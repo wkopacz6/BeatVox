@@ -7,6 +7,8 @@ MainComponent::MainComponent()
 
     
     button.setButtonText("Record");
+    button.setClickingTogglesState(true);
+    button.setToggleState(false, juce::NotificationType::dontSendNotification);
     addAndMakeVisible(button);
     setSize(300, 200);
 }

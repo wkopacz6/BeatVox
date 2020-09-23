@@ -15,11 +15,13 @@ public:
         setColour(juce::Slider::thumbColourId, juce::Colours::red);
     }
 
-    //! [drawButtonBackground]
+/*
     void drawButtonBackground(juce::Graphics& g, juce::Button& button, const juce::Colour& backgroundColour,
         bool, bool isButtonDown) override
-        //! [drawButtonBackground]
+        
     {
+        
+        
         //! [background]
         auto buttonArea = button.getLocalBounds();
         auto edge = 4;
@@ -37,6 +39,55 @@ public:
         g.setColour(backgroundColour);
         g.fillRect(buttonArea);
         //! [background]
+        
+    }
+    */
+
+    void drawButtonBackground(juce::Graphics& g, juce::Button& button, const juce::Colour& backgroundColour,
+        bool isMouseOverButton, bool isButtonDown) override
+    {
+        auto baseColour = backgroundColour.withMultipliedSaturation(button.hasKeyboardFocus(true) ? 0.2f : 0.9f)
+            .withMultipliedAlpha(button.isEnabled() ? 4.0f : 0.1f);
+
+        bool state = button.getToggleState();
+
+        if (isButtonDown || isMouseOverButton)
+            baseColour = baseColour.contrasting(isButtonDown ? 0.9f : 0.1f);
+
+        auto flatOnLeft = button.isConnectedOnLeft();
+        auto flatOnRight = button.isConnectedOnRight();
+        auto flatOnTop = button.isConnectedOnTop();
+        auto flatOnBottom = button.isConnectedOnBottom();
+
+        auto width = (float)button.getWidth() - 1.0f;
+        auto height = (float)button.getHeight() - 1.0f;
+
+        if (width > 0 && height > 0)
+        {
+            auto cornerSize = juce::jmin(15.0f, juce::jmin(width, height) * 0.45f);
+            auto lineThickness = cornerSize * 0.1f;
+            auto halfThickness = lineThickness * 0.5f;
+
+            juce::Path outline;
+            outline.addRoundedRectangle(0.5f + halfThickness, 0.5f + halfThickness, width - lineThickness, height - lineThickness,
+                cornerSize, cornerSize,
+                !(flatOnLeft || flatOnTop),
+                !(flatOnRight || flatOnTop),
+                !(flatOnLeft || flatOnBottom),
+                !(flatOnRight || flatOnBottom));
+
+            auto outlineColour = button.findColour(button.getToggleState() ? juce::TextButton::textColourOnId
+                : juce::TextButton::textColourOffId);
+
+            g.setColour(baseColour);
+            g.fillPath(outline);
+
+            if (!button.getToggleState())
+            {
+                g.setColour(outlineColour);
+                g.strokePath(outline, juce::PathStrokeType(lineThickness));
+            }
+        }
     }
 
     void drawButtonText(juce::Graphics& g, juce::TextButton& button, bool, bool isButtonDown) override
