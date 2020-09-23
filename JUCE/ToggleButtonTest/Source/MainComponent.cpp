@@ -6,10 +6,16 @@ MainComponent::MainComponent()
     setLookAndFeel(&otherlookandfeel);
 
     
-    button.setButtonText("Record");
-    button.setClickingTogglesState(true);
-    button.setToggleState(false, juce::NotificationType::dontSendNotification);
-    addAndMakeVisible(button);
+    buttonRecord.setButtonText("Press to Record");
+    buttonRecord.setClickingTogglesState(true);
+    buttonRecord.setToggleState(false, juce::NotificationType::dontSendNotification);
+    addAndMakeVisible(buttonRecord);
+
+    buttonPlay.setButtonText("Play");
+    addAndMakeVisible(buttonPlay);
+
+    buttonStop.setButtonText("Stop");
+    addAndMakeVisible(buttonStop);
     setSize(300, 200);
 }
 
@@ -23,22 +29,13 @@ void MainComponent::paint (juce::Graphics& g)
 {
 
     g.fillAll(juce::Colours::lightgrey);
-
-   /* g.fillAll(juce::Colours::black);
-
-    
-    button.setButtonText("Record");
-
-    g.fillAll(getLookAndFeel().findColour(juce::ResizableWindow::backgroundColourId));
-
-    g.setColour(juce::Colours::red);
-    g.fillRect(getWidth() / 4, getHeight() / 4, getWidth() / 2, getHeight() / 2);
-
-    g.setColour(juce::Colours::white);
-    g.setFont(26.0f);
-    g.drawText("BeatVOX", getWidth() / 4, 20, getWidth() / 2, 40,
-        juce::Justification::centred, true);
-        */
+    if (buttonRecord.getToggleState()) {
+        buttonRecord.setButtonText("Recording...");
+    }
+    else {
+        buttonRecord.setButtonText("Press to Record");
+    }
+   
 }
 
 void MainComponent::resized()
@@ -48,5 +45,7 @@ void MainComponent::resized()
     auto area = getLocalBounds();
     auto buttonHeight = 30;
 
-    button.setBounds(area.removeFromTop(buttonHeight).reduced(border));
+    buttonRecord.setBounds(area.removeFromTop(buttonHeight).reduced(border));
+    buttonPlay.setBounds(area.removeFromTop(buttonHeight).reduced(border));
+    buttonStop.setBounds(area.removeFromTop(buttonHeight).reduced(border));
 }

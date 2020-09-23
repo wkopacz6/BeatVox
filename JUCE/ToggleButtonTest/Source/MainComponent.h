@@ -10,49 +10,11 @@
 class OtherLookAndFeel : public juce::LookAndFeel_V4
 {
 public:
-    OtherLookAndFeel()
-    {
-        setColour(juce::Slider::thumbColourId, juce::Colours::red);
-    }
-
-/*
-    void drawButtonBackground(juce::Graphics& g, juce::Button& button, const juce::Colour& backgroundColour,
-        bool, bool isButtonDown) override
-        
-    {
-        
-        
-        //! [background]
-        auto buttonArea = button.getLocalBounds();
-        auto edge = 4;
-
-        buttonArea.removeFromLeft(edge);
-        buttonArea.removeFromTop(edge);
-
-        // shadow
-        g.setColour(juce::Colours::darkgrey.withAlpha(0.5f));
-        g.fillRect(buttonArea);
-
-        auto offset = isButtonDown ? -edge / 2 : -edge;
-        buttonArea.translate(offset, offset);
-
-        g.setColour(backgroundColour);
-        g.fillRect(buttonArea);
-        //! [background]
-        
-    }
-    */
+    OtherLookAndFeel(){}
 
     void drawButtonBackground(juce::Graphics& g, juce::Button& button, const juce::Colour& backgroundColour,
         bool isMouseOverButton, bool isButtonDown) override
     {
-        auto baseColour = backgroundColour.withMultipliedSaturation(button.hasKeyboardFocus(true) ? 0.2f : 0.9f)
-            .withMultipliedAlpha(button.isEnabled() ? 4.0f : 0.1f);
-
-        bool state = button.getToggleState();
-
-        if (isButtonDown || isMouseOverButton)
-            baseColour = baseColour.contrasting(isButtonDown ? 0.9f : 0.1f);
 
         auto flatOnLeft = button.isConnectedOnLeft();
         auto flatOnRight = button.isConnectedOnRight();
@@ -76,8 +38,16 @@ public:
                 !(flatOnLeft || flatOnBottom),
                 !(flatOnRight || flatOnBottom));
 
+            bool state = button.getToggleState();
+
             auto outlineColour = button.findColour(button.getToggleState() ? juce::TextButton::textColourOnId
                 : juce::TextButton::textColourOffId);
+
+            auto baseColour = state ? juce::Colours::red : backgroundColour.withMultipliedSaturation(button.hasKeyboardFocus(true) ? 0.2f : 0.9f)
+                .withMultipliedAlpha(button.isEnabled() ? 4.0f : 0.1f);
+
+            if (isButtonDown || isMouseOverButton)
+                baseColour = baseColour.contrasting(isButtonDown ? 0.9f : 0.1f);
 
             g.setColour(baseColour);
             g.fillPath(outline);
@@ -132,7 +102,9 @@ public:
 
 private:
     OtherLookAndFeel otherlookandfeel;
-    juce::TextButton button;
+    juce::TextButton buttonRecord;
+    juce::TextButton buttonPlay;
+    juce::TextButton buttonStop;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };
