@@ -69,18 +69,20 @@ def moving_average(a, n=3) :
 def pick_peaks(nov, thres):
     #determine adaptive threshold
     #take the moving average of the novelty function
-    nov = moving_average(nov, n=3)
+    nov = moving_average(nov, n=5)
 
     #use scipy find peaks
-    peaks = sp.signal.find_peaks(nov, threshold=thres)
+    peaks = sp.signal.find_peaks(nov, height=thres)
     return (peaks)
 
     end
 
 
 nov = compute_novelty_function(y, 'log-mag')
-peaks, yeah = pick_peaks(nov, .02)
+nov = moving_average(nov, n=5)
+peaks, yeah = pick_peaks(nov, .015)
 fig = plt.figure()
 fig.add_subplot(111)
 fig = plt.plot(nov)
+print(peaks)
 plt.show()
