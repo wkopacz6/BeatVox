@@ -76,6 +76,7 @@ def pick_peaks(nov, thres):
     return (peaks)
 
     end
+ground_truth = np.transpose(np.genfromtxt('/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/beatboxset1_annotations/beatboxset1_onsets.csv', delimiter=','))
 
 nov = compute_novelty_function(y, 'log-mag')
 #peaks, yeah = pick_peaks(nov, .015)
@@ -88,8 +89,10 @@ nov = compute_novelty_function(y, 'log-mag')
 #Test onset detection using F-Score
 def test_onset_detection():
     #Compute novelty function
+    #use pandas not np for test
+    #need to get onsets in time 
 
-    ground_truth = np.transpose(np.genfromtxt('/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/beatboxset1_annotations/battleclip_daq.csv', delimiter=','))
+    ground_truth = np.transpose(np.genfromtxt('/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/beatboxset1_annotations/beatboxset1_onsets.csv', delimiter=','))
 
 
     end
