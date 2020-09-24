@@ -86,3 +86,6 @@ fig.add_subplot(111)
 fig = plt.plot(nov)
 print(peaks)
 plt.show()
+
+#Test onset detection using F-Score
+def test_onset_detection:
