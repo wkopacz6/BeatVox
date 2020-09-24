@@ -77,15 +77,19 @@ def pick_peaks(nov, thres):
 
     end
 
-
 nov = compute_novelty_function(y, 'log-mag')
-nov = moving_average(nov, n=5)
-peaks, yeah = pick_peaks(nov, .015)
-fig = plt.figure()
-fig.add_subplot(111)
-fig = plt.plot(nov)
-print(peaks)
-plt.show()
+#peaks, yeah = pick_peaks(nov, .015)
+#fig = plt.figure()
+#fig.add_subplot(111)
+#fig = plt.plot(nov)
+#print(peaks)
+#plt.show()
 
 #Test onset detection using F-Score
-def test_onset_detection:
+def test_onset_detection():
+    #Compute novelty function
+
+    ground_truth = np.transpose(np.genfromtxt('/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/beatboxset1_annotations/battleclip_daq.csv', delimiter=','))
+
+
+    end
