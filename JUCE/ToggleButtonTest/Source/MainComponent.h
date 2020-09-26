@@ -106,7 +106,7 @@ private:
     OtherLookAndFeel otherlookandfeel;
     juce::TextButton buttonRecord;
     juce::TextButton buttonPlay;
-    juce::TextButton buttonStop;
+    juce::TextButton buttonAnalyze{ "Analyze" };
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };

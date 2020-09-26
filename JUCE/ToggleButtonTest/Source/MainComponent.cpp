@@ -15,6 +15,8 @@ MainComponent::MainComponent()
     buttonPlay.setToggleState(false, juce::NotificationType::dontSendNotification);
     addAndMakeVisible(buttonPlay);
 
+    addAndMakeVisible(buttonAnalyze);
+
     setSize(300, 200);
 }
 
@@ -57,5 +59,5 @@ void MainComponent::resized()
 
     buttonRecord.setBounds(area.removeFromTop(buttonHeight).reduced(border));
     buttonPlay.setBounds(area.removeFromTop(buttonHeight).reduced(border));
-    buttonStop.setBounds(area.removeFromTop(buttonHeight).reduced(border));
+    buttonAnalyze.setBounds(area.removeFromTop(buttonHeight).reduced(border));
 }
