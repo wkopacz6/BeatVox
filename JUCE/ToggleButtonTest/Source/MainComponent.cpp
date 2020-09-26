@@ -6,16 +6,15 @@ MainComponent::MainComponent()
     setLookAndFeel(&otherlookandfeel);
 
     
-    buttonRecord.setButtonText("Press to Record");
+    
     buttonRecord.setClickingTogglesState(true);
     buttonRecord.setToggleState(false, juce::NotificationType::dontSendNotification);
     addAndMakeVisible(buttonRecord);
 
-    buttonPlay.setButtonText("Play");
+    buttonPlay.setClickingTogglesState(true);
+    buttonPlay.setToggleState(false, juce::NotificationType::dontSendNotification);
     addAndMakeVisible(buttonPlay);
 
-    buttonStop.setButtonText("Stop");
-    addAndMakeVisible(buttonStop);
     setSize(300, 200);
 }
 
@@ -29,10 +28,21 @@ void MainComponent::paint (juce::Graphics& g)
 {
 
     g.fillAll(juce::Colours::lightgrey);
-    if (buttonRecord.getToggleState()) {
-        buttonRecord.setButtonText("Recording...");
+
+    if (buttonPlay.getToggleState()) {
+        buttonPlay.setButtonText("Stop");
     }
     else {
+        buttonPlay.setColour(juce::TextButton::buttonColourId, juce::Colours::green);
+        buttonPlay.setButtonText("Play");
+    }
+
+    if (buttonRecord.getToggleState()) {
+        buttonRecord.setButtonText("Recording...");
+        buttonRecord.setColour(juce::TextButton::textColourOnId, juce::Colours::black);
+    }
+    else {
+
         buttonRecord.setButtonText("Press to Record");
     }
    

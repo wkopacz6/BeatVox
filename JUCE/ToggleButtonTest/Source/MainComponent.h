@@ -43,8 +43,10 @@ public:
             auto outlineColour = button.findColour(button.getToggleState() ? juce::TextButton::textColourOnId
                 : juce::TextButton::textColourOffId);
 
-            auto baseColour = state ? juce::Colours::red : backgroundColour.withMultipliedSaturation(button.hasKeyboardFocus(true) ? 0.2f : 0.9f)
-                .withMultipliedAlpha(button.isEnabled() ? 4.0f : 0.1f);
+            //auto baseColour = state ? juce::Colours::red : backgroundColour.withMultipliedSaturation(button.hasKeyboardFocus(true) ? 0.2f : 0.9f)
+              //  .withMultipliedAlpha(button.isEnabled() ? 4.0f : 0.1f);
+
+            auto baseColour = state ? juce::Colours::red : backgroundColour;
 
             if (isButtonDown || isMouseOverButton)
                 baseColour = baseColour.contrasting(isButtonDown ? 0.9f : 0.1f);
