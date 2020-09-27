@@ -7,6 +7,7 @@ import os
 import librosa
 from scipy.io.wavfile import read
 import mido
+import pandas as pd
 
 
 y, fs = librosa.load('/Users/walterkopacz/PycharmProjects/BeatVoxPrototype/venv1/BeatVoxTest1.wav', sr=44100)
@@ -87,12 +88,34 @@ nov = compute_novelty_function(y, 'log-mag')
 #plt.show()
 
 #Test onset detection using F-Score
-def test_onset_detection():
-    #Compute novelty function
+#Arguments: List of audio file paths, ground truth onsets
+def test_onset_detection(audio, ground_truth, method, thres):
     #use pandas not np for test
-    #need to get onsets in time 
+    #need to get onsets in time - use librosa blocks to time(?)
 
-    ground_truth = np.transpose(np.genfromtxt('/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/beatboxset1_annotations/beatboxset1_onsets.csv', delimiter=','))
+    ground_truth = pd.read_csv('beatboxset1_onsets.csv')
+
+    # create dictionary of onsets
+    onset_dict = {}
+
+    for file in audio:
+        #load audio file
+        y, fs  = librosa.core.load(file, sr=44100)
+        #compute novelty function
+        nov = compute_novelty_function(y, method)
+        #pick peaks
+        peaks = pick_peaks(nov, thres)
+        #convert peak blocks to peak times
+        onsets = librosa.core.blocks_to_time(peaks, block_length=2048 )
+        #add onsets to pd dict
+        onset_dict[file] = onsets
+        #mirex evaluation procedure
+    onsets_df = pd.DataFrame(onset_dict)
+
+
+
+
+
 
 
     end
