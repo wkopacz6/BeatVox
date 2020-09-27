@@ -3,61 +3,37 @@
 //==============================================================================
 MainComponent::MainComponent()
 {
-    setLookAndFeel(&otherlookandfeel);
-
-    
-    
-    buttonRecord.setClickingTogglesState(true);
-    buttonRecord.setToggleState(false, juce::NotificationType::dontSendNotification);
-    addAndMakeVisible(buttonRecord);
-
-    buttonPlay.setClickingTogglesState(true);
-    buttonPlay.setToggleState(false, juce::NotificationType::dontSendNotification);
-    addAndMakeVisible(buttonPlay);
-
-    addAndMakeVisible(buttonAnalyze);
-
-    setSize(300, 200);
+    setSize(600, 400);
+    addAndMakeVisible(button);
 }
 
 MainComponent::~MainComponent()
 {
-    setLookAndFeel(nullptr);
 }
 
 //==============================================================================
 void MainComponent::paint (juce::Graphics& g)
 {
+    g.fillAll(juce::Colours::black);
 
-    g.fillAll(juce::Colours::lightgrey);
+    
+    button.setButtonText("Record");
 
-    if (buttonPlay.getToggleState()) {
-        buttonPlay.setButtonText("Stop");
-    }
-    else {
-        buttonPlay.setColour(juce::TextButton::buttonColourId, juce::Colours::green);
-        buttonPlay.setButtonText("Play");
-    }
+    g.fillAll(getLookAndFeel().findColour(juce::ResizableWindow::backgroundColourId));
 
-    if (buttonRecord.getToggleState()) {
-        buttonRecord.setButtonText("Recording...");
-        buttonRecord.setColour(juce::TextButton::textColourOnId, juce::Colours::black);
-    }
-    else {
+    g.setColour(juce::Colours::red);
+    g.fillRect(getWidth() / 4, getHeight() / 4, getWidth() / 2, getHeight() / 2);
 
-        buttonRecord.setButtonText("Press to Record");
-    }
-   
+    g.setColour(juce::Colours::white);
+    g.setFont(26.0f);
+    g.drawText("BeatVOX", getWidth() / 4, 20, getWidth() / 2, 40,
+        juce::Justification::centred, true);
+
 }
 
 void MainComponent::resized()
 {
-    auto border = 4;
-
-    auto area = getLocalBounds();
-    auto buttonHeight = 30;
-
-    buttonRecord.setBounds(area.removeFromTop(buttonHeight).reduced(border));
-    buttonPlay.setBounds(area.removeFromTop(buttonHeight).reduced(border));
-    buttonAnalyze.setBounds(area.removeFromTop(buttonHeight).reduced(border));
+    juce::Rectangle<int> area = getLocalBounds();
+    juce::Rectangle<int> areaButton = area.removeFromBottom(area.getHeight()/2);
+    button.setBounds(areaButton.removeFromRight(area.getWidth()/2));
 }

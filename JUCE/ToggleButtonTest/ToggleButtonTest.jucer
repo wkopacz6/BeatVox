@@ -4,6 +4,8 @@
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1">
   <MAINGROUP id="NANbaD" name="ToggleButtonTest">
     <GROUP id="{9E770605-F8E2-1206-C7E9-3EDD55BE20AB}" name="Source">
+      <FILE id="fYgkJQ" name="AudioRecordingDemo.h" compile="0" resource="0"
+            file="Source/AudioRecordingDemo.h"/>
       <FILE id="Gp58FV" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
       <FILE id="IPd2uC" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
       <FILE id="DVWhlE" name="MainComponent.cpp" compile="1" resource="0"
