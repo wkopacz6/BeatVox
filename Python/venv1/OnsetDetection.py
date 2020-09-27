@@ -111,6 +111,29 @@ def test_onset_detection(audio, ground_truth, method, thres):
         onset_dict[file] = onsets
         #mirex evaluation procedure
     onsets_df = pd.DataFrame(onset_dict)
+    #Number of correctly detected onsets
+    Ocd = 0
+    #Number of false negatives - tolerance windows without an onset present
+    Ofn = 0
+    #Number of false positives - number of detections outside of all tolerance windows, number of extra detections within a specific tolerance window
+    #0fp is the total detected onsets - Ocd
+    Ofp = 0
+
+    #Find numbers for each file
+    for col in onsets_df.columns:
+        #get column for corresponding audio file in ground truth onsets
+        gt_df = ground_truth.loc(col)
+        #drop all nan values
+        gt_df = gt_df.dropna(how=any)
+        #get column for corresponding detected onsets
+        det_df = onsets_df.loc(col)
+        for onset in gt[:]:
+            #get number of values within the threshold
+
+
+
+
+
 
 
 
