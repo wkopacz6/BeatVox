@@ -148,6 +148,8 @@ audio_paths = ['/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/
 ground_truth_path = '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/beatboxset1_annotations/beatboxset1_onsets.csv'
 print(test_onset_detection(audio_paths, ground_truth_path, 'log-mag', .015 ))
 
+# not doing great so far: Look into: 1. how blocks_to_time might be affecting times, 2. the threshold
+
 
 
 
