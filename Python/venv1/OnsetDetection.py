@@ -17,7 +17,7 @@ def compute_novelty_function(x, method):
     #normalize audio
     x = x/max(abs(x))
     # use librosa to calculate the stft
-    X = librosa.core.stft(x, n_fft=2048)
+    X = librosa.core.stft(x, n_fft=512, hop_length=384)
     if method == 'log-mag':
 
         #compute the log-magnitude spectrum
@@ -58,7 +58,7 @@ def compute_novelty_function(x, method):
     end
 
 #moving average filter used in peak picking
-def moving_average(a, n=3) :
+def moving_average(a, n) :
     ret = np.cumsum(a, dtype=float)
     ret[n:] = ret[n:] - ret[:-n]
     return ret[n - 1:] / n
@@ -66,22 +66,16 @@ def moving_average(a, n=3) :
 def pick_peaks(nov, thres):
     #determine adaptive threshold
     #take the moving average of the novelty function
-    nov = moving_average(nov, n=5)
+    nov = moving_average(nov, n=2)
 
     #use scipy find peaks
     peaks = sp.signal.find_peaks(nov, height=thres)
-    return (peaks[0])
+    # convert peak blocks to peak times
+    onsets = librosa.core.blocks_to_time(peaks[0], block_length=1024, hop_length=1024, sr=44100) / 1000
+    return (onsets)
 
     end
-#ground_truth = np.transpose(np.genfromtxt('/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/beatboxset1_annotations/beatboxset1_onsets.csv', delimiter=','))
 
-#nov = compute_novelty_function(y, 'log-mag')
-#peaks, yeah = pick_peaks(nov, .015)
-#fig = plt.figure()
-#fig.add_subplot(111)
-#fig = plt.plot(nov)
-#print(peaks)
-#plt.show()
 
 #Test onset detection using F-Score
 #Arguments: List of audio file paths, ground truth onsets file path, method of onset detection, threshold for peak pickng
@@ -101,10 +95,9 @@ def test_onset_detection(audio, ground_truth, method, thres):
         nov = compute_novelty_function(y, method)
         #pick peaks
         peaks = pick_peaks(nov, thres)
-        #convert peak blocks to peak times
-        onsets = librosa.core.blocks_to_time(peaks, block_length=2048, hop_length=512, sr=fs) /1000
+
         #add onsets to pd dict
-        onset_dict[file] = onsets
+        onset_dict[file] = peaks
     #mirex evaluation procedure
     onsets_df = pd.DataFrame(dict([ (k,pd.Series(v)) for k,v in onset_dict.items() ]))
     onsets_df.columns = ground_truth.columns
@@ -138,7 +131,7 @@ def test_onset_detection(audio, ground_truth, method, thres):
     #Compute precision, recall, and F score
     precision = Ocd / (Ocd + Ofp)
     recall =  Ocd / (Ocd + Ofn)
-    fmeasure = 2*precision*recall/(precision+recall)
+    fmeasure = (2*precision*recall)/(precision+recall)
 
     return (precision, recall, fmeasure)
     end
@@ -146,7 +139,7 @@ def test_onset_detection(audio, ground_truth, method, thres):
 
 audio_paths = ['/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/snare_hex.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/putfile_william.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/putfile_vonny.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/putfile_pepouni.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/putfile_dbztenkaichi.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/putfile_bui.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/callout_Turn-Table.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/callout_Pneumatic.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/callout_mouss.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/callout_mcld.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/callout_luckeymonkey.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/callout_azeem.wav' , '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/callout_adiao.wav' , '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/battleclip_daq.wav']
 ground_truth_path = '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/beatboxset1_annotations/beatboxset1_onsets.csv'
-print(test_onset_detection(audio_paths, ground_truth_path, 'log-mag', .015 ))
+print(test_onset_detection(audio_paths, ground_truth_path, 'log-mag', .001))
 
 # not doing great so far: Look into: 1. how blocks_to_time might be affecting times, 2. the threshold
 
