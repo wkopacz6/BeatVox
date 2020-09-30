@@ -13,7 +13,7 @@ import pandas as pd
 #y, fs = librosa.load('/Users/walterkopacz/PycharmProjects/BeatVoxPrototype/venv1/BeatVoxTest1.wav', sr=44100)
 
 #Compute novelty function based on spectral flux (log magnitude)
-def compute_novelty_function(x, method):
+def compute_novelty_function(x, method, end=None):
     #normalize audio
     x = x/max(abs(x))
     # use librosa to calculate the stft
