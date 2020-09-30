@@ -21,8 +21,8 @@ def compute_novelty_function(x, method, end=None):
     if method == 'log-mag':
 
         #compute the log-magnitude spectrum
-        log_mag_X = np.abs(X)
-        log_mag_X = np.c_[log_mag_X[:, 0], np.log10(log_mag_X)]
+        log_mag_X = np.log10(np.abs(X))
+        log_mag_X = np.c_[log_mag_X[:, 0], log_mag_X]
 
         diff_log_mag_X = np.diff(log_mag_X, 1, axis=1)
 
@@ -30,7 +30,7 @@ def compute_novelty_function(x, method, end=None):
         flux = np.sqrt((diff_log_mag_X ** 2).sum(axis=0)) / log_mag_X.shape[0]
 
         return (flux)
-
+    #Directly from pyACA
     elif method == 'hains':
         epsilon = 1e-5
 
@@ -44,6 +44,7 @@ def compute_novelty_function(x, method, end=None):
         d_hai = np.sum(afDiff, axis=0) / X.shape[0]
 
         return (d_hai)
+    #Directly from pyACA
     elif method == 'laroche':
         # difference spectrum (set first diff to zero)
         X = np.c_[X[:, 0], np.sqrt(X)]
@@ -141,7 +142,7 @@ audio_paths = ['/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/
 ground_truth_path = '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/beatboxset1_annotations/beatboxset1_onsets.csv'
 print(test_onset_detection(audio_paths, ground_truth_path, 'log-mag', .001))
 
-# not doing great so far: Look into: 1. how blocks_to_time might be affecting times, 2. the threshold
+
 
 
 
