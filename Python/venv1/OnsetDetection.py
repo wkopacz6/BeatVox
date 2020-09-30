@@ -17,17 +17,17 @@ def compute_novelty_function(x, method, end=None):
     #normalize audio
     x = x/max(abs(x))
     # use librosa to calculate the stft
-    X = librosa.core.stft(x, n_fft=512, hop_length=384)
+    X = librosa.core.stft(x, n_fft=1024, hop_length=768)
     if method == 'log-mag':
 
         #compute the log-magnitude spectrum
-        log_mag_X = np.log10(np.abs(X))
+        log_mag_X = 20*np.log10(np.abs(X))
         log_mag_X = np.c_[log_mag_X[:, 0], log_mag_X]
 
         diff_log_mag_X = np.diff(log_mag_X, 1, axis=1)
 
         # RMS of diff
-        flux = np.sqrt((diff_log_mag_X ** 2).sum(axis=0)) / log_mag_X.shape[0]
+        flux = (diff_log_mag_X).sum(axis=0) / log_mag_X.shape[0]
 
         return (flux)
     #Directly from pyACA
@@ -60,6 +60,7 @@ def compute_novelty_function(x, method, end=None):
 
 #moving average filter used in peak picking
 def moving_average(a, n) :
+    a = np.concatenate((np.zeros(n-1), a))
     ret = np.cumsum(a, dtype=float)
     ret[n:] = ret[n:] - ret[:-n]
     return ret[n - 1:] / n
@@ -67,12 +68,12 @@ def moving_average(a, n) :
 def pick_peaks(nov, thres):
     #determine adaptive threshold
     #take the moving average of the novelty function
-    nov = moving_average(nov, n=2)
+    nov = moving_average(nov, n=3)
 
     #use scipy find peaks
     peaks = sp.signal.find_peaks(nov, height=thres)
     # convert peak blocks to peak times
-    onsets = librosa.core.blocks_to_time(peaks[0], block_length=1024, hop_length=1024, sr=44100) / 1000
+    onsets = librosa.core.frames_to_time(peaks[0], n_fft=1024, hop_length=768, sr=44100)
     return (onsets)
 
     end
@@ -140,7 +141,7 @@ def test_onset_detection(audio, ground_truth, method, thres):
 
 audio_paths = ['/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/snare_hex.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/putfile_william.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/putfile_vonny.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/putfile_pepouni.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/putfile_dbztenkaichi.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/putfile_bui.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/callout_Turn-Table.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/callout_Pneumatic.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/callout_mouss.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/callout_mcld.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/callout_luckeymonkey.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/callout_azeem.wav' , '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/callout_adiao.wav' , '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/battleclip_daq.wav']
 ground_truth_path = '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/beatboxset1_annotations/beatboxset1_onsets.csv'
-print(test_onset_detection(audio_paths, ground_truth_path, 'log-mag', .001))
+print(test_onset_detection(audio_paths, ground_truth_path, 'log-mag', .03))
 
 
 
