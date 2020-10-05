@@ -19,7 +19,6 @@ recordAudio::recordAudio()
 recordAudio::~recordAudio()
 {
     bufferRecordedAudio.clear();
-    bufferRecordedAudio.~AudioBuffer();
 }
 
 void recordAudio::audioDeviceIOCallback(const float** inputChannelData, int numInputChannels,
@@ -75,10 +74,15 @@ void recordAudio::startRecording()
 void recordAudio::stopRecording()
 {
     isRecording = false;
-    startSample = 0;
-    DBG("Done Recording");
+    
     tester();
+}
 
+void recordAudio::resetRecording()
+{
+    isRecording = false;
+    startSample = 0;
+    bufferRecordedAudio.clear();
 }
 
 void recordAudio::createBuffer(int samplesAllocated)
