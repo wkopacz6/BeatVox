@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="763f2f80-24bc-451b-90e1-b0b4bebeefa4" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/BeatVox.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/BeatVox.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/venv1/OnsetDetection.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/venv1/OnsetDetection.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -39,7 +38,7 @@
     </option>
   </component>
   <component name="RunManager">
-    <configuration name="OnsetDetection" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="OnsetDetection" type="PythonConfigurationType" factoryName="Python">
       <module name="BeatVox" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -60,11 +59,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Python.OnsetDetection" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -183,16 +177,6 @@
           <url>file://$PROJECT_DIR$/Python/venv1/main.py</url>
           <line>92</line>
           <option name="timeStamp" value="21" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Python/venv1/OnsetDetection.py</url>
-          <line>78</line>
-          <option name="timeStamp" value="22" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Python/venv1/OnsetDetection.py</url>
-          <line>96</line>
-          <option name="timeStamp" value="23" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
