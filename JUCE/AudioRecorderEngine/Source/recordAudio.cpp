@@ -13,7 +13,7 @@
 
 recordAudio::recordAudio()
 {
-    createBuffer(48000);
+    createBuffer(96000);
 }
 
 recordAudio::~recordAudio()
@@ -74,7 +74,7 @@ void recordAudio::startRecording()
 void recordAudio::stopRecording()
 {
     isRecording = false;
-    
+    DBG("Done Recording");
 }
 
 void recordAudio::resetRecording()
