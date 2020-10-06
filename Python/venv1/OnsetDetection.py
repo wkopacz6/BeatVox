@@ -13,7 +13,7 @@ import pandas as pd
 
 
 #Compute novelty function based on spectral flux (log magnitude)
-def compute_novelty_function(x, method, nfft, hoplength, end=None):
+def compute_novelty_function(x, method, nfft, hoplength):
     #normalize audio
     x = x/max(abs(x))
     # use librosa to calculate the stft
@@ -59,7 +59,7 @@ def compute_novelty_function(x, method, nfft, hoplength, end=None):
 
         return (d_lar)
 
-    end
+
 
 #moving average filter used in peak picking
 def moving_average(a, n) :
@@ -84,7 +84,7 @@ def pick_peaks(nov, thres, nfft, hoplength):
     # convert peak blocks to peak times
     # (issue 3)
     onsets = peaks[0] * hoplength / 44100
-    return (onsets)
+    return (onsets, peaks)
 
     end
 
@@ -106,7 +106,7 @@ def test_onset_detection(audio, ground_truth, method, thres, nfft, hoplength):
         #compute novelty function
         nov = compute_novelty_function(y, method, nfft=nfft, hoplength=hoplength)
         #pick peaks
-        peaks = pick_peaks(nov, thres, nfft=nfft, hoplength=hoplength)
+        peaks, unused = pick_peaks(nov, thres, nfft=nfft, hoplength=hoplength)
 
         #add onsets to pd dict
         onset_dict[file] = peaks
