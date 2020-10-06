@@ -77,11 +77,11 @@ def pick_peaks(nov, thres, nfft, hoplength):
     #Note: Adaptive threshold w/ median filter: F=.895, acccuracy=.96, recall=.84
 
     #nov_thres = moving_average(nov, n=5)
-    nov = moving_average(nov, n=5)
-    nov_thres = sp.signal.medfilt(nov, 7)
+    nov = moving_average(nov, n=3)
+    nov_thres = sp.signal.medfilt(nov, 9)
 
     #use scipy find peaks
-    peaks = sp.signal.find_peaks(nov, height=nov_thres+thres, distance=4)
+    peaks = sp.signal.find_peaks(nov, height=nov_thres+thres, distance=3)
     # convert peak blocks to peak times
     # (issue 3)
     onsets = peaks[0] * hoplength / 44100
@@ -158,7 +158,7 @@ ground_truth_path_test = '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/be
 
 
 
-print(test_onset_detection(audio_paths_test, ground_truth_path_test, 'log-mag', .4, nfft=1024, hoplength=768))
+print(test_onset_detection(audio_paths_test, ground_truth_path_test, 'log-mag', .1, nfft=1024, hoplength=768))
 
 
 
