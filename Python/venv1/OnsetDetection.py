@@ -77,6 +77,7 @@ def pick_peaks(nov, thres, nfft, hoplength):
     #Note: Adaptive threshold w/ median filter: F=.895, acccuracy=.96, recall=.84
 
     #nov_thres = moving_average(nov, n=5)
+    nov = moving_average(nov, n=5)
     nov_thres = sp.signal.medfilt(nov, 7)
 
     #use scipy find peaks
