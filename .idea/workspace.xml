@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="763f2f80-24bc-451b-90e1-b0b4bebeefa4" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Python/venv1/OnsetDetection.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/venv1/OnsetDetection.py" afterDir="false" />
-    </list>
+    <list default="true" id="763f2f80-24bc-451b-90e1-b0b4bebeefa4" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -141,7 +138,14 @@
       <option name="project" value="LOCAL" />
       <updated>1601658101395</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Worked on issues 1-4, made some optimization adjustments, implemented minimum distance measure between peaks for pick peaks function">
+      <created>1601912414981</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1601912414981</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -168,7 +172,8 @@
     <MESSAGE value="Small changes" />
     <MESSAGE value="Tried something with old demo" />
     <MESSAGE value="Implemented adaptive threshold" />
-    <option name="LAST_COMMIT_MESSAGE" value="Implemented adaptive threshold" />
+    <MESSAGE value="Worked on issues 1-4, made some optimization adjustments, implemented minimum distance measure between peaks for pick peaks function" />
+    <option name="LAST_COMMIT_MESSAGE" value="Worked on issues 1-4, made some optimization adjustments, implemented minimum distance measure between peaks for pick peaks function" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
