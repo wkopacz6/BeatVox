@@ -72,7 +72,12 @@ def pick_peaks(nov, thres, nfft, hoplength):
     #determine adaptive threshold
     #take the moving average of the novelty function
     #(issue 4) use as adaptive threshold
-    nov_thres = moving_average(nov, n=5)
+
+    #Note: Adaptive threshold w/ moving average: F=.887, accuracy=.97, recall=.82
+    #Note: Adaptive threshold w/ median filter: F=.895, acccuracy=.96, recall=.84
+
+    #nov_thres = moving_average(nov, n=5)
+    nov_thres = sp.signal.medfilt(nov, 7)
 
     #use scipy find peaks
     peaks = sp.signal.find_peaks(nov, height=nov_thres+thres, distance=4)
@@ -152,7 +157,7 @@ ground_truth_path_test = '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/be
 
 
 
-print(test_onset_detection(audio_paths_analysis, ground_truth_path_analysis, 'log-mag', .2, nfft=1024, hoplength=768))
+print(test_onset_detection(audio_paths_test, ground_truth_path_test, 'log-mag', .4, nfft=1024, hoplength=768))
 
 
 

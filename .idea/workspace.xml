@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="763f2f80-24bc-451b-90e1-b0b4bebeefa4" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Python/beatboxset1/beatboxset1_annotations/beatboxset2_onsets.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Python/beatboxset1/beatboxset1_annotations/beatboxset1_onsets.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Python/beatboxset1/beatboxset1_annotations/beatboxset1_onsets.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Python/venv1/OnsetDetection.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/venv1/OnsetDetection.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -150,7 +148,14 @@
       <option name="project" value="LOCAL" />
       <updated>1601912414981</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Broke test dataset into test and analysis set">
+      <created>1602004244268</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1602004244268</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -178,7 +183,8 @@
     <MESSAGE value="Tried something with old demo" />
     <MESSAGE value="Implemented adaptive threshold" />
     <MESSAGE value="Worked on issues 1-4, made some optimization adjustments, implemented minimum distance measure between peaks for pick peaks function" />
-    <option name="LAST_COMMIT_MESSAGE" value="Worked on issues 1-4, made some optimization adjustments, implemented minimum distance measure between peaks for pick peaks function" />
+    <MESSAGE value="Broke test dataset into test and analysis set" />
+    <option name="LAST_COMMIT_MESSAGE" value="Broke test dataset into test and analysis set" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
