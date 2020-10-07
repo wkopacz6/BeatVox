@@ -24,14 +24,15 @@ public:
     void stopRecording();
     void createBuffer(int samplesAllocated);
     void resetRecording();
-    void tester(juce::AudioBuffer<float> buffer);
+    void tester();
 
-    juce::AudioBuffer<float> bufferRecordedAudio;
     bool isRecording{ false };
-
+  
 private:
     double sampleRate{ 0.0 };
     int startSample{ 0 };
+
+    juce::AudioBuffer<float> bufferRecordedAudio;
     
 
     

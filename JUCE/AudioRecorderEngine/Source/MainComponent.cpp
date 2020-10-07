@@ -17,13 +17,14 @@ MainComponent::MainComponent()
 
     deviceManager.initialise(2, 2, nullptr, true, {}, nullptr);
     deviceManager.addAudioCallback (&recorder);
-
+    
     setSize (300, 300);
 }
 
 MainComponent::~MainComponent()
 {
     deviceManager.removeAudioCallback(&recorder);
+
 }
 
 //==============================================================================
@@ -43,21 +44,29 @@ void MainComponent::resized()
     flexBox.performLayout(bounds);
 }
 
+
 void MainComponent::start()
 {
+
     recorder.startRecording();
+    startTimer(500);
 
     buttonRecord.setButtonText("Recording...");
+    buttonRecord.setColour(juce::TextButton::buttonColourId, juce::Colours::red);
+
     buttonRecord.setEnabled(false);
     buttonReset.setEnabled(true);
-    buttonDump.setEnabled(true);
+    
 }
 
 void MainComponent::reset()
 {
     recorder.resetRecording();
+    stopTimer();
 
     buttonRecord.setButtonText("Record");
+    buttonRecord.setColour(juce::TextButton::buttonColourId, getLookAndFeel().findColour(juce::TextButton::buttonColourId));
+
     buttonRecord.setEnabled(true);
     buttonReset.setEnabled(false);
     buttonDump.setEnabled(false);
@@ -65,7 +74,25 @@ void MainComponent::reset()
 
 void MainComponent::dumpDataToCSV()
 {
-    recorder.tester(recorder.bufferRecordedAudio);
+    recorder.tester();
+}
+
+void MainComponent::done()
+{
+    stopTimer();
+
+    buttonRecord.setColour(juce::TextButton::buttonColourId, juce::Colours::green);
+    buttonRecord.setButtonText("Done!");
+
+    buttonDump.setEnabled(true);
+}
+
+void MainComponent::timerCallback()
+{
+    if (!recorder.isRecording)
+    {
+        done();
+    }
 }
 
 

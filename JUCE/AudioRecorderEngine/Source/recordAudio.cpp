@@ -14,6 +14,7 @@
 recordAudio::recordAudio()
 {
     createBuffer(96000);
+    
 }
 
 recordAudio::~recordAudio()
@@ -75,6 +76,7 @@ void recordAudio::stopRecording()
 {
     isRecording = false;
     DBG("Done Recording");
+   
 }
 
 void recordAudio::resetRecording()
@@ -82,6 +84,7 @@ void recordAudio::resetRecording()
     isRecording = false;
     startSample = 0;
     bufferRecordedAudio.clear();
+    
 }
 
 void recordAudio::createBuffer(int samplesAllocated)
@@ -90,7 +93,7 @@ void recordAudio::createBuffer(int samplesAllocated)
     bufferRecordedAudio.clear();
 }
 
-void recordAudio::tester(juce::AudioBuffer<float> buffer)
+void recordAudio::tester()
 {
     juce::File myFile;
 
@@ -103,15 +106,15 @@ void recordAudio::tester(juce::AudioBuffer<float> buffer)
     juce::FileOutputStream output2(myFile);
     output2.writeString("Channel1,Channel2\n");
     
-    for (auto sample = 0; sample < buffer.getNumSamples(); ++sample)
+    for (auto sample = 0; sample < bufferRecordedAudio.getNumSamples(); ++sample)
     {
         
-        juce::String dataString1 = (juce::String) buffer.getSample(0, sample);
+        juce::String dataString1 = (juce::String) bufferRecordedAudio.getSample(0, sample);
         output2.writeString(dataString1);
         
         output2.writeString(",");
 
-        juce::String dataString2 = (juce::String) buffer.getSample(1, sample);
+        juce::String dataString2 = (juce::String) bufferRecordedAudio.getSample(1, sample);
         output2.writeString(dataString2);
 
         output2.writeString("\n");
