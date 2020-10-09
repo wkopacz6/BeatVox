@@ -9,6 +9,7 @@
 #include <JuceHeader.h>
 #include "MainComponent.h"
 #include "recordAudio.h"
+#include "Metronome.h"
 
 //==============================================================================
 class RecorderAttempt_2Application  : public juce::JUCEApplication

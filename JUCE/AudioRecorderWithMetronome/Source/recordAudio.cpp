@@ -29,11 +29,13 @@ void recordAudio::audioDeviceIOCallback(const float** inputChannelData, int numI
     
     if (isRecording)
     {
+      
+        auto bufferSize = numSamples;
         
-        metronome.countSamples(numSamples);
+        metronome.countSamples(bufferSize);
         
         
-        if ((startSample+numSamples) >= bufferRecordedAudio.getNumSamples())
+        if ((startSample+bufferSize) >= bufferRecordedAudio.getNumSamples())
         {
             auto remainder = bufferRecordedAudio.getNumSamples() - startSample;
             for (auto channel = 0; channel < numInputChannels ; ++channel)
@@ -51,12 +53,12 @@ void recordAudio::audioDeviceIOCallback(const float** inputChannelData, int numI
             for (auto channel = 0; channel < numInputChannels ; ++channel)
             {
                 auto* writer = bufferRecordedAudio.getWritePointer(channel, startSample);
-                for (auto sample = 0; sample < numSamples; ++sample)
+                for (auto sample = 0; sample < bufferSize; ++sample)
                 {
                     writer[sample] = inputChannelData[channel][sample];
                 }
             }
-            startSample += numSamples;  
+            startSample += bufferSize;  
         }
        
     }

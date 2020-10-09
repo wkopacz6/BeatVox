@@ -9,7 +9,7 @@
 */
 #include <JuceHeader.h>
 #pragma once
-class Metronome : public juce::AudioAppComponent
+class Metronome : public juce::Component
 {
 public:
     void countSamples(int bufferLength);
