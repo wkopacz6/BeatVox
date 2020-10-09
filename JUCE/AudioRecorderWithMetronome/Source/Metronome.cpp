@@ -16,8 +16,8 @@ void Metronome::countSamples(int bufferLength)
 
     auto mSamplesToGo = mTotalSamples % mSampleInterval;
 
-    DBG("Samples Increasing: " << mSamplesToGo);
-    DBG("Beat Interval: " << mSampleInterval);
+    /*DBG("Samples Increasing: " << mSamplesToGo);
+    DBG("Beat Interval: " << mSampleInterval);*/
 
      //prepares for incoming click
     if ((mSamplesToGo + bufferLength) >= mSampleInterval)
@@ -35,7 +35,7 @@ void Metronome::countSamples(int bufferLength)
 
                 DBG("CLICK " << (beat % 4) + 1);
                 beat += 1;
-                DBG("Total Samples: " << mTotalSamples);
+              /*  DBG("Total Samples: " << mTotalSamples);*/
 
             }
         }
