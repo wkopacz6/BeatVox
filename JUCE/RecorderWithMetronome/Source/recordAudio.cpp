@@ -61,6 +61,7 @@ void recordAudio::audioDeviceIOCallback(const float** inputChannelData, int numI
 
         }
         
+        
         if ((startSample+numSamples) >= bufferRecordedAudio.getNumSamples())
         {
             auto remainder = bufferRecordedAudio.getNumSamples() - startSample;

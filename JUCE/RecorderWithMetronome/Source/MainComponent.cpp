@@ -48,10 +48,11 @@ MainComponent::MainComponent()
     buttonDump.setEnabled(false);
     buttonDump.onClick = [this]() { dumpDataToCSV(); };
 
+
     deviceManager.initialise(2, 2, nullptr, true, {}, nullptr);
     deviceManager.addAudioCallback (&recorder);
     
-    recorder.createBuffer(barCount.getValue(), newBpm.getValue());
+    sendBufferVals();
     setSize (600, 600);
 
 }
