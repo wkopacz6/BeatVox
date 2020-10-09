@@ -14,16 +14,12 @@ MainComponent::MainComponent()
     addAndMakeVisible(buttonDump);
     buttonDump.setEnabled(false);
     buttonDump.onClick = [this]() { dumpDataToCSV(); };
-
-    deviceManager.initialise(2, 2, nullptr, true, {}, nullptr);
-    deviceManager.addAudioCallback (&recorder);
     
     setSize (300, 300);
 }
 
 MainComponent::~MainComponent()
 {
-    deviceManager.removeAudioCallback(&recorder);
 
 }
 

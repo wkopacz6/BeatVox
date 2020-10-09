@@ -29,6 +29,11 @@ public:
     bool isRecording{ false };
   
 private:
+
+    juce::AudioDeviceManager deviceManager;
+
+    int defaultBufferSize{ 96000 };
+    int bufferSize{ 0 };
     double sampleRate{ 0.0 };
     int startSample{ 0 };
 

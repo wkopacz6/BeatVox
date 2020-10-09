@@ -21,7 +21,7 @@ private:
     juce::TextButton buttonRecord{ "Record" };
     juce::TextButton buttonReset{ "Reset" };
     juce::TextButton buttonDump{ "Dump to\n .csv file" };
-    juce::AudioDeviceManager deviceManager;
+    
 
     recordAudio recorder;
     

@@ -13,13 +13,18 @@
 
 recordAudio::recordAudio()
 {
-    createBuffer(96000);
+    
+    deviceManager.initialise(2, 2, nullptr, true, {}, nullptr);
+    deviceManager.addAudioCallback(this);
+
+    createBuffer(defaultBufferSize);
     
 }
 
 recordAudio::~recordAudio()
 {
     bufferRecordedAudio.clear();
+    deviceManager.removeAudioCallback(this);
 }
 
 void recordAudio::audioDeviceIOCallback(const float** inputChannelData, int numInputChannels,
@@ -59,6 +64,7 @@ void recordAudio::audioDeviceIOCallback(const float** inputChannelData, int numI
 void recordAudio::audioDeviceAboutToStart(juce::AudioIODevice* device)
 {
     sampleRate = device->getCurrentSampleRate();
+    bufferSize = device->getCurrentBufferSizeSamples();
 }
 
 void recordAudio::audioDeviceStopped()
