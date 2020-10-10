@@ -88,7 +88,7 @@ void MainComponent::start()
    
     recorder.startRecording();
  
-    startTimer( ((6000/newBpm.getValue()) * 4 * barCount.getValue()) + 10);
+    startTimer(50);
     buttonRecord.setButtonText("Recording...");
     buttonRecord.setColour(juce::TextButton::buttonColourId, juce::Colours::red);
 

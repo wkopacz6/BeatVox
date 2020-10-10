@@ -31,10 +31,10 @@ public:
     bool isRecording{ false };
   
 private:
-    int mSamplesToGo { 0 };
+
     double sampleRate{ 0.0 };
     int startSample{ 0 };
-    int timeToStartClick{ -1 };
+ 
 
     juce::AudioBuffer<float> bufferRecordedAudio;
     Metronome metronome;
