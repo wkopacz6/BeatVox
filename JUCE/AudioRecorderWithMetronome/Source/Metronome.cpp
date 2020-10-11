@@ -12,36 +12,29 @@
 
 void Metronome::countSamples(int bufferLength)
 {
-    
+    mTotalSamples += bufferLength;
+
     auto mSamplesToGo = mTotalSamples % mSampleInterval;
 
-    /*DBG("Samples Increasing: " << mSamplesToGo);
-    DBG("Beat Interval: " << mSampleInterval);*/
-
-     //prepares for incoming click
+    //prepares for incoming click
     if ((mSamplesToGo + bufferLength) >= mSampleInterval)
     {
         //finds exact number of samples remaining until click should occur
         const auto timeToStartClick = mSampleInterval - mSamplesToGo - 1;
-        //resets sound to start of click .wav file
-        //pClickSample->setNextReadPosition(0);
+       
         //counts samples once it detects impending click and determines sample for click
         for (auto sample = 0; sample < bufferLength; sample++)
         {
             //chooses sample to play click at
             if (sample == timeToStartClick)
             {
-
                 DBG("CLICK " << (beat % 4) + 1);
-                beat += 1;
-              /*  DBG("Total Samples: " << mTotalSamples);*/
+                ++beat;
 
             }
         }
 
     }
-    mTotalSamples += bufferLength;
-
 }
 
 void Metronome::reset()
