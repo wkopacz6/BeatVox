@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="763f2f80-24bc-451b-90e1-b0b4bebeefa4" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Python/venv1/OnsetDetection.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/venv1/OnsetDetection.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Python/venv1/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/venv1/main.py" afterDir="false" />
-    </list>
+    <list default="true" id="763f2f80-24bc-451b-90e1-b0b4bebeefa4" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -201,7 +197,14 @@
       <option name="project" value="LOCAL" />
       <updated>1602009045608</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Tried to get onset detection working with old prototype fuccntion (doesn't work yet)">
+      <created>1602010616443</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1602010616443</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -233,7 +236,8 @@
     <MESSAGE value="Broke test dataset into test and analysis set" />
     <MESSAGE value="Implement meidan filter adaptive threshold" />
     <MESSAGE value="Went back to adaptive threshold but no smoothing" />
-    <option name="LAST_COMMIT_MESSAGE" value="Went back to adaptive threshold but no smoothing" />
+    <MESSAGE value="Tried to get onset detection working with old prototype fuccntion (doesn't work yet)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Tried to get onset detection working with old prototype fuccntion (doesn't work yet)" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
