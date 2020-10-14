@@ -11,7 +11,6 @@
 #include "Metronome.h"
 Metronome::Metronome()
 {
-
     mFormatManager.registerBasicFormats();
 
     juce::File myFile{ juce::File::getSpecialLocation(juce::File::SpecialLocationType::userDesktopDirectory) };
@@ -23,16 +22,16 @@ Metronome::Metronome()
 
     pMet.reset(new juce::AudioFormatReaderSource(formatReader, true));
 }
-void Metronome::getBpm(int bpm)
+void Metronome::setBpm(int bpm)
 {
     mBpm = bpm;
-    mSampleInterval = 60.0 / mBpm * mSampleRate;
+    mSampleInterval = (60.0 / mBpm) * mSampleRate;
 }
 
 void Metronome::prepareToPlay(int samplesPerBlockExpected, double sampleRate)
 {
     mSampleRate = sampleRate;
-    mSampleInterval = 60.0 / mBpm * mSampleRate;
+    mSampleInterval = (60.0 / mBpm) * mSampleRate;
 
     if (pMet != nullptr)
     {
@@ -80,8 +79,6 @@ void Metronome::getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFi
 
 void Metronome::reset()
 {
-    pMet->releaseResources();
     mTotalSamples = 0;
-
 }
 

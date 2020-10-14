@@ -12,7 +12,7 @@
 #include "Metronome.h"
 #pragma once
 
-class recordAudio : public juce::AudioAppComponent
+class recordAudio : public juce::AudioAppComponent, public juce::ChangeListener
 {
 public:
     recordAudio();
@@ -23,24 +23,28 @@ public:
 
     void startRecording();
     void stopRecording();
-    void createBuffer(int numBars, int bpm);
+    void createBuffer(int numBars, double bpm);
     void resetRecording();
     void metEnabled(bool enable);
     void tester();
 
-    bool isRecording{ false };
-  
-private:
+    void changeListenerCallback(juce::ChangeBroadcaster*) override;
 
-    double sampleRate{ 0.0 };
-    int startSample{ 0 };
- 
-    int numInputChannels{ 2 };
-    double mSampleRate{ 0 };
-    int mBufferSize{ 0 };
     juce::AudioBuffer<float> bufferRecordedAudio;
-    Metronome metronome;
-    
+    bool isRecording{ false };
+    juce::String deviceName;
+
+    std::unique_ptr<juce::AudioDeviceSelectorComponent> audioSetup;
+
+private:
+    double mBpm { 120 };
+    double mSampleRate{ 0 };
+    int mBar { 4 };
+    int startSample{ 0 };
+    int numInputChannels{ 2 };
+    int mBufferSize{ 0 };
 
     
+    Metronome metronome;
+   
 };
