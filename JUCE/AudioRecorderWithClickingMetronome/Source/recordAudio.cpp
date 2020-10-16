@@ -14,9 +14,6 @@
 recordAudio::recordAudio()
 {
     setAudioChannels(2, 2);
-    
-    audioSetup.reset(new juce::AudioDeviceSelectorComponent(deviceManager, 0, 256, 0, 256, false, true, true, true));
-    deviceManager.addChangeListener(this);
 }
 
 recordAudio::~recordAudio()
@@ -32,7 +29,7 @@ void recordAudio::getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferTo
 
     if (isRecording)
     {
-        auto buffersize = bufferToFill.numSamples;
+        mBufferSize = bufferToFill.numSamples;
 
         if ((startSample + mBufferSize) >= bufferRecordedAudio.getNumSamples())
         {
@@ -48,7 +45,7 @@ void recordAudio::getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferTo
                     writerOutput[sample] = 0;
                 }
             }
-            startSample += buffersize;
+            startSample += mBufferSize;
             stopRecording();
         }
         else
@@ -58,13 +55,13 @@ void recordAudio::getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferTo
                 auto* readerInput  = bufferToFill.buffer->getReadPointer(channel);
                 auto* writerOutput = bufferToFill.buffer->getWritePointer(channel);
                 auto* writerRecord = bufferRecordedAudio .getWritePointer(channel, startSample);
-                for (auto sample = 0; sample < buffersize; ++sample)
+                for (auto sample = 0; sample < mBufferSize; ++sample)
                 {
                     writerRecord[sample] = readerInput[sample];
                     writerOutput[sample] = 0;
                 }
             }
-            startSample += buffersize;
+            startSample += mBufferSize;
         }
         metronome.getNextAudioBlock(bufferToFill);
         
@@ -84,6 +81,7 @@ void recordAudio::prepareToPlay(int samplesPerBlockExpected, double sampleRate)
     auto activeInputChannels = device->getActiveInputChannels();
     numInputChannels = activeInputChannels.getHighestBit() + 1;
 
+    deviceName = device->getName();
     mSampleRate = sampleRate;
     mBufferSize = samplesPerBlockExpected;
     metronome.prepareToPlay(mBufferSize, mSampleRate);
@@ -133,14 +131,6 @@ void recordAudio::metEnabled(bool enable)
     metronome.onMet = enable;
 }
 
-void recordAudio::changeListenerCallback(juce::ChangeBroadcaster*)
-{
-    auto device = deviceManager.getCurrentAudioDevice();
-    mBufferSize = device->getCurrentBufferSizeSamples();
-    mSampleRate = device->getCurrentSampleRate();
-
-    prepareToPlay(mBufferSize, mSampleRate);
-}
 
 void recordAudio::tester()
 {

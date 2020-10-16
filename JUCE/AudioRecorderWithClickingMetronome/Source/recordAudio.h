@@ -12,7 +12,7 @@
 #include "Metronome.h"
 #pragma once
 
-class recordAudio : public juce::AudioAppComponent, public juce::ChangeListener
+class recordAudio : public juce::AudioAppComponent
 {
 public:
     recordAudio();
@@ -28,13 +28,10 @@ public:
     void metEnabled(bool enable);
     void tester();
 
-    void changeListenerCallback(juce::ChangeBroadcaster*) override;
-
     juce::AudioBuffer<float> bufferRecordedAudio;
     bool isRecording{ false };
     juce::String deviceName;
 
-    std::unique_ptr<juce::AudioDeviceSelectorComponent> audioSetup;
 
 private:
     double mBpm { 120 };

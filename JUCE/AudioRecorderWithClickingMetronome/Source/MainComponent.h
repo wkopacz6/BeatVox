@@ -16,10 +16,10 @@ public:
     void resized() override;
     
     void metPressed();
-    void ioPressed();
     void done();
 
     void timerCallback();
+
 private:
     bool metEnable{ false };
 
@@ -30,7 +30,8 @@ private:
     juce::TextButton buttonStop{ "Stop Recording" };
     juce::TextButton buttonDump{ "Dump to\n .csv file" };
     juce::TextButton buttonMet{ "Metronome Off" };
-    juce::TextButton buttonIO{ "Open IO Setup" };
+
+    juce::TextEditor diagnosticsBox;
 
     //number of bars for user to record
     juce::Slider barCount;

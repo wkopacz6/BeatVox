@@ -54,15 +54,17 @@ MainComponent::MainComponent()
     buttonMet.setToggleState(false, true);
     buttonMet.onClick = [this]() { metPressed(); };
 
-    addAndMakeVisible(buttonIO);
-    buttonIO.setClickingTogglesState(true);
-    buttonIO.setToggleState(false, true);
-    buttonIO.onClick = [this]() { ioPressed(); };
-
-    addChildComponent(recorder.audioSetup.get());
+    addAndMakeVisible(diagnosticsBox);
+    diagnosticsBox.setReadOnly(true);
+    diagnosticsBox.setCaretVisible(false);
+    diagnosticsBox.setColour(juce::TextEditor::backgroundColourId, juce::Colour(0x32ffffff));
+    diagnosticsBox.setColour(juce::TextEditor::outlineColourId, juce::Colour(0x1c000000));
+    diagnosticsBox.setColour(juce::TextEditor::shadowColourId, juce::Colour(0x16000000));
+    diagnosticsBox.moveCaretToEnd();
+    diagnosticsBox.insertTextAtCaret("Current Audio Device: " + recorder.deviceName);
 
     sendBufferVals();
-    setSize (700, 400);
+    setSize (450, 360);
 
 }
 
@@ -85,16 +87,15 @@ void MainComponent::paint (juce::Graphics& g)
 
 void MainComponent::resized()
 {
-    buttonRecord.setBounds(10, 50, getWidth() - 20, 30);
-    buttonStop  .setBounds(10, 90, getWidth() - 20, 30);
-    buttonReset .setBounds(10, 130, getWidth() - 20, 30);
-    buttonDump  .setBounds(10, 170, getWidth() - 20, 30);
-    barCount    .setBounds(10, 210, getWidth() - 20, 30);
-    newBpm      .setBounds(10, 250, getWidth() - 20, 30);
-    buttonMet   .setBounds(10, 290, getWidth()/4, 30);
-    buttonIO    .setBounds(10, 330, getWidth()/4, 30);
+    buttonRecord  .setBounds(10, 50, getWidth() - 20, 30);
+    buttonStop    .setBounds(10, 90, getWidth() - 20, 30);
+    buttonReset   .setBounds(10, 130, getWidth() - 20, 30);
+    buttonDump    .setBounds(10, 170, getWidth() - 20, 30);
+    barCount      .setBounds(10, 210, getWidth() - 20, 30);
+    newBpm        .setBounds(10, 250, getWidth() - 20, 30);
+    buttonMet     .setBounds(10, 290, getWidth() / 4, 30);
+    diagnosticsBox.setBounds(10, 330, getWidth() - 20, 20);
 
-    recorder.audioSetup.get()->setBounds(0, 370, getWidth() - 50, getHeight() / 4);
 }
 
 
@@ -187,19 +188,6 @@ void MainComponent::metPressed()
     recorder.metEnabled(metEnable);
 }
 
-void MainComponent::ioPressed()
-{
-    if (buttonIO.getToggleState())
-    {
-        recorder.audioSetup.get()->setVisible(true);
-    }
-    else 
-    {
-        recorder.audioSetup.get()->setVisible(false);
-    }
-    
-}
-
 void MainComponent::timerCallback()
 {
     if (!recorder.isRecording)
@@ -207,6 +195,5 @@ void MainComponent::timerCallback()
         done();
     }
 }
-
 
 
