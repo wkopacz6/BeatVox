@@ -14,6 +14,16 @@
 recordAudio::recordAudio()
 {
     setAudioChannels(2, 2);
+    auto* device = deviceManager.getCurrentAudioDevice();
+    auto deviceSetup = deviceManager.getAudioDeviceSetup();
+    if (device != nullptr)
+    {
+        deviceName = "Input Device: " + deviceSetup.inputDeviceName;
+    }
+    else
+    {
+        deviceName = "ERROR -- PLEASE RECONFIGURE I/O DEVICES AND RESTART APP";
+    }
 }
 
 recordAudio::~recordAudio()
@@ -76,12 +86,13 @@ void recordAudio::getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferTo
 
 void recordAudio::prepareToPlay(int samplesPerBlockExpected, double sampleRate)
 {
-    
     auto* device = deviceManager.getCurrentAudioDevice();
+    auto deviceSetup = deviceManager.getAudioDeviceSetup();
+
     auto activeInputChannels = device->getActiveInputChannels();
     numInputChannels = activeInputChannels.getHighestBit() + 1;
 
-    deviceName = device->getName();
+    deviceName = deviceSetup.inputDeviceName;
     mSampleRate = sampleRate;
     mBufferSize = samplesPerBlockExpected;
     metronome.prepareToPlay(mBufferSize, mSampleRate);

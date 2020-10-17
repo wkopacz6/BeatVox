@@ -30,7 +30,7 @@ public:
 
     juce::AudioBuffer<float> bufferRecordedAudio;
     bool isRecording{ false };
-    juce::String deviceName;
+    juce::String deviceName{ "" };
 
 
 private:

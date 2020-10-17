@@ -5,7 +5,7 @@
 
 
 class MainComponent : public juce::Component,
-                      public juce::Timer
+                    public juce::Timer, public juce::ChangeListener
 {
 public:
     //==============================================================================
@@ -17,8 +17,10 @@ public:
     
     void metPressed();
     void done();
+    void error();
 
     void timerCallback();
+    void changeListenerCallback(juce::ChangeBroadcaster* source) override;
 
 private:
     bool metEnable{ false };
@@ -47,6 +49,7 @@ private:
     void sendBufferVals();
     void dumpDataToCSV();
     
+    juce::AudioDeviceManager::AudioDeviceSetup deviceOld;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };

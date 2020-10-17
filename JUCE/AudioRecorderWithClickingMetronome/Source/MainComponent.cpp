@@ -60,10 +60,20 @@ MainComponent::MainComponent()
     diagnosticsBox.setColour(juce::TextEditor::backgroundColourId, juce::Colour(0x32ffffff));
     diagnosticsBox.setColour(juce::TextEditor::outlineColourId, juce::Colour(0x1c000000));
     diagnosticsBox.setColour(juce::TextEditor::shadowColourId, juce::Colour(0x16000000));
+    diagnosticsBox.setText(recorder.deviceName);
     diagnosticsBox.moveCaretToEnd();
-    diagnosticsBox.insertTextAtCaret("Current Audio Device: " + recorder.deviceName);
+    
+    auto* device = recorder.deviceManager.getCurrentAudioDevice();
+    if (device != nullptr)
+    {
+        sendBufferVals();
+    }
+    else
+    {
+        error();
+    }
 
-    sendBufferVals();
+    recorder.deviceManager.addChangeListener(this);
     setSize (450, 360);
 
 }
@@ -72,7 +82,7 @@ MainComponent::MainComponent()
 
 MainComponent::~MainComponent()
 {
-
+    recorder.deviceManager.removeChangeListener(this);
 }
 
 //==============================================================================
@@ -188,12 +198,26 @@ void MainComponent::metPressed()
     recorder.metEnabled(metEnable);
 }
 
+void MainComponent::error()
+{
+    buttonRecord.setEnabled(false);
+    buttonMet   .setEnabled(false);
+    barCount    .setEnabled(false);
+    newBpm      .setEnabled(false);
+}
+
 void MainComponent::timerCallback()
 {
     if (!recorder.isRecording)
     {
         done();
     }
+}
+
+void MainComponent::changeListenerCallback(juce::ChangeBroadcaster* source)
+{
+    diagnosticsBox.setText("ERROR -- PLEASE RESTART APPLICATION");
+    error();
 }
 
 
