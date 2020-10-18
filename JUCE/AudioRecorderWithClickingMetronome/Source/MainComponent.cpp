@@ -54,27 +54,33 @@ MainComponent::MainComponent()
     buttonMet.setToggleState(false, true);
     buttonMet.onClick = [this]() { metPressed(); };
 
-    addAndMakeVisible(diagnosticsBox);
-    diagnosticsBox.setReadOnly(true);
-    diagnosticsBox.setCaretVisible(false);
-    diagnosticsBox.setColour(juce::TextEditor::backgroundColourId, juce::Colour(0x32ffffff));
-    diagnosticsBox.setColour(juce::TextEditor::outlineColourId, juce::Colour(0x1c000000));
-    diagnosticsBox.setColour(juce::TextEditor::shadowColourId, juce::Colour(0x16000000));
-    diagnosticsBox.setText(recorder.deviceName);
-    diagnosticsBox.moveCaretToEnd();
+    addAndMakeVisible(inputBox);
+    inputBox.setReadOnly(true);
+    inputBox.setColour(juce::TextEditor::backgroundColourId, juce::Colour(0x32ffffff));
+    inputBox.setColour(juce::TextEditor::outlineColourId, juce::Colour(0x1c000000));
+    inputBox.setColour(juce::TextEditor::shadowColourId, juce::Colour(0x16000000));
+
+    addAndMakeVisible(outputBox);
+    outputBox.setReadOnly(true);
+    outputBox.setColour(juce::TextEditor::backgroundColourId, juce::Colour(0x32ffffff));
+    outputBox.setColour(juce::TextEditor::outlineColourId, juce::Colour(0x1c000000));
+    outputBox.setColour(juce::TextEditor::shadowColourId, juce::Colour(0x16000000));
     
-    auto* device = recorder.deviceManager.getCurrentAudioDevice();
-    if (device != nullptr)
+    if (recorder.errored)
     {
-        sendBufferVals();
+        error();
+        inputBox.setText("ERROR -- PLEASE RECONFIGURE I/O DEVICES AND RESTART APP");
+        outputBox.setText("--------------------------------------");
     }
     else
     {
-        error();
+        sendBufferVals();
+        inputBox.setText("Input Device: " + recorder.deviceSetup.inputDeviceName);
+        outputBox.setText("Output Device: " + recorder.deviceSetup.outputDeviceName);
     }
 
     recorder.deviceManager.addChangeListener(this);
-    setSize (450, 360);
+    setSize (450, 380);
 
 }
 
@@ -97,14 +103,15 @@ void MainComponent::paint (juce::Graphics& g)
 
 void MainComponent::resized()
 {
-    buttonRecord  .setBounds(10, 50, getWidth() - 20, 30);
-    buttonStop    .setBounds(10, 90, getWidth() - 20, 30);
-    buttonReset   .setBounds(10, 130, getWidth() - 20, 30);
-    buttonDump    .setBounds(10, 170, getWidth() - 20, 30);
-    barCount      .setBounds(10, 210, getWidth() - 20, 30);
-    newBpm        .setBounds(10, 250, getWidth() - 20, 30);
-    buttonMet     .setBounds(10, 290, getWidth() / 4, 30);
-    diagnosticsBox.setBounds(10, 330, getWidth() - 20, 20);
+    buttonRecord.setBounds(10, 50, getWidth() - 20, 30);
+    buttonStop  .setBounds(10, 90, getWidth() - 20, 30);
+    buttonReset .setBounds(10, 130, getWidth() - 20, 30);
+    buttonDump  .setBounds(10, 170, getWidth() - 20, 30);
+    barCount    .setBounds(10, 210, getWidth() - 20, 30);
+    newBpm      .setBounds(10, 250, getWidth() - 20, 30);
+    buttonMet   .setBounds(10, 290, getWidth() / 4, 30);
+    inputBox    .setBounds(10, 330, getWidth() - 20, 20);
+    outputBox   .setBounds(10, 355, getWidth() - 20, 20);
 
 }
 
@@ -216,7 +223,8 @@ void MainComponent::timerCallback()
 
 void MainComponent::changeListenerCallback(juce::ChangeBroadcaster* source)
 {
-    diagnosticsBox.setText("ERROR -- PLEASE RESTART APPLICATION");
+    inputBox.setText("ERROR -- PLEASE RESTART APPLICATION");
+    outputBox.setText("--------------------------------------");
     error();
 }
 

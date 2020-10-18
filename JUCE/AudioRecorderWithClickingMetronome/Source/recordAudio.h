@@ -30,8 +30,9 @@ public:
 
     juce::AudioBuffer<float> bufferRecordedAudio;
     bool isRecording{ false };
+    bool errored{ false };
     juce::String deviceName{ "" };
-
+    juce::AudioDeviceManager::AudioDeviceSetup deviceSetup;
 
 private:
     double mBpm { 120 };

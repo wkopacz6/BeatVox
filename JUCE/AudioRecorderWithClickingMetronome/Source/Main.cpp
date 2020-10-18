@@ -77,7 +77,7 @@ public:
            #endif
 
             setVisible (true);
-            setResizeLimits(450, 360, 700, 750);
+            setResizeLimits(450, 380, 700, 750);
             setDraggable(true);
         }
 

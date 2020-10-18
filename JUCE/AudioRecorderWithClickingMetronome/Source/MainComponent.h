@@ -33,7 +33,8 @@ private:
     juce::TextButton buttonDump{ "Dump to\n .csv file" };
     juce::TextButton buttonMet{ "Metronome Off" };
 
-    juce::TextEditor diagnosticsBox;
+    juce::TextEditor inputBox;
+    juce::TextEditor outputBox;
 
     //number of bars for user to record
     juce::Slider barCount;
@@ -48,8 +49,6 @@ private:
     void stop();
     void sendBufferVals();
     void dumpDataToCSV();
-    
-    juce::AudioDeviceManager::AudioDeviceSetup deviceOld;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };

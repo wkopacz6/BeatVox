@@ -15,14 +15,14 @@ recordAudio::recordAudio()
 {
     setAudioChannels(2, 2);
     auto* device = deviceManager.getCurrentAudioDevice();
-    auto deviceSetup = deviceManager.getAudioDeviceSetup();
-    if (device != nullptr)
+    deviceSetup = deviceManager.getAudioDeviceSetup();
+    if (device == nullptr)
     {
-        deviceName = "Input Device: " + deviceSetup.inputDeviceName;
+        errored = true;
     }
     else
     {
-        deviceName = "ERROR -- PLEASE RECONFIGURE I/O DEVICES AND RESTART APP";
+        errored = false;
     }
 }
 
@@ -87,7 +87,7 @@ void recordAudio::getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferTo
 void recordAudio::prepareToPlay(int samplesPerBlockExpected, double sampleRate)
 {
     auto* device = deviceManager.getCurrentAudioDevice();
-    auto deviceSetup = deviceManager.getAudioDeviceSetup();
+    deviceSetup = deviceManager.getAudioDeviceSetup();
 
     auto activeInputChannels = device->getActiveInputChannels();
     numInputChannels = activeInputChannels.getHighestBit() + 1;
