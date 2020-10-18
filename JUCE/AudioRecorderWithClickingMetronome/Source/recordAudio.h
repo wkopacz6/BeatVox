@@ -10,6 +10,7 @@
 
 #include <JuceHeader.h>
 #include "Metronome.h"
+#include "buildMIDI.h"
 #pragma once
 
 class recordAudio : public juce::AudioAppComponent

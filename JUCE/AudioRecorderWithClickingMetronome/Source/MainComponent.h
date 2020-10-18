@@ -2,6 +2,7 @@
 
 #include <JuceHeader.h>
 #include "recordAudio.h"
+#include "buildMIDI.h"
 
 
 class MainComponent : public juce::Component,
