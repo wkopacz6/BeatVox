@@ -16,9 +16,12 @@ class buildMIDI : public juce::MidiMessage
 public:
     buildMIDI();
     ~buildMIDI();
-    void createMessage();
-    void addMessageToBuffer();
+    void prepareToPlay(juce::MidiOutput* output, double sampleRate);
+    void fillBuffer(const int *sampleArray, const int *drumArray, const int *velocityArray);
     void outputMIDI();
+
+    double mSampleRate;
 private:
     juce::MidiBuffer midiBuffer;
+    juce::MidiOutput* midiOutput{ nullptr };
 };

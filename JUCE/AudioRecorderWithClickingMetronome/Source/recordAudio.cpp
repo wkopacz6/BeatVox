@@ -16,6 +16,7 @@ recordAudio::recordAudio()
     setAudioChannels(2, 2);
     auto* device = deviceManager.getCurrentAudioDevice();
     deviceSetup = deviceManager.getAudioDeviceSetup();
+    
     if (device == nullptr)
     {
         errored = true;
@@ -95,8 +96,11 @@ void recordAudio::prepareToPlay(int samplesPerBlockExpected, double sampleRate)
     deviceName = deviceSetup.inputDeviceName;
     mSampleRate = sampleRate;
     mBufferSize = samplesPerBlockExpected;
-    metronome.prepareToPlay(mBufferSize, mSampleRate);
 
+    auto midiOutput = deviceManager.getDefaultMidiOutput();
+    midi.prepareToPlay(midiOutput, mSampleRate);
+    metronome.prepareToPlay(mBufferSize, mSampleRate);
+    
     createBuffer(mBar, mBpm);
 }
 
