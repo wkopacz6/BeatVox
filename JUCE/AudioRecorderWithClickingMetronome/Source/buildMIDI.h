@@ -18,7 +18,7 @@ public:
     ~buildMIDI();
     void setDevice(int selected);
     void setSampleRate(double sampleRate);
-    void fillBuffer(juce::Array<int> sampleArray, juce::Array<int> drumArray, juce::Array<int> velocityArray);
+    void fillBuffer(juce::Array<int> onsetArray, juce::Array<int> drumArray, juce::Array<int> velocityArray);
     void outputMIDI();
 
     
@@ -26,7 +26,6 @@ public:
 private:
     juce::MidiBuffer midiBuffer;
     juce::MidiOutput* midiOutput{ nullptr };
-    juce::MidiDeviceInfo output;
     std::unique_ptr <juce::MidiOutput> out{ nullptr }; 
     double mSampleRate{ 48000 };
 };

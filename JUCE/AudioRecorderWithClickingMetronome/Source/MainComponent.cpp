@@ -226,11 +226,11 @@ void MainComponent::midiBoxChanged()
 
 void MainComponent::buttonMidiTestPressed()
 {
-    juce::Array<int> sampleArray = {44100, 90000, 140000, 200000, 250000 };
-    juce::Array<int> drumArray = { 36, 70, 55, 44, 40 };
-    juce::Array<int> velocityArray = { 100, 80, 90, 50, 100 };
+    juce::Array<int> onsetArray = {0, 22050, 44100, 66150, 88200, 132300, 154350};
+    juce::Array<int> drumArray = { 64, 66, 67, 69, 66, 62, 64 };
+    juce::Array<int> velocityArray = { 50, 100, 20, 100, 100, 100, 100 };
 
-    midi.fillBuffer(sampleArray, drumArray, velocityArray);
+    midi.fillBuffer(onsetArray, drumArray, velocityArray);
     midi.outputMIDI();
 }
 
@@ -252,8 +252,8 @@ void MainComponent::timerCallback()
 
 void MainComponent::changeListenerCallback(juce::ChangeBroadcaster* source)
 {
-    inputBox.setText("ERROR -- PLEASE RESTART APPLICATION");
-    outputBox.setText("--------------------------------------");
+    inputBox.setText("ERROR -- AUDIO DEVICES UNEXPECTANTLY CHANGED");
+    outputBox.setText("PLEASE RESTART APPLICATION");
     error();
 }
 

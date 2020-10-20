@@ -23,7 +23,7 @@ buildMIDI::~buildMIDI()
 
 void buildMIDI::setDevice(int selected)
 {
-    output = midiList[selected];
+    auto output = midiList[selected];
     out = midiOutput->openDevice(output.identifier);
     out->startBackgroundThread();
 }
@@ -33,16 +33,16 @@ void buildMIDI::setSampleRate(double sampleRate)
     mSampleRate = sampleRate;
 }
 
-void buildMIDI::fillBuffer(juce::Array<int> sampleArray, juce::Array<int> drumArray, juce::Array<int> velocityArray)
+void buildMIDI::fillBuffer(juce::Array<int> onsetArray, juce::Array<int> drumArray, juce::Array<int> velocityArray)
 {
     //creates MIDI messages and sends them into a buffer to be later outputted
-    for (auto i = 0; i < sampleArray.size(); ++i)
+    for (auto i = 0; i < onsetArray.size(); ++i)
     {
         auto message = noteOn(1, drumArray[i], (juce::uint8)velocityArray[i]);
-        midiBuffer.addEvent(message, sampleArray[i]);
+        midiBuffer.addEvent(message, onsetArray[i]);
        
         auto messageOff = noteOff(message.getChannel(), message.getNoteNumber());
-        midiBuffer.addEvent(messageOff, sampleArray[i] + 1);
+        midiBuffer.addEvent(messageOff, onsetArray[i] + 10);
     }
 
 }
@@ -51,4 +51,5 @@ void buildMIDI::fillBuffer(juce::Array<int> sampleArray, juce::Array<int> drumAr
 void buildMIDI::outputMIDI()
 {
     out->sendBlockOfMessages(midiBuffer, juce::Time::getMillisecondCounter(), mSampleRate);
+    midiBuffer.clear();
 }
