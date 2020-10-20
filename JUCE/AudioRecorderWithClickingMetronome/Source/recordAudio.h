@@ -45,5 +45,6 @@ private:
 
     
     Metronome metronome;
+    buildMIDI midi;
    
 };
