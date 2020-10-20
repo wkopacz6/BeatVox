@@ -34,7 +34,8 @@ public:
     bool errored{ false };
     juce::String deviceName{ "" };
     juce::AudioDeviceManager::AudioDeviceSetup deviceSetup;
-
+    
+ 
 private:
     double mBpm { 120 };
     double mSampleRate{ 0 };
@@ -43,7 +44,6 @@ private:
     int numInputChannels{ 2 };
     int mBufferSize{ 0 };
 
-    
     Metronome metronome;
     buildMIDI midi;
    

@@ -16,12 +16,17 @@ class buildMIDI : public juce::MidiMessage
 public:
     buildMIDI();
     ~buildMIDI();
-    void prepareToPlay(juce::MidiOutput* output, double sampleRate);
-    void fillBuffer(const int *sampleArray, const int *drumArray, const int *velocityArray);
+    void setDevice(int selected);
+    void setSampleRate(double sampleRate);
+    void fillBuffer(juce::Array<int> sampleArray, juce::Array<int> drumArray, juce::Array<int> velocityArray);
     void outputMIDI();
 
-    double mSampleRate;
+    
+    juce::Array<juce::MidiDeviceInfo> midiList;
 private:
     juce::MidiBuffer midiBuffer;
     juce::MidiOutput* midiOutput{ nullptr };
+    juce::MidiDeviceInfo output;
+    std::unique_ptr <juce::MidiOutput> out{ nullptr }; 
+    double mSampleRate{ 48000 };
 };

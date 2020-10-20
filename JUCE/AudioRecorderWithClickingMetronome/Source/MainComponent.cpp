@@ -66,6 +66,18 @@ MainComponent::MainComponent()
     outputBox.setColour(juce::TextEditor::outlineColourId, juce::Colour(0x1c000000));
     outputBox.setColour(juce::TextEditor::shadowColourId, juce::Colour(0x16000000));
     
+    addAndMakeVisible(midiBox);
+    for (auto i = 0; i < midi.midiList.size(); ++i)
+    {
+        midiBox.addItem(midi.midiList[i].name, i+1);
+    }
+    midiBox.onChange = [this]() { midiBoxChanged(); };
+    midiBox.setSelectedId(1);
+
+    addAndMakeVisible(buttonMidiTest);
+    buttonMidiTest.setEnabled(true);
+    buttonMidiTest.onClick = [this]() { buttonMidiTestPressed(); };
+
     if (recorder.errored)
     {
         error();
@@ -80,7 +92,7 @@ MainComponent::MainComponent()
     }
 
     recorder.deviceManager.addChangeListener(this);
-    setSize (450, 380);
+    setSize (450, 500);
 
 }
 
@@ -112,7 +124,8 @@ void MainComponent::resized()
     buttonMet   .setBounds(10, 290, getWidth() / 4, 30);
     inputBox    .setBounds(10, 330, getWidth() - 20, 20);
     outputBox   .setBounds(10, 355, getWidth() - 20, 20);
-
+    midiBox     .setBounds(10, 380, getWidth() / 2, 30);
+    buttonMidiTest.setBounds(10, 440, getWidth() / 4, 30);
 }
 
 
@@ -203,6 +216,22 @@ void MainComponent::metPressed()
         buttonMet.setButtonText("Metronome On");
     }
     recorder.metEnabled(metEnable);
+}
+
+void MainComponent::midiBoxChanged()
+{
+    auto selected = midiBox.getSelectedId() - 1;
+    midi.setDevice(selected);
+}
+
+void MainComponent::buttonMidiTestPressed()
+{
+    juce::Array<int> sampleArray = {44100, 90000, 140000, 200000, 250000 };
+    juce::Array<int> drumArray = { 36, 70, 55, 44, 40 };
+    juce::Array<int> velocityArray = { 100, 80, 90, 50, 100 };
+
+    midi.fillBuffer(sampleArray, drumArray, velocityArray);
+    midi.outputMIDI();
 }
 
 void MainComponent::error()

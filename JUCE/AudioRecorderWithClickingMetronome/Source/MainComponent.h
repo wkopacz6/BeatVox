@@ -27,15 +27,18 @@ private:
     bool metEnable{ false };
 
     recordAudio recorder;
+    buildMIDI midi;
 
     juce::TextButton buttonRecord{ "Record" };
     juce::TextButton buttonReset{ "Reset" };
     juce::TextButton buttonStop{ "Stop Recording" };
     juce::TextButton buttonDump{ "Dump to\n .csv file" };
     juce::TextButton buttonMet{ "Metronome Off" };
+    juce::TextButton buttonMidiTest{ "Test MIDI" };
 
     juce::TextEditor inputBox;
     juce::TextEditor outputBox;
+    juce::ComboBox midiBox;
 
     //number of bars for user to record
     juce::Slider barCount;
@@ -50,6 +53,8 @@ private:
     void stop();
     void sendBufferVals();
     void dumpDataToCSV();
+    void midiBoxChanged();
+    void buttonMidiTestPressed();
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };
