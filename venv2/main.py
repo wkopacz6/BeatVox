@@ -139,7 +139,7 @@ def test_classification(audio_path, ground_truth_path):
     print('FINISHED')
 
 
-audio_path_test = r'C:\Users\Joshua\Documents\GitHub\3770python\beatboxset1'
+audio_path_test = 'r'C:\Users\Joshua\Documents\GitHub\3770python\beatboxset1''
 ground_truth_path_test = r'C:\Users\Joshua\Documents\GitHub\3770python\annotation'
 test_classification(audio_path_test, ground_truth_path_test)
 

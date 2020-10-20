@@ -2,14 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="763f2f80-24bc-451b-90e1-b0b4bebeefa4" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Python/venv1/BeatVoxTest1#02.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Python/venv1/BeatVoxTest1#03.wav" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Python/venv1/BeatVoxTest1#04.wav" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Python/venv1/BeatVoxTest1.wav" beforeDir="false" afterPath="$PROJECT_DIR$/Python/venv1/BeatVoxTest1.wav" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Python/venv1/OnsetDetection.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/venv1/OnsetDetection.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Python/venv1/beat.mid" beforeDir="false" afterPath="$PROJECT_DIR$/Python/venv1/beat.mid" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Python/venv1/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/venv1/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv2/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv2/main.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -49,7 +43,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.main">
+  <component name="RunManager" selected="Python.main (1)">
     <configuration name="OnsetDetection" type="PythonConfigurationType" factoryName="Python">
       <module name="BeatVox" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -63,6 +57,27 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Python/venv1/OnsetDetection.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="main (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="BeatVox" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/venv2" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/venv2/main.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -94,6 +109,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.main (1)" />
         <item itemvalue="Python.main" />
       </list>
     </recent_temporary>
@@ -214,7 +230,14 @@
       <option name="project" value="LOCAL" />
       <updated>1602010616443</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="Normalized novelty function and adjusted parameters, created function that outputs segments of audio file based on onsets">
+      <created>1603171518551</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1603171518551</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -247,7 +270,8 @@
     <MESSAGE value="Implement meidan filter adaptive threshold" />
     <MESSAGE value="Went back to adaptive threshold but no smoothing" />
     <MESSAGE value="Tried to get onset detection working with old prototype fuccntion (doesn't work yet)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Tried to get onset detection working with old prototype fuccntion (doesn't work yet)" />
+    <MESSAGE value="Normalized novelty function and adjusted parameters, created function that outputs segments of audio file based on onsets" />
+    <option name="LAST_COMMIT_MESSAGE" value="Normalized novelty function and adjusted parameters, created function that outputs segments of audio file based on onsets" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
