@@ -2,8 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="763f2f80-24bc-451b-90e1-b0b4bebeefa4" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Python/venv1/BeatVoxTest1#02.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Python/venv1/BeatVoxTest1#03.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Python/venv1/BeatVoxTest1#04.wav" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Python/beatboxset1/battleclip_daq.wav" beforeDir="false" afterPath="$PROJECT_DIR$/Python/beatboxset1/battleclip_daq.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/venv1/BeatVoxTest1.wav" beforeDir="false" afterPath="$PROJECT_DIR$/Python/venv1/BeatVoxTest1.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/venv1/OnsetDetection.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/venv1/OnsetDetection.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/venv1/beat.mid" beforeDir="false" afterPath="$PROJECT_DIR$/Python/venv1/beat.mid" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/venv1/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/venv1/main.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -24,10 +30,11 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/Python/venv1" />
+      <recent name="$PROJECT_DIR$/Python/venv1/lib" />
       <recent name="$PROJECT_DIR$/Python/venv1/" />
       <recent name="$PROJECT_DIR$/Python/beatboxset1/beatboxset1_annotations" />
       <recent name="$PROJECT_DIR$/Python" />
-      <recent name="$PROJECT_DIR$/venv" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -247,8 +254,8 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/Python/venv1/main.py</url>
-          <line>27</line>
-          <option name="timeStamp" value="21" />
+          <line>25</line>
+          <option name="timeStamp" value="28" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>

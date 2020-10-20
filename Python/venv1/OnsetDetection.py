@@ -31,6 +31,8 @@ def compute_novelty_function(x, method, nfft, hoplength):
 
         # RMS of diff
         flux = np.sqrt((diff_log_mag_X**2).sum(axis=0) / log_mag_X.shape[0])
+        flux = flux/ max(abs(flux))
+
 
         return (flux)
     #Directly from pyACA
@@ -61,6 +63,7 @@ def compute_novelty_function(x, method, nfft, hoplength):
 
 
 
+
 #moving average filter used in peak picking
 def moving_average(a, n) :
     a = np.concatenate((np.zeros(n-1), a))
@@ -77,16 +80,27 @@ def pick_peaks(nov, thres, nfft, hoplength):
     #Note: Adaptive threshold w/ median filter: F=.895, acccuracy=.96, recall=.84
 
     #nov_thres = moving_average(nov, n=5)
-    nov_thres = sp.signal.medfilt(nov, 7)
+    nov_thres = sp.signal.medfilt(nov, 5)
 
     #use scipy find peaks
     peaks = sp.signal.find_peaks(nov, height=nov_thres+thres, distance=4)
     # convert peak blocks to peak times
     # (issue 3)
     onsets = peaks[0] * hoplength / 44100
-    return (onsets, peaks)
+    return (onsets, peaks, nov_thres)
 
     end
+
+
+def output_segments(audio, onsets_in_seconds, fs, output_number_of_samples):
+    onsets_in_samples = np.floor(onsets_in_seconds * fs)
+    i = 0
+    audio_segments = np.zeros((output_number_of_samples, len(onsets_in_seconds)))
+    for onset in onsets_in_samples:
+        onset = int(onset)
+        audio_segments[:, i] = audio[onset:onset+output_number_of_samples]
+        i += 1
+    return audio_segments
 
 
 #Test onset detection using F-Score
@@ -149,15 +163,15 @@ def test_onset_detection(audio, ground_truth, method, thres, nfft, hoplength):
     end
 
 
-audio_paths_analysis = ['/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/snare_hex.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/putfile_william.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/putfile_vonny.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/putfile_pepouni.wav']
-audio_paths_test = ['/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/putfile_dbztenkaichi.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/putfile_bui.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/callout_Turn-Table.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/callout_Pneumatic.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/callout_mouss.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/callout_mcld.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/callout_luckeymonkey.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/callout_azeem.wav' , '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/callout_adiao.wav' , '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/battleclip_daq.wav']
+#audio_paths_analysis = ['/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/snare_hex.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/putfile_william.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/putfile_vonny.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/putfile_pepouni.wav']
+#audio_paths_test = ['/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/putfile_dbztenkaichi.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/putfile_bui.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/callout_Turn-Table.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/callout_Pneumatic.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/callout_mouss.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/callout_mcld.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/callout_luckeymonkey.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/callout_azeem.wav' , '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/callout_adiao.wav' , '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/battleclip_daq.wav']
 
-ground_truth_path_analysis = '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/beatboxset1_annotations/beatboxset1_onsets.csv'
-ground_truth_path_test = '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/beatboxset1_annotations/beatboxset2_onsets.csv'
+#ground_truth_path_analysis = '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/beatboxset1_annotations/beatboxset1_onsets.csv'
+#ground_truth_path_test = '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/beatboxset1_annotations/beatboxset2_onsets.csv'
 
 
 
-print(test_onset_detection(audio_paths_test, ground_truth_path_test, 'log-mag', .4, nfft=1024, hoplength=768))
+#print(test_onset_detection(audio_paths_test, ground_truth_path_test, 'log-mag', 0, nfft=1024, hoplength=768))
 
 
 
