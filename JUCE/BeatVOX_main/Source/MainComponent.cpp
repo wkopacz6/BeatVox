@@ -227,8 +227,8 @@ void MainComponent::midiBoxChanged()
 void MainComponent::buttonMidiTestPressed()
 {
     juce::Array<int> onsetArray = {0, 22050, 44100, 66150, 88200, 132300, 154350};
-    juce::Array<int> drumArray = { 64, 66, 67, 69, 66, 62, 64 };
-    juce::Array<int> velocityArray = { 50, 100, 20, 100, 100, 100, 100 };
+    juce::Array<int> drumArray = { 36, 48, 38, 48, 36, 38, 38 };
+    juce::Array<int> velocityArray = { 100, 100, 100, 100, 100, 100, 100 };
 
     
     midi.fillBuffer(onsetArray, drumArray, velocityArray);

@@ -37,7 +37,7 @@ void buildMIDI::fillBuffer(juce::Array<int> onsetArray, juce::Array<int> drumArr
         midiBuffer.addEvent(message, onsetArray[i]);
        
         auto messageOff = noteOff(message.getChannel(), message.getNoteNumber());
-        midiBuffer.addEvent(messageOff, onsetArray[i] + 10);
+        midiBuffer.addEvent(messageOff, onsetArray[i] + 5000);
     }
 
 }
