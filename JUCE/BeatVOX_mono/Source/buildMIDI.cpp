@@ -28,11 +28,6 @@ void buildMIDI::setDevice(int selected)
     out->startBackgroundThread();
 }
 
-void buildMIDI::setSampleRate(double sampleRate)
-{
-    mSampleRate = sampleRate;
-}
-
 void buildMIDI::fillBuffer(juce::Array<int> onsetArray, juce::Array<int> drumArray, juce::Array<int> velocityArray)
 {
     //creates MIDI messages and sends them into a buffer to be later outputted
@@ -47,9 +42,8 @@ void buildMIDI::fillBuffer(juce::Array<int> onsetArray, juce::Array<int> drumArr
 
 }
 
-
-void buildMIDI::outputMIDI()
+void buildMIDI::outputMIDI(double sampleRate)
 {
-    out->sendBlockOfMessages(midiBuffer, juce::Time::getMillisecondCounter(), mSampleRate);
+    out->sendBlockOfMessages(midiBuffer, juce::Time::getMillisecondCounter(), sampleRate);
     midiBuffer.clear();
 }

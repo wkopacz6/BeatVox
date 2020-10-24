@@ -230,8 +230,9 @@ void MainComponent::buttonMidiTestPressed()
     juce::Array<int> drumArray = { 64, 66, 67, 69, 66, 62, 64 };
     juce::Array<int> velocityArray = { 50, 100, 20, 100, 100, 100, 100 };
 
+    
     midi.fillBuffer(onsetArray, drumArray, velocityArray);
-    midi.outputMIDI();
+    midi.outputMIDI(recorder.mSampleRate);
 }
 
 void MainComponent::error()

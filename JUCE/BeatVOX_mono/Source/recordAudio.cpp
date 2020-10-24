@@ -39,7 +39,7 @@ recordAudio::~recordAudio()
 void recordAudio::getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill)
 {
 
-    if (isRecording)
+    if ((isRecording) && (numInputChannels != 0))
     {
         mBufferSize = bufferToFill.numSamples;
 
@@ -93,14 +93,10 @@ void recordAudio::prepareToPlay(int samplesPerBlockExpected, double sampleRate)
     auto activeInputChannels = device->getActiveInputChannels();
     numInputChannels = activeInputChannels.getHighestBit() + 1;
 
-    auto activeOutputChannels = device->getActiveOutputChannels();
-    numOutputChannels = activeOutputChannels.getHighestBit() + 1;
-
     deviceName = deviceSetup.inputDeviceName;
     mSampleRate = sampleRate;
     mBufferSize = samplesPerBlockExpected;
 
-    midi.setSampleRate(mSampleRate);
     metronome.prepareToPlay(mBufferSize, mSampleRate);
     
     createBuffer(mBar, mBpm);

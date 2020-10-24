@@ -34,15 +34,13 @@ public:
     bool errored{ false };
     juce::String deviceName{ "" };
     juce::AudioDeviceManager::AudioDeviceSetup deviceSetup;
-    
+    double mSampleRate{ 0.0 };
  
 private:
-    double mBpm { 120 };
-    double mSampleRate{ 0 };
+    double mBpm { 120.0 };
     int mBar { 4 };
     int startSample{ 0 };
     int numInputChannels{ 1 };
-    int numOutputChannels { 2 };
     int mBufferSize{ 0 };
 
     Metronome metronome;
