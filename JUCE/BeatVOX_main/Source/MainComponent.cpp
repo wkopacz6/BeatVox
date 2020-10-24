@@ -72,7 +72,6 @@ MainComponent::MainComponent()
         midiBox.addItem(midi.midiList[i].name, i+1);
     }
     midiBox.onChange = [this]() { midiBoxChanged(); };
-    midiBox.setSelectedId(1);
 
     addAndMakeVisible(buttonMidiTest);
     buttonMidiTest.setEnabled(true);
