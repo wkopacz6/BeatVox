@@ -10,7 +10,6 @@
 #include "MainComponent.h"
 #include "recordAudio.h"
 #include "Metronome.h"
-#include "buildMIDI.h"
 
 //==============================================================================
 class RecorderAttempt_2Application  : public juce::JUCEApplication
@@ -29,6 +28,7 @@ public:
         // This method is where you should put your application's initialisation code..
 
         mainWindow.reset (new MainWindow (getApplicationName()));
+        mainWindow->setName("BeatVOX");
     }
 
     void shutdown() override
@@ -78,7 +78,7 @@ public:
            #endif
 
             setVisible (true);
-            setResizeLimits(450, 500, 700, 750);
+            setResizable(false, false);
             setDraggable(true);
         }
 

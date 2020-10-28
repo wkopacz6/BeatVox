@@ -14,11 +14,11 @@
 recordAudio::recordAudio()
 {
     setAudioChannels(1, 2);
-    auto* device = deviceManager.getCurrentAudioDevice();
- /*   deviceSetup = deviceManager.getAudioDeviceSetup();*/
+
     audioSetupComp.reset(new juce::AudioDeviceSelectorComponent(deviceManager, 1, 1, 2, 2, false, true, false, true));
     audioSetupComp->setSize(600, 400);
 
+    auto* device = deviceManager.getCurrentAudioDevice();
     if (device == nullptr)
     {
         errored = true;
@@ -32,6 +32,8 @@ recordAudio::recordAudio()
 recordAudio::~recordAudio()
 {
     bufferRecordedAudio.clear();
+    bufferMidi.clear();
+
     shutdownAudio();
 }
 
@@ -89,13 +91,13 @@ void recordAudio::getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferTo
 void recordAudio::prepareToPlay(int samplesPerBlockExpected, double sampleRate)
 {
     auto* device = deviceManager.getCurrentAudioDevice();
-    deviceSetup = deviceManager.getAudioDeviceSetup();
 
     auto activeInputChannels = device->getActiveInputChannels();
     numInputChannels = activeInputChannels.getHighestBit() + 1;
 
     auto activeOutputChannels = device->getActiveOutputChannels();
     numOutputChannels = activeOutputChannels.getHighestBit() + 1;
+
 
     if ((device == nullptr) || (numInputChannels == 0) || (numOutputChannels != 2))
     {
@@ -107,22 +109,21 @@ void recordAudio::prepareToPlay(int samplesPerBlockExpected, double sampleRate)
  
         mSampleRate = sampleRate;
         mBufferSize = samplesPerBlockExpected;
-        
-       
-        midiOutput = deviceManager.getDefaultMidiOutput();
-        if (midiOutput != nullptr)
-            midiOutput->startBackgroundThread();
 
         metronome.prepareToPlay(mBufferSize, mSampleRate);
 
-        createBuffer(mBar, mBpm);
+        createAudioBuffer(mBar, mBpm);
     }
+
+    midiOutput = deviceManager.getDefaultMidiOutput();
+    if (midiOutput != nullptr)
+        midiOutput->startBackgroundThread();
     
 }
 
 void recordAudio::releaseResources()
 {
-    mSampleRate = 0.0;
+
 }
 
 
@@ -143,11 +144,11 @@ void recordAudio::resetRecording()
     startSample = 0;
     metronome.reset();
 
-    createBuffer(mBar, mBpm);
-    midiBuffer.clear();
+    createAudioBuffer(mBar, mBpm);
+
 }
 
-void recordAudio::createBuffer(int numBar, double bpm)
+void recordAudio::createAudioBuffer(int numBar, double bpm)
 {
     mBar = numBar;
     mBpm = bpm;
@@ -165,24 +166,23 @@ void recordAudio::metEnabled(bool enable)
 
 void recordAudio::fillMidiBuffer(juce::Array<int> onsetArray, juce::Array<int> drumArray, juce::Array<int> velocityArray)
 {
-    midiBuffer.clear();
-
+    bufferMidi.clear();
+    bufferMidi.ensureSize(onsetArray.size());
     for (auto i = 0; i < onsetArray.size(); ++i)
     {
         auto message = juce::MidiMessage::noteOn(1, drumArray[i], (juce::uint8) 100);
-        midiBuffer.addEvent(message, onsetArray[i]);
+        bufferMidi.addEvent(message, onsetArray[i]);
 
         auto messageOff = juce::MidiMessage::noteOff(message.getChannel(), message.getNoteNumber());
-        midiBuffer.addEvent(messageOff, onsetArray[i] + 5000);
+        bufferMidi.addEvent(messageOff, onsetArray[i] + 5000);
     }
+
 }
 
 
 void recordAudio::outputMidi()
 {
-    DBG(midiOutput->getName());
-    midiOutput->sendBlockOfMessages(midiBuffer, juce::Time::getMillisecondCounter(), mSampleRate);
-    
+    midiOutput->sendBlockOfMessages(bufferMidi, juce::Time::getMillisecondCounter(), mSampleRate);
 }
 
 
