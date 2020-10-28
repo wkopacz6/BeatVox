@@ -5,6 +5,8 @@ MainComponent::MainComponent()
 {
     setOpaque(true);
 
+    menu.reset(new juce::DialogWindow("menu", juce::Colours::black, true, true));
+
     //initialize bar slider and bpm slider
     addAndMakeVisible (barCount);
     barCount.setRange(1, 16,1);
@@ -54,44 +56,46 @@ MainComponent::MainComponent()
     buttonMet.setToggleState(false, true);
     buttonMet.onClick = [this]() { metPressed(); };
 
-    addAndMakeVisible(inputBox);
-    inputBox.setReadOnly(true);
-    inputBox.setColour(juce::TextEditor::backgroundColourId, juce::Colour(0x32ffffff));
-    inputBox.setColour(juce::TextEditor::outlineColourId, juce::Colour(0x1c000000));
-    inputBox.setColour(juce::TextEditor::shadowColourId, juce::Colour(0x16000000));
+    addAndMakeVisible(audioSetupButton);
+    audioSetupButton.setEnabled(true);
+    audioSetupButton.onClick = [this]() { ioSetup(); };
 
-    addAndMakeVisible(outputBox);
-    outputBox.setReadOnly(true);
-    outputBox.setColour(juce::TextEditor::backgroundColourId, juce::Colour(0x32ffffff));
-    outputBox.setColour(juce::TextEditor::outlineColourId, juce::Colour(0x1c000000));
-    outputBox.setColour(juce::TextEditor::shadowColourId, juce::Colour(0x16000000));
-    
-    addAndMakeVisible(midiBox);
+    addAndMakeVisible(errorBox);
+    errorBox.setReadOnly(true);
+    errorBox.setColour(juce::TextEditor::backgroundColourId, juce::Colour(0x32ffffff));
+    errorBox.setColour(juce::TextEditor::outlineColourId, juce::Colour(0x1c000000));
+    errorBox.setColour(juce::TextEditor::shadowColourId, juce::Colour(0x16000000));
+
+  /*  addAndMakeVisible(midiBox);
     for (auto i = 0; i < midi.midiList.size(); ++i)
     {
         midiBox.addItem(midi.midiList[i].name, i+1);
     }
-    midiBox.onChange = [this]() { midiBoxChanged(); };
+    midiBox.onChange = [this]() { midiBoxChanged(); };*/
 
     addAndMakeVisible(buttonMidiTest);
-    buttonMidiTest.setEnabled(true);
+    buttonMidiTest.setEnabled(false);
     buttonMidiTest.onClick = [this]() { buttonMidiTestPressed(); };
+
+    addAndMakeVisible(buttonMidiTest1);
+    buttonMidiTest1.setEnabled(false);
+    buttonMidiTest1.onClick = [this]() { buttonMidiTestPressed1(); };
 
     if (recorder.errored)
     {
         error();
-        inputBox.setText("ERROR -- PLEASE RECONFIGURE I/O DEVICES AND RESTART APP");
-        outputBox.setText("--------------------------------------");
+        errorBox.setText("ERROR -- RECONFIGURE AUDIO DEVICES");
     }
     else
     {
+        reset();
+        errorBox.setText("Audio Devices Successfully configured");
         sendBufferVals();
-        inputBox.setText("Input Device: " + recorder.deviceSetup.inputDeviceName);
-        outputBox.setText("Output Device: " + recorder.deviceSetup.outputDeviceName);
     }
 
     recorder.deviceManager.addChangeListener(this);
-    setSize (450, 500);
+
+    setSize(450, 500);
 
 }
 
@@ -121,10 +125,10 @@ void MainComponent::resized()
     barCount    .setBounds(10, 210, getWidth() - 20, 30);
     newBpm      .setBounds(10, 250, getWidth() - 20, 30);
     buttonMet   .setBounds(10, 290, getWidth() / 4, 30);
-    inputBox    .setBounds(10, 330, getWidth() - 20, 20);
-    outputBox   .setBounds(10, 355, getWidth() - 20, 20);
-    midiBox     .setBounds(10, 380, getWidth() / 2, 30);
-    buttonMidiTest.setBounds(10, 440, getWidth() / 4, 30);
+    errorBox    .setBounds(10, 330, getWidth() - 20, 20);
+    buttonMidiTest   .setBounds(10, 355, getWidth() - 20, 20);
+    buttonMidiTest1     .setBounds(10, 380, getWidth() / 2, 30);
+    audioSetupButton.setBounds(10, 440, getWidth() / 4, 30);
 }
 
 
@@ -217,21 +221,30 @@ void MainComponent::metPressed()
     recorder.metEnabled(metEnable);
 }
 
-void MainComponent::midiBoxChanged()
-{
-    auto selected = midiBox.getSelectedId() - 1;
-    midi.setDevice(selected);
-}
+//void MainComponent::midiBoxChanged()
+//{
+//    auto selected = midiBox.getSelectedId() - 1;
+//    midi.setDevice(selected);
+//}
 
 void MainComponent::buttonMidiTestPressed()
 {
     juce::Array<int> onsetArray = {0, 22050, 44100, 66150, 88200, 132300, 154350};
     juce::Array<int> drumArray = { 36, 48, 38, 48, 36, 38, 38 };
-    juce::Array<int> velocityArray = { 100, 100, 100, 100, 100, 100, 100 };
+    juce::Array<int> velocityArray = { 100,100,100,100,100,100,100 };
 
     
-    midi.fillBuffer(onsetArray, drumArray, velocityArray);
-    midi.outputMIDI(recorder.mSampleRate);
+    recorder.fillMidiBuffer(onsetArray, drumArray, velocityArray);
+}
+
+void MainComponent::buttonMidiTestPressed1()
+{
+    recorder.outputMidi();
+}
+
+void MainComponent::ioSetup()
+{
+    menu->showDialog("Setup", recorder.audioSetupComp.get(), this, juce::Colours::black, true, false, false);
 }
 
 void MainComponent::error()
@@ -240,6 +253,8 @@ void MainComponent::error()
     buttonMet   .setEnabled(false);
     barCount    .setEnabled(false);
     newBpm      .setEnabled(false);
+    buttonMidiTest.setEnabled(false);
+    buttonMidiTest1.setEnabled(false);
 }
 
 void MainComponent::timerCallback()
@@ -252,9 +267,28 @@ void MainComponent::timerCallback()
 
 void MainComponent::changeListenerCallback(juce::ChangeBroadcaster* source)
 {
-    inputBox.setText("ERROR -- AUDIO DEVICES UNEXPECTANTLY CHANGED");
-    outputBox.setText("PLEASE RESTART APPLICATION");
-    error();
+    if (recorder.errored)
+    {
+        error();
+        errorBox.setText("ERROR -- RECONFIGURE AUDIO DEVICES");
+    }
+    else
+    {
+        if (recorder.deviceManager.getDefaultMidiOutput() != nullptr)
+        {
+            buttonMidiTest.setEnabled(true);
+            buttonMidiTest1.setEnabled(true);
+        }
+        else
+        {
+            buttonMidiTest.setEnabled(false);
+            buttonMidiTest1.setEnabled(false);
+        }
+    }
+        reset();
+        errorBox.setText("Audio Devices Successfully configured");
 }
+     
+    
 
 

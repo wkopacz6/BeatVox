@@ -6,7 +6,7 @@
 
 
 class MainComponent : public juce::Component,
-                    public juce::Timer, public juce::ChangeListener
+    public juce::Timer, public juce::ChangeListener
 {
 public:
     //==============================================================================
@@ -24,6 +24,7 @@ public:
     void changeListenerCallback(juce::ChangeBroadcaster* source) override;
 
 private:
+    std::unique_ptr<juce::DialogWindow> menu;
     bool metEnable{ false };
 
     recordAudio recorder;
@@ -35,8 +36,10 @@ private:
     juce::TextButton buttonDump{ "Dump to\n .csv file" };
     juce::TextButton buttonMet{ "Metronome Off" };
     juce::TextButton buttonMidiTest{ "Test MIDI" };
+    juce::TextButton audioSetupButton{ "IO setup" };
+    juce::TextButton buttonMidiTest1{ "Play" };
 
-    juce::TextEditor inputBox;
+    juce::TextEditor errorBox;
     juce::TextEditor outputBox;
     juce::ComboBox midiBox;
 
@@ -55,6 +58,8 @@ private:
     void dumpDataToCSV();
     void midiBoxChanged();
     void buttonMidiTestPressed();
+    void buttonMidiTestPressed1();
+    void ioSetup();
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };
