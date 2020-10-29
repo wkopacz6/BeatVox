@@ -44,6 +44,7 @@ void recordAudio::getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferTo
 
     if ((isRecording) && (numInputChannels != 0))
     {
+
         mBufferSize = bufferToFill.numSamples;
 
         if ((startSample + mBufferSize) >= bufferRecordedAudio.getNumSamples())
@@ -58,7 +59,6 @@ void recordAudio::getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferTo
                     writerRecord[sample] = readerInput[sample];
                 }
             
-            bufferToFill.buffer->clear(0, remainder);
             startSample += mBufferSize;
             stopRecording();
         }
@@ -71,11 +71,10 @@ void recordAudio::getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferTo
                 {
                     writerRecord[sample] = readerInput[sample];
                 }
-
-            bufferToFill.buffer->clear(0, mBufferSize);
             
             startSample += mBufferSize;
         }
+        bufferToFill.buffer->clear(0, mBufferSize);
         metronome.getNextAudioBlock(bufferToFill);
         
     }
@@ -90,7 +89,7 @@ void recordAudio::getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferTo
 void recordAudio::prepareToPlay(int samplesPerBlockExpected, double sampleRate)
 {
     auto* device = deviceManager.getCurrentAudioDevice();
-
+ 
     auto activeInputChannels = device->getActiveInputChannels();
     numInputChannels = activeInputChannels.getHighestBit() + 1;
 

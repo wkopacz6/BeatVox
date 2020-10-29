@@ -22,6 +22,7 @@ public:
     void setBpm(int bpm);
 
     bool onMet{ false };
+    std::unique_ptr <juce::AudioFormatReaderSource> pMet{ nullptr };
 private:
 
     double mSampleRate{ 0 };
@@ -30,5 +31,5 @@ private:
     int mSampleInterval{ 0 };
 
     juce::AudioFormatManager mFormatManager;
-    std::unique_ptr <juce::AudioFormatReaderSource> pMet{ nullptr };
+
 };
