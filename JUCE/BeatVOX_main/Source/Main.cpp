@@ -10,6 +10,7 @@
 #include "MainComponent.h"
 #include "recordAudio.h"
 #include "Metronome.h"
+#include "onsetDetection.h"
 
 //==============================================================================
 class RecorderAttempt_2Application  : public juce::JUCEApplication
