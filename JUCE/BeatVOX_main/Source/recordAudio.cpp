@@ -59,7 +59,6 @@ void recordAudio::getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferTo
                 }
             
             bufferToFill.buffer->clear(0, remainder);
-
             startSample += mBufferSize;
             stopRecording();
         }

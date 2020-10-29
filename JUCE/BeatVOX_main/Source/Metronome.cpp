@@ -47,16 +47,14 @@ void Metronome::getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFi
         
         auto bufferSize = bufferToFill.numSamples;
 
-        mTotalSamples += bufferSize;
-
         auto mSamplesToGo = mTotalSamples % mSampleInterval;
 
         //prepares for incoming click
-        if (((mSamplesToGo + bufferSize) >= mSampleInterval) || ((mTotalSamples - bufferSize) == 0))
+        if (((mSamplesToGo + bufferSize) >= mSampleInterval) || (mSamplesToGo == 0))
         {
             //finds exact number of samples remaining until click should occur
-            auto timeToStartClick = mSampleInterval - mSamplesToGo - 1;
-            if ((mTotalSamples - bufferSize) == 0)
+            auto timeToStartClick = mSampleInterval - mSamplesToGo;
+            if ((mSamplesToGo) == 0)
                 timeToStartClick = 0;
             
             pMet->setNextReadPosition(0);
@@ -71,8 +69,8 @@ void Metronome::getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFi
             }
 
         }
-        
-        
+        mTotalSamples += bufferSize; 
+
     }
  
 }
