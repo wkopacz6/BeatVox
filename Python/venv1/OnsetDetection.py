@@ -71,7 +71,7 @@ def moving_average(a, n) :
     ret[n:] = ret[n:] - ret[:-n]
     return ret[n - 1:] / n
 
-def pick_peaks(nov, thres, nfft, hoplength):
+def pick_peaks(nov, thres, nfft, hoplength, fs):
     #determine adaptive threshold
     #take the moving average of the novelty function
     #(issue 4) use as adaptive threshold
@@ -86,7 +86,7 @@ def pick_peaks(nov, thres, nfft, hoplength):
     peaks = sp.signal.find_peaks(nov, height=nov_thres+thres, distance=4)
     # convert peak blocks to peak times
     # (issue 3)
-    onsets = peaks[0] * hoplength / 44100
+    onsets = peaks[0] * hoplength / fs
     return (onsets, peaks, nov_thres)
 
     end
@@ -105,7 +105,7 @@ def output_segments(audio, onsets_in_seconds, fs, output_number_of_samples):
 
 #Test onset detection using F-Score
 #Arguments: List of audio file paths, ground truth onsets file path, method of onset detection, threshold for peak pickng
-def test_onset_detection(audio, ground_truth, method, thres, nfft, hoplength):
+def test_onset_detection(audio, ground_truth, method, thres, nfft, hoplength, fs):
     #use pandas not np for test
     #need to get onsets in time - use librosa blocks to time(?)
 
@@ -116,11 +116,11 @@ def test_onset_detection(audio, ground_truth, method, thres, nfft, hoplength):
 
     for file in audio:
         #load audio file
-        y, fs  = librosa.core.load(file, sr=44100)
+        y, fs  = librosa.core.load(file, sr=fs)
         #compute novelty function
         nov = compute_novelty_function(y, method, nfft=nfft, hoplength=hoplength)
         #pick peaks
-        peaks, unused = pick_peaks(nov, thres, nfft=nfft, hoplength=hoplength)
+        peaks, unused, unused2 = pick_peaks(nov, thres, nfft=nfft, hoplength=hoplength, fs=fs)
 
         #add onsets to pd dict
         onset_dict[file] = peaks
@@ -163,15 +163,15 @@ def test_onset_detection(audio, ground_truth, method, thres, nfft, hoplength):
     end
 
 
-#audio_paths_analysis = ['/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/snare_hex.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/putfile_william.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/putfile_vonny.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/putfile_pepouni.wav']
-#audio_paths_test = ['/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/putfile_dbztenkaichi.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/putfile_bui.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/callout_Turn-Table.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/callout_Pneumatic.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/callout_mouss.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/callout_mcld.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/callout_luckeymonkey.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/callout_azeem.wav' , '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/callout_adiao.wav' , '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/battleclip_daq.wav']
+audio_paths_analysis = ['/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/snare_hex.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/putfile_william.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/putfile_vonny.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/putfile_pepouni.wav']
+audio_paths_test = ['/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/putfile_dbztenkaichi.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/putfile_bui.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/callout_Turn-Table.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/callout_Pneumatic.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/callout_mouss.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/callout_mcld.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/callout_luckeymonkey.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/callout_azeem.wav' , '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/callout_adiao.wav' , '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/battleclip_daq.wav']
 
-#ground_truth_path_analysis = '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/beatboxset1_annotations/beatboxset1_onsets.csv'
-#ground_truth_path_test = '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/beatboxset1_annotations/beatboxset2_onsets.csv'
+ground_truth_path_analysis = '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/beatboxset1_annotations/beatboxset1_onsets.csv'
+ground_truth_path_test = '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/beatboxset1_annotations/beatboxset2_onsets.csv'
 
 
 
-#print(test_onset_detection(audio_paths_test, ground_truth_path_test, 'log-mag', 0, nfft=1024, hoplength=768))
+print(test_onset_detection(audio_paths_test, ground_truth_path_test, 'log-mag', 0, nfft=1024, hoplength=768, fs=44100))
 
 
 

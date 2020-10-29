@@ -2,7 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="763f2f80-24bc-451b-90e1-b0b4bebeefa4" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Python/venv1/BeatVoxTest1#04#03.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Python/venv1/BeatVoxTest1#04#04.wav" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/venv1/OnsetDetection.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/venv1/OnsetDetection.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/venv1/beat.mid" beforeDir="false" afterPath="$PROJECT_DIR$/Python/venv1/beat.mid" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Python/venv1/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/venv1/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/venv2/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/venv2/main.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -43,7 +48,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.main (1)">
+  <component name="RunManager" selected="Python.OnsetDetection">
     <configuration name="OnsetDetection" type="PythonConfigurationType" factoryName="Python">
       <module name="BeatVox" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -109,8 +114,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.main (1)" />
         <item itemvalue="Python.main" />
+        <item itemvalue="Python.main (1)" />
       </list>
     </recent_temporary>
   </component>
@@ -277,9 +282,9 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Python/venv1/main.py</url>
-          <line>25</line>
-          <option name="timeStamp" value="28" />
+          <url>file://$PROJECT_DIR$/venv2/main.py</url>
+          <line>173</line>
+          <option name="timeStamp" value="31" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>

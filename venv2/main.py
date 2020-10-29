@@ -112,21 +112,21 @@ def test_classification(audio_path, ground_truth_path):
             os.chdir(audio_path)
 
 
-    print(index)
-    print(features.shape)
-    print(label)
-    # train_scaled, vec1, vec2 = normalize_training(features[1:-400:1])
+    #print(index)
+    #print(features.shape)
+    #print(label)
+    #train_scaled, vec1, vec2 = normalize_training(features[1:-400:1])
     # test_scaled = normalize_testing(features[-400:], vec1, vec2)
     # pd.DataFrame(data=train_scaled).to_csv(r'C:\Users\Joshua\Desktop\MUSI 3770\train.csv', index = False, header = False)
     # pd.DataFrame(data=label).to_csv(r'C:\Users\Joshua\Desktop\MUSI 3770\label.csv', index = False, header = False)
     # pd.DataFrame(data=test_scaled).to_csv(r'C:\Users\Joshua\Desktop\MUSI 3770\test.csv', index=False, header=
-    acc = np.empty(10)
-    train_scaled, vec1, vec2 = normalize_training(features)
-    prob = svm_problem(label, train_scaled)
-    param = svm_parameter('-t 0 -c 100')
-    model = svm_train(prob, param)
-    os.chdir(r'C:\Users\Joshua\Documents\GitHub\3770python')
-    svm_save_model('model_file', model)
+    #acc = np.empty(10)
+    #train_scaled, vec1, vec2 = normalize_training(features)
+    #prob = svm_problem(label, train_scaled)
+    #param = svm_parameter('-t 0 -c 100')
+    #model = svm_train(prob, param)
+    #os.chdir(r'C:\Users\Joshua\Documents\GitHub\3770python')
+    #svm_save_model('model_file', model)
 
     # for r in range(10):
     #     train_scaled, vec1, vec2 = normalize_training(np.concatenate((features[0:384*r:1], features[384*r+384::1])))
@@ -147,13 +147,13 @@ def test_classification(audio_path, ground_truth_path):
     #         p_label, p_acc, p_val = svm_predict(label[-400:], min_max_normalization(features[-400:]), model)
     #         acc[p,k] = p_acc[0]
     # print(acc)
-    print(np.mean(acc))
-    print('FINISHED')
+    #print(np.mean(acc))
+    #print('FINISHED')
 
 
-audio_path_test = r'C:\Users\Joshua\Documents\GitHub\3770python\beatboxset1'
-ground_truth_path_test = r'C:\Users\Joshua\Documents\GitHub\3770python\annotation'
-test_classification(audio_path_test, ground_truth_path_test)
+#audio_path_test = r'C:\Users\Joshua\Documents\GitHub\3770python\beatboxset1'
+#ground_truth_path_test = r'C:\Users\Joshua\Documents\GitHub\3770python\annotation'
+#test_classification(audio_path_test, ground_truth_path_test)
 
 
 vec2 = np.array([99.39611816, 218.22731018, 83.60921478, 102.21869659,  67.80625153,  67.14355469,  40.61268234,  54.90848923,  29.11833954,  43.41244125,  27.29264832,  35.02856827,  30.24285698, 30.17704964, 33.65706635,  24.62182045, 24.663414, 26.44494438])
@@ -171,5 +171,5 @@ def demo(segment):
         segment = np.pad(segment, int(n_fft_window // 2), mode='reflect')
     single_vec = librosa.feature.mfcc(y=segment, n_mfcc=18, n_fft=n_fft_window)
     feature_vector = np.mean(single_vec, axis=1)
-    p_label, p_acc, p_val = svm_predict([], normalize_testing(feature_vector, vec1, vec2), model)
+    p_label, p_acc, p_val = svm_predict(y=[], x=normalize_testing(feature_vector, vec1, vec2), m=model, options='')
     return p_label
