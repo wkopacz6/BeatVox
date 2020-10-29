@@ -28,6 +28,7 @@ public:
 private:
     
     juce::dsp::FFT forwardFFT; // FFT object to perform forward fft on
+    recordAudio Audio;
 
         
     

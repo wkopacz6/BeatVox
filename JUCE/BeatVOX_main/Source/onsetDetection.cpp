@@ -138,6 +138,10 @@ void onsetDetection::pickPeaks(std::vector<float>noveltyFunction) {
         }
     }
 }
-void convertIndiciesToTime(std::vector<int>peaksInIndicies){
-    
+void onsetDetection::convertIndiciesToTime(std::vector<int>peaksInIndicies){
+    std::vector<float>peaksInSeconds(peaksInIndicies.size(), 0);
+    for (int i = 0; i < peaksInIndicies.size(); i++){
+        peaksInSeconds[i] = peaksInIndicies[i] * hopLength / Audio.mSampleRate;
+    }
 }
+

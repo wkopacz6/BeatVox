@@ -35,11 +35,12 @@ public:
  
     std::unique_ptr<juce::AudioDeviceSelectorComponent> audioSetupComp;
     juce::AudioBuffer<float> bufferRecordedAudio;
+    double mSampleRate{ 0.0 };
 
 private:
     
     double mBpm { 120.0 };
-    double mSampleRate{ 0.0 };
+    
     int mBar { 4 };
     int startSample{ 0 };
     int numInputChannels{ 1 };
