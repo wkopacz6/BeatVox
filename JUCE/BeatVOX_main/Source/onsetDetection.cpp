@@ -19,8 +19,12 @@ onsetDetection:: ~onsetDetection() {
     
 }
 
-void onsetDetection::makeNoveltyFunction(float audio[], int audioNumOfSamples) {
-    
+void onsetDetection::makeNoveltyFunction(juce::AudioBuffer<float>buffer, int audioNumOfSamples) {
+    // turn buffer into vector
+    std::vector<float>audio(audioNumOfSamples, 0);
+    for(int i = 0; i < audioNumOfSamples; i++){
+        audio[i] = buffer.getSample(0, i);
+    }
     // Normalize the audio
     float absmax = 0;
     for (size_t i = 0; i < audioNumOfSamples; ++i)
@@ -35,7 +39,7 @@ void onsetDetection::makeNoveltyFunction(float audio[], int audioNumOfSamples) {
     // Allocate array for FFT data
     int fftSize = forwardFFT.getSize();
     int numOfFFTs = ceil(audioNumOfSamples/(hopLength));
-    std::vector<std::vector<float>> fftData;
+    std::vector<std::vector<float>> fftData(numOfFFTs);
        
     for(int i = 0; i < numOfFFTs; i++) {
         std::vector<float> audioData(fftSize*2);
@@ -100,9 +104,10 @@ void onsetDetection::makeNoveltyFunction(float audio[], int audioNumOfSamples) {
     {
         RMS[i] = RMS[i] / absmax_nov;
     }
-
-    
-    
+    noveltyFunction.resize(RMS.size());
+    for (int i = 0; i < RMS.size(); i++){
+        noveltyFunction[i] = RMS[i];
+    }
     
 }
 
@@ -144,4 +149,29 @@ void onsetDetection::convertIndiciesToTime(std::vector<int>peaksInIndicies){
         peaksInSeconds[i] = peaksInIndicies[i] * hopLength / Audio.mSampleRate;
     }
 }
+
+void onsetDetection::testSegmentation(){
+    juce::File myFile;
+
+    auto parentDir = juce::File::getSpecialLocation(juce::File::userDocumentsDirectory);
+
+    myFile = parentDir.getChildFile("Test_Segmentation.csv");
+    myFile.deleteFile();
+
+    juce::FileOutputStream output2(myFile);
+    output2.writeString("Novelty Function\n");
+    //Output npvelty fucntion to CSV
+    for (auto sample = 0; sample < noveltyFunction.size(); ++sample)
+    {
+        juce::String dataString1 = (juce::String) noveltyFunction[sample];
+        output2.writeString(dataString1);
+
+        output2.writeString("\n");
+    }
+    output2.flush();
+    myFile.~File();
+    DBG("Done writing");
+}
+
+    
 

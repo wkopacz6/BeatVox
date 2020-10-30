@@ -2,6 +2,7 @@
 
 #include <JuceHeader.h>
 #include "recordAudio.h"
+#include "onsetDetection.h"
 
 
 
@@ -56,6 +57,7 @@ private:
     void ioSetup();
     
     recordAudio recorder;
+    onsetDetection segments;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };

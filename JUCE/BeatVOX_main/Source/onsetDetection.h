@@ -21,15 +21,19 @@ public:
     onsetDetection();
     ~onsetDetection();
     
-    void makeNoveltyFunction(float audio[], int audioNumOfSamples);
+    void makeNoveltyFunction(juce::AudioBuffer<float>buffer, int audioNumOfSamples);
     void pickPeaks(std::vector<float>noveltyFunction);
     void convertIndiciesToTime(std::vector<int>peaksInIndicies);
-    
+    void testSegmentation();
+
 private:
     
+    std::vector<float>noveltyFunction;
+    std::vector<int>peaks;
+    std::vector<float>peaksInSeconds;
     juce::dsp::FFT forwardFFT; // FFT object to perform forward fft on
     recordAudio Audio;
-
+    
         
     
 };
