@@ -33,7 +33,7 @@ recordAudio::recordAudio()
 
 recordAudio::~recordAudio()
 {
-    bufferRecordedAudio.clear();
+    bufferRecordedAudio.setSize(0,0);
     bufferMidi.clear();
 
     shutdownAudio();
