@@ -15,9 +15,11 @@ recordAudio::recordAudio()
 {
     setAudioChannels(1, 2);
 
+    //inherited JUCE class that handles changing/initializing audio devices
     audioSetupComp.reset(new juce::AudioDeviceSelectorComponent(deviceManager, 1, 1, 2, 2, false, true, false, true));
     audioSetupComp->setSize(600, 400);
 
+    //Checks if audio devices are configured correctly on startup
     auto* device = deviceManager.getCurrentAudioDevice();
     if (device == nullptr)
     {
@@ -50,7 +52,7 @@ void recordAudio::getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferTo
         if ((startSample + mBufferSize) >= bufferRecordedAudio.getNumSamples())
         {
             auto remainder = bufferRecordedAudio.getNumSamples() - startSample;
-           
+            
             auto* readerInput  = bufferToFill.buffer->getReadPointer(0);
             auto* writerRecord = bufferRecordedAudio .getWritePointer(0, startSample);
 
@@ -59,7 +61,7 @@ void recordAudio::getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferTo
                     writerRecord[sample] = readerInput[sample];
                 }
             
-            startSample += mBufferSize;
+            startSample += remainder;
             stopRecording();
         }
         else
@@ -82,8 +84,6 @@ void recordAudio::getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferTo
     {
         bufferToFill.clearActiveBufferRegion();
     }
-
-
 }
 
 void recordAudio::prepareToPlay(int samplesPerBlockExpected, double sampleRate)
@@ -96,7 +96,7 @@ void recordAudio::prepareToPlay(int samplesPerBlockExpected, double sampleRate)
     auto activeOutputChannels = device->getActiveOutputChannels();
     numOutputChannels = activeOutputChannels.getHighestBit() + 1;
 
-
+    //Ensures selected audio device has 1 input and 2 outputs
     if ((device == nullptr) || (numInputChannels == 0) || (numOutputChannels != 2))
     {
         errored = true;
@@ -133,6 +133,8 @@ void recordAudio::startRecording()
 void recordAudio::stopRecording()
 {
     isRecording = false;
+
+    //Changes length of buffer after recording has stopped.  Only makes a difference if recording was stopped prematurely
     bufferRecordedAudio.setSize(numInputChannels, startSample, true, true, false);
 }
 
@@ -143,7 +145,6 @@ void recordAudio::resetRecording()
     metronome.reset();
 
     createAudioBuffer(mBar, mBpm);
-
 }
 
 void recordAudio::createAudioBuffer(int numBar, double bpm)

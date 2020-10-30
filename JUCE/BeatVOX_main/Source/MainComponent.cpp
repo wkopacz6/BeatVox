@@ -6,6 +6,7 @@ MainComponent::MainComponent()
 {
     setOpaque(true);
 
+    //initalizies openable window that allows user to configure audio devices and midi output
     menuAudioSetup.reset(new juce::DialogWindow("Settings", juce::Colours::black, true, true));
 
     //initialize bar slider and bpm slider
@@ -31,7 +32,6 @@ MainComponent::MainComponent()
 
     //initialize all buttons and sliders with lambdas
     //set value change detected from sliders
-    
     barCount.onValueChange = [this]() { sendBufferVals(); };
     newBpm.onValueChange = [this]() { sendBufferVals(); };
     
@@ -75,6 +75,7 @@ MainComponent::MainComponent()
     buttonPlayMidi.setEnabled(false);
     buttonPlayMidi.onClick = [this]() { buttonPlayMidiPressed(); };
 
+    //Checks if audio devices are properly configured on startup
     if (recorder.errored)
     {
         error();
@@ -87,14 +88,13 @@ MainComponent::MainComponent()
         sendBufferVals();
     }
 
+    //When user changes audio devices, the changeListenerCallback function is called
     recorder.deviceManager.addChangeListener(this);
 
     setSize(450, 430);
 
 
 }
-
-
 
 MainComponent::~MainComponent()
 {
@@ -126,8 +126,6 @@ void MainComponent::resized()
     audioSetupButton.setBounds(360, 15, getWidth() /  8, 20);
 }
 
-
-
 void MainComponent::start()
 {
    
@@ -144,7 +142,6 @@ void MainComponent::start()
     newBpm      .setEnabled(false);
     buttonMet   .setEnabled(false);
 
-    
 }
 
 void MainComponent::reset()
@@ -186,6 +183,7 @@ void MainComponent::dumpDataToCSV()
     segments.testSegmentation();
 }
 
+//graphically informs the user that recording has finished
 void MainComponent::done()
 {
     stopTimer();
@@ -220,8 +218,6 @@ void MainComponent::metPressed()
 
 void MainComponent::buttonAnalyzePressed()
 {
-    
-    
     juce::Array<int> onsetArray =    {0, 22050, 44100, 66150, 88200, 132300, 154350};
     juce::Array<int> drumArray =     {36, 48, 38, 48, 36, 38, 38 };
     juce::Array<int> velocityArray = {100,100,100,100,100,100,100 };
@@ -240,6 +236,7 @@ void MainComponent::ioSetup()
     menuAudioSetup->showDialog("Settings", recorder.audioSetupComp.get(), this, juce::Colours::black, true, false, false);
 }
 
+//If there is an audio device error, the user cannot perform any functions until they reconfigure their devices in settings
 void MainComponent::error()
 {
     buttonRecord  .setEnabled(false);
@@ -250,6 +247,7 @@ void MainComponent::error()
     buttonPlayMidi.setEnabled(false); 
 }
 
+//Periodically checks if recoreAudio class is still in a recording state
 void MainComponent::timerCallback()
 {
     if (!recorder.isRecording)
@@ -258,6 +256,7 @@ void MainComponent::timerCallback()
     }
 }
 
+//Handles when user changes audio devices anytime after startup
 void MainComponent::changeListenerCallback(juce::ChangeBroadcaster* source)
 {
     if (recorder.errored)

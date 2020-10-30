@@ -11,6 +11,7 @@
 #include "Metronome.h"
 Metronome::Metronome()
 {
+    //This block of code finds the metronome wav file
     mFormatManager.registerBasicFormats();
 
     juce::File myFile{ juce::File::getSpecialLocation(juce::File::SpecialLocationType::userDesktopDirectory) };
@@ -44,6 +45,7 @@ void Metronome::getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFi
   
     if (onMet)
     {
+        //Makes a click when record button is pressed
         if (mTotalSamples == 0)
         {
             pMet->setNextReadPosition(0);
@@ -54,18 +56,14 @@ void Metronome::getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFi
 
         auto mSamplesToGo = mTotalSamples % mSampleInterval;
 
-        //prepares for incoming click
+        //Enters loop only if click is supposed to occur within this audio block
         if (((mSamplesToGo + bufferSize) >= mSampleInterval))
         {
-            //finds exact number of samples remaining until click should occur
-            auto timeToStartClick = mSampleInterval - mSamplesToGo - 1;
-
-            
             pMet->setNextReadPosition(0);
-            //counts samples once it detects impending click and determines sample for click
+
+            auto timeToStartClick = mSampleInterval - mSamplesToGo - 1;
             for (auto sample = 0; sample < bufferSize; sample++)
             {
-                //chooses sample to play click at
                 if (sample == timeToStartClick)
                 {
                     pMet->getNextAudioBlock(bufferToFill);
@@ -73,6 +71,7 @@ void Metronome::getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFi
             }
 
         }
+
         mTotalSamples += bufferSize;
 
     }
