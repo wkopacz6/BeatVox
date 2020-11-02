@@ -81,9 +81,10 @@ void onsetDetection::makeNoveltyFunction(juce::AudioBuffer<float>buffer, int aud
     }
     
     // RMS
-    std::vector<float>mean(flux[0].size(), 0);
-    std::vector<float> sum(flux[0].size(), 0);
+    std::vector<float>mean(flux.size(), 0);
+    
     for(int i = 0; i < flux.size(); i++){
+        std::vector<float> sum(flux[i].size(), 0);
         for(int j = 0; j < flux[i].size(); j++){
             sum[i] = sum[i] + flux[i][j];
         }
@@ -91,7 +92,7 @@ void onsetDetection::makeNoveltyFunction(juce::AudioBuffer<float>buffer, int aud
     }
     
     std::vector<float>RMS(mean.size(), 0);
-    for(int i = 0; i < sum.size(); i++){
+    for(int i = 0; i < mean.size(); i++){
         RMS[i] = sqrt(mean[i]);
     }
     // Normalize novelty function
@@ -104,10 +105,7 @@ void onsetDetection::makeNoveltyFunction(juce::AudioBuffer<float>buffer, int aud
     {
         RMS[i] = RMS[i] / absmax_nov;
     }
-    noveltyFunction.resize(RMS.size());
-    for (int i = 0; i < RMS.size(); i++){
-        noveltyFunction[i] = RMS[i];
-    }
+    noveltyFunction = RMS;
     
 }
 

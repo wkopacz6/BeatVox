@@ -94,24 +94,8 @@
             filePath = "../../Source/onsetDetection.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "103"
-            endingLineNumber = "103"
-            landmarkName = "onsetDetection::makeNoveltyFunction(buffer, audioNumOfSamples)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "ED5D2B8D-9261-46B6-9C66-1322C56D7C2C"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../Source/onsetDetection.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "108"
-            endingLineNumber = "108"
+            startingLineNumber = "104"
+            endingLineNumber = "104"
             landmarkName = "onsetDetection::makeNoveltyFunction(buffer, audioNumOfSamples)"
             landmarkType = "7">
          </BreakpointContent>
@@ -190,13 +174,13 @@
             filePath = "../../Source/onsetDetection.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "112"
-            endingLineNumber = "112"
+            startingLineNumber = "110"
+            endingLineNumber = "110"
             landmarkName = "onsetDetection::makeNoveltyFunction(buffer, audioNumOfSamples)"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "037D9AA1-83B9-4467-8AF8-AF624B47475D - f8ca84382db0a7de"
+                  uuid = "037D9AA1-83B9-4467-8AF8-AF624B47475D - f8ca84382db0a71c"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -206,12 +190,12 @@
                   urlString = "file:///Users/walterkopacz/Documents/GitHub/BeatVox/JUCE/BeatVOX_main/Source/onsetDetection.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "112"
-                  endingLineNumber = "112"
+                  startingLineNumber = "110"
+                  endingLineNumber = "110"
                   offsetFromSymbolStart = "267">
                </Location>
                <Location
-                  uuid = "037D9AA1-83B9-4467-8AF8-AF624B47475D - f8ca84382db0a7de"
+                  uuid = "037D9AA1-83B9-4467-8AF8-AF624B47475D - f8ca84382db0a71c"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -221,12 +205,12 @@
                   urlString = "file:///Users/walterkopacz/Documents/GitHub/BeatVox/JUCE/BeatVOX_main/Source/onsetDetection.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "112"
-                  endingLineNumber = "112"
+                  startingLineNumber = "110"
+                  endingLineNumber = "110"
                   offsetFromSymbolStart = "632">
                </Location>
                <Location
-                  uuid = "037D9AA1-83B9-4467-8AF8-AF624B47475D - f8ca84382db0a7de"
+                  uuid = "037D9AA1-83B9-4467-8AF8-AF624B47475D - f8ca84382db0a71c"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -236,12 +220,12 @@
                   urlString = "file:///Users/walterkopacz/Documents/GitHub/BeatVox/JUCE/BeatVOX_main/Source/onsetDetection.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "112"
-                  endingLineNumber = "112"
+                  startingLineNumber = "110"
+                  endingLineNumber = "110"
                   offsetFromSymbolStart = "1122">
                </Location>
                <Location
-                  uuid = "037D9AA1-83B9-4467-8AF8-AF624B47475D - f8ca84382db0a7de"
+                  uuid = "037D9AA1-83B9-4467-8AF8-AF624B47475D - f8ca84382db0a71c"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -251,12 +235,12 @@
                   urlString = "file:///Users/walterkopacz/Documents/GitHub/BeatVox/JUCE/BeatVOX_main/Source/onsetDetection.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "112"
-                  endingLineNumber = "112"
-                  offsetFromSymbolStart = "2078">
+                  startingLineNumber = "110"
+                  endingLineNumber = "110"
+                  offsetFromSymbolStart = "2081">
                </Location>
                <Location
-                  uuid = "037D9AA1-83B9-4467-8AF8-AF624B47475D - f8ca84382db0a7de"
+                  uuid = "037D9AA1-83B9-4467-8AF8-AF624B47475D - f8ca84382db0a71c"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -266,9 +250,24 @@
                   urlString = "file:///Users/walterkopacz/Documents/GitHub/BeatVox/JUCE/BeatVOX_main/Source/onsetDetection.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "112"
-                  endingLineNumber = "112"
-                  offsetFromSymbolStart = "2673">
+                  startingLineNumber = "110"
+                  endingLineNumber = "110"
+                  offsetFromSymbolStart = "2676">
+               </Location>
+               <Location
+                  uuid = "037D9AA1-83B9-4467-8AF8-AF624B47475D - f8ca84382db0a71c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "onsetDetection::makeNoveltyFunction(juce::AudioBuffer&lt;float&gt;, int)"
+                  moduleName = "RecorderAttempt_2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/walterkopacz/Documents/GitHub/BeatVox/JUCE/BeatVOX_main/Source/onsetDetection.cpp"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "110"
+                  endingLineNumber = "110"
+                  offsetFromSymbolStart = "2683">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -283,8 +282,8 @@
             filePath = "../../Source/onsetDetection.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "111"
-            endingLineNumber = "111"
+            startingLineNumber = "109"
+            endingLineNumber = "109"
             landmarkName = "onsetDetection::makeNoveltyFunction(buffer, audioNumOfSamples)"
             landmarkType = "7">
             <Locations>
@@ -350,99 +349,6 @@
                </Location>
                <Location
                   uuid = "D654256D-C9D2-4A81-AF02-0BA866DC4C4A - f8ca84382db0a7de"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "onsetDetection::makeNoveltyFunction(juce::AudioBuffer&lt;float&gt;, int)"
-                  moduleName = "RecorderAttempt_2"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/walterkopacz/Documents/GitHub/BeatVox/JUCE/BeatVOX_main/Source/onsetDetection.cpp"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "112"
-                  endingLineNumber = "112"
-                  offsetFromSymbolStart = "2673">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "15DC13D1-A98C-4CD0-87BB-5F4B884F5548"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../Source/onsetDetection.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "110"
-            endingLineNumber = "110"
-            landmarkName = "onsetDetection::makeNoveltyFunction(buffer, audioNumOfSamples)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "15DC13D1-A98C-4CD0-87BB-5F4B884F5548 - f8ca84382db0a7de"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "onsetDetection::makeNoveltyFunction(juce::AudioBuffer&lt;float&gt;, int)"
-                  moduleName = "RecorderAttempt_2"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/walterkopacz/Documents/GitHub/BeatVox/JUCE/BeatVOX_main/Source/onsetDetection.cpp"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "112"
-                  endingLineNumber = "112"
-                  offsetFromSymbolStart = "267">
-               </Location>
-               <Location
-                  uuid = "15DC13D1-A98C-4CD0-87BB-5F4B884F5548 - f8ca84382db0a7de"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "onsetDetection::makeNoveltyFunction(juce::AudioBuffer&lt;float&gt;, int)"
-                  moduleName = "RecorderAttempt_2"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/walterkopacz/Documents/GitHub/BeatVox/JUCE/BeatVOX_main/Source/onsetDetection.cpp"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "112"
-                  endingLineNumber = "112"
-                  offsetFromSymbolStart = "632">
-               </Location>
-               <Location
-                  uuid = "15DC13D1-A98C-4CD0-87BB-5F4B884F5548 - f8ca84382db0a7de"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "onsetDetection::makeNoveltyFunction(juce::AudioBuffer&lt;float&gt;, int)"
-                  moduleName = "RecorderAttempt_2"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/walterkopacz/Documents/GitHub/BeatVox/JUCE/BeatVOX_main/Source/onsetDetection.cpp"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "112"
-                  endingLineNumber = "112"
-                  offsetFromSymbolStart = "1122">
-               </Location>
-               <Location
-                  uuid = "15DC13D1-A98C-4CD0-87BB-5F4B884F5548 - f8ca84382db0a7de"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "onsetDetection::makeNoveltyFunction(juce::AudioBuffer&lt;float&gt;, int)"
-                  moduleName = "RecorderAttempt_2"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/walterkopacz/Documents/GitHub/BeatVox/JUCE/BeatVOX_main/Source/onsetDetection.cpp"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "112"
-                  endingLineNumber = "112"
-                  offsetFromSymbolStart = "2078">
-               </Location>
-               <Location
-                  uuid = "15DC13D1-A98C-4CD0-87BB-5F4B884F5548 - f8ca84382db0a7de"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
