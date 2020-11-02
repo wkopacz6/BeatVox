@@ -180,6 +180,8 @@ void MainComponent::dumpDataToCSV()
 {
     recorder.tester();
     segments.makeNoveltyFunction(recorder.bufferRecordedAudio, recorder.bufferRecordedAudio.getNumSamples());
+    segments.pickPeaks(segments.noveltyFunction);
+    segments.convertIndiciesToTime(segments.peaks);
     segments.testSegmentation();
 }
 

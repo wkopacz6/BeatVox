@@ -133,21 +133,19 @@ void onsetDetection::pickPeaks(std::vector<float>noveltyFunction) {
         adaptiveThreshold[i-2] = currentBlock[2];
     }
     //pick the peaks
-    std::vector<int>peaks;
     for(int i = 1; i < noveltyFunction.size(); i++){
         if (noveltyFunction[i-1] < noveltyFunction[i] &&
             noveltyFunction[i+1] < noveltyFunction[i] &&
             noveltyFunction[i] > adaptiveThreshold[i]){
-            peaks.push_back(noveltyFunction[i]);
+            peaks.push_back(i);
             i = i+3;
             
         }
     }
 }
 void onsetDetection::convertIndiciesToTime(std::vector<int>peaksInIndicies){
-    std::vector<float>peaksInSeconds(peaksInIndicies.size(), 0);
     for (int i = 0; i < peaksInIndicies.size(); i++){
-        peaksInSeconds[i] = peaksInIndicies[i] * hopLength / Audio.mSampleRate;
+        peaksInSeconds.push_back(peaksInIndicies[i] * hopLength / Audio.mSampleRate);
     }
 }
 
@@ -166,6 +164,14 @@ void onsetDetection::testSegmentation(){
     {
         juce::String dataString1 = (juce::String) noveltyFunction[sample];
         output2.writeString(dataString1);
+        if (sample <= peaks.size()){
+            juce::String dataString2 = (juce::String) peaks[sample];
+            juce::String dataString3 = (juce::String) peaksInSeconds[sample];
+            output2.writeString(",");
+            output2.writeString(dataString2);
+            output2.writeString(",");
+            output2.writeString(dataString3);
+        }
 
         output2.writeString("\n");
     }

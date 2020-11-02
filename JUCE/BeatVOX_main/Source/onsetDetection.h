@@ -25,12 +25,15 @@ public:
     void pickPeaks(std::vector<float>noveltyFunction);
     void convertIndiciesToTime(std::vector<int>peaksInIndicies);
     void testSegmentation();
-
-private:
     
     std::vector<float>noveltyFunction;
     std::vector<int>peaks;
     std::vector<float>peaksInSeconds;
+    
+
+private:
+    
+   
     juce::dsp::FFT forwardFFT; // FFT object to perform forward fft on
     recordAudio Audio;
     
