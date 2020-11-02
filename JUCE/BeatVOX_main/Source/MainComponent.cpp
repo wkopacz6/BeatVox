@@ -249,7 +249,7 @@ void MainComponent::error()
     buttonPlayMidi.setEnabled(false); 
 }
 
-//Periodically checks if recoreAudio class is still in a recording state
+//Periodically checks if recordAudio class is still in a recording state
 void MainComponent::timerCallback()
 {
     if (!recorder.isRecording)

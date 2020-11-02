@@ -39,13 +39,12 @@ public:
 
 private:
     
-    double mBpm { 120.0 };
-    
-    int mBar { 4 };
-    int startSample{ 0 };
-    int numInputChannels{ 1 };
+    double mBpm          { 120.0 };
+    int mBar             { 4 };
+    int startSample      { 0 };
+    int numInputChannels { 1 };
     int numOutputChannels{ 2 };
-    int mBufferSize{ 0 };
+    int mBufferSize      { 0 };
 
     juce::MidiBuffer bufferMidi;
     juce::MidiOutput* midiOutput{ nullptr };

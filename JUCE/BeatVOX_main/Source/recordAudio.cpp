@@ -44,11 +44,12 @@ recordAudio::~recordAudio()
 void recordAudio::getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill)
 {
 
-    if ((isRecording) && (numInputChannels != 0))
+    if (isRecording)
     {
 
         mBufferSize = bufferToFill.numSamples;
 
+        //Enters this block if the number of samples left to record is less than the buffer length
         if ((startSample + mBufferSize) >= bufferRecordedAudio.getNumSamples())
         {
             auto remainder = bufferRecordedAudio.getNumSamples() - startSample;
@@ -64,6 +65,7 @@ void recordAudio::getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferTo
             startSample += remainder;
             stopRecording();
         }
+        //Enters this block if the entire buffer will be recorded
         else
         {
             auto* readerInput = bufferToFill.buffer->getReadPointer(0);
@@ -76,6 +78,7 @@ void recordAudio::getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferTo
             
             startSample += mBufferSize;
         }
+
         bufferToFill.buffer->clear(0, mBufferSize);
         metronome.getNextAudioBlock(bufferToFill);
         
@@ -113,6 +116,7 @@ void recordAudio::prepareToPlay(int samplesPerBlockExpected, double sampleRate)
         createAudioBuffer(mBar, mBpm);
     }
 
+    //Initializes Midi Output
     midiOutput = deviceManager.getDefaultMidiOutput();
     if (midiOutput != nullptr)
         midiOutput->startBackgroundThread();
@@ -167,6 +171,8 @@ void recordAudio::fillMidiBuffer(juce::Array<int> onsetArray, juce::Array<int> d
 {
     bufferMidi.clear();
     bufferMidi.ensureSize(onsetArray.size());
+
+    //creates Midi notes for each onset and adds them into a Midi buffer
     for (auto i = 0; i < onsetArray.size(); ++i)
     {
         auto message = juce::MidiMessage::noteOn(1, drumArray[i], (juce::uint8) 100);

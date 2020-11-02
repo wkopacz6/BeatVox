@@ -7,20 +7,15 @@
 
 
 class MainComponent : public juce::Component,
-    public juce::Timer, public juce::ChangeListener
+                      public juce::Timer, 
+                      public juce::ChangeListener
 {
 public:
-    //==============================================================================
+
     MainComponent();
     ~MainComponent() override;
-
     void paint(juce::Graphics& g) override;
     void resized() override;
-    
-    void metPressed();
-    void done();
-    void error();
-
     void timerCallback();
     void changeListenerCallback(juce::ChangeBroadcaster* source) override;
 
@@ -39,11 +34,9 @@ private:
 
     juce::TextEditor errorBox;
 
-    //number of bars for user to record
     juce::Slider barCount;
     juce::Label numberOfBarsLabel;
     
-    //bpm slider
     juce::Slider newBpm;
     juce::Label newBpmLabel;
 
@@ -51,6 +44,9 @@ private:
     void reset();
     void stop();
     void sendBufferVals();
+    void metPressed();
+    void done();
+    void error();
     void dumpDataToCSV();
     void buttonAnalyzePressed();
     void buttonPlayMidiPressed();

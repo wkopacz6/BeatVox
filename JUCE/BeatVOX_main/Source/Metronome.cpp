@@ -36,6 +36,7 @@ void Metronome::prepareToPlay(int samplesPerBlockExpected, double sampleRate)
 
     if (pMet != nullptr)
     {
+        //Initializes metronome wav file for use
         pMet->prepareToPlay(samplesPerBlockExpected, sampleRate);
     }
 }
@@ -45,7 +46,7 @@ void Metronome::getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFi
   
     if (onMet)
     {
-        //Makes a click when record button is pressed
+        //Makes a click when record button is first pressed
         if (mTotalSamples == 0)
         {
             pMet->setNextReadPosition(0);
@@ -56,7 +57,7 @@ void Metronome::getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFi
 
         auto mSamplesToGo = mTotalSamples % mSampleInterval;
 
-        //Enters loop only if click is supposed to occur within this audio block
+        //Enters loop only if click is supposed to occur within this audio buffer block
         if (((mSamplesToGo + bufferSize) >= mSampleInterval))
         {
             pMet->setNextReadPosition(0);
