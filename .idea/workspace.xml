@@ -2,51 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="763f2f80-24bc-451b-90e1-b0b4bebeefa4" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/JUCE/BeatVOX_main/Builds/MacOSX/Info-App.plist" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JUCE/BeatVOX_main/Builds/MacOSX/RecentFilesMenuTemplate.nib" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JUCE/BeatVOX_main/Builds/MacOSX/RecorderAttempt_2.xcodeproj/project.pbxproj" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JUCE/BeatVOX_main/Builds/MacOSX/RecorderAttempt_2.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JUCE/BeatVOX_main/Builds/MacOSX/RecorderAttempt_2.xcodeproj/project.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JUCE/BeatVOX_main/Builds/MacOSX/RecorderAttempt_2.xcodeproj/project.xcworkspace/xcuserdata/walterkopacz.xcuserdatad/UserInterfaceState.xcuserstate" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JUCE/BeatVOX_main/Builds/MacOSX/RecorderAttempt_2.xcodeproj/xcuserdata/walterkopacz.xcuserdatad/xcschemes/xcschememanagement.plist" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JUCE/BeatVOX_main/Builds/MacOSX/build/Debug/RecorderAttempt_2.app/Contents/Info.plist" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JUCE/BeatVOX_main/Builds/MacOSX/build/Debug/RecorderAttempt_2.app/Contents/MacOS/RecorderAttempt_2" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JUCE/BeatVOX_main/Builds/MacOSX/build/Debug/RecorderAttempt_2.app/Contents/PkgInfo" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JUCE/BeatVOX_main/Builds/MacOSX/build/Debug/RecorderAttempt_2.app/Contents/Resources/RecentFilesMenuTemplate.nib" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JUCE/BeatVOX_main/Builds/VisualStudio2019/RecorderAttempt_2.sln" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JUCE/BeatVOX_main/Builds/VisualStudio2019/RecorderAttempt_2_App.vcxproj" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JUCE/BeatVOX_main/Builds/VisualStudio2019/RecorderAttempt_2_App.vcxproj.filters" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JUCE/BeatVOX_main/Builds/VisualStudio2019/resources.rc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JUCE/BeatVOX_main/JuceLibraryCode/JuceHeader.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JUCE/BeatVOX_main/JuceLibraryCode/ReadMe.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JUCE/BeatVOX_main/JuceLibraryCode/include_juce_audio_basics.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JUCE/BeatVOX_main/JuceLibraryCode/include_juce_audio_basics.mm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JUCE/BeatVOX_main/JuceLibraryCode/include_juce_audio_devices.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JUCE/BeatVOX_main/JuceLibraryCode/include_juce_audio_devices.mm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JUCE/BeatVOX_main/JuceLibraryCode/include_juce_audio_formats.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JUCE/BeatVOX_main/JuceLibraryCode/include_juce_audio_formats.mm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JUCE/BeatVOX_main/JuceLibraryCode/include_juce_audio_processors.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JUCE/BeatVOX_main/JuceLibraryCode/include_juce_audio_processors.mm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JUCE/BeatVOX_main/JuceLibraryCode/include_juce_audio_utils.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JUCE/BeatVOX_main/JuceLibraryCode/include_juce_audio_utils.mm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JUCE/BeatVOX_main/JuceLibraryCode/include_juce_core.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JUCE/BeatVOX_main/JuceLibraryCode/include_juce_core.mm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JUCE/BeatVOX_main/JuceLibraryCode/include_juce_data_structures.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JUCE/BeatVOX_main/JuceLibraryCode/include_juce_data_structures.mm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JUCE/BeatVOX_main/JuceLibraryCode/include_juce_dsp.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JUCE/BeatVOX_main/JuceLibraryCode/include_juce_dsp.mm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JUCE/BeatVOX_main/JuceLibraryCode/include_juce_events.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JUCE/BeatVOX_main/JuceLibraryCode/include_juce_events.mm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JUCE/BeatVOX_main/JuceLibraryCode/include_juce_graphics.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JUCE/BeatVOX_main/JuceLibraryCode/include_juce_graphics.mm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JUCE/BeatVOX_main/JuceLibraryCode/include_juce_gui_basics.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JUCE/BeatVOX_main/JuceLibraryCode/include_juce_gui_basics.mm" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JUCE/BeatVOX_main/JuceLibraryCode/include_juce_gui_extra.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JUCE/BeatVOX_main/JuceLibraryCode/include_juce_gui_extra.mm" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JUCE/BeatVOX_main/Source/onsetDetection.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/JUCE/BeatVOX_main/Source/onsetDetection.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JUCE/BeatVOX_main/Source/onsetDetection.h" beforeDir="false" afterPath="$PROJECT_DIR$/JUCE/BeatVOX_main/Source/onsetDetection.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JUCE/BeatVOX_main/Source/recordAudio.h" beforeDir="false" afterPath="$PROJECT_DIR$/JUCE/BeatVOX_main/Source/recordAudio.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JUCE/BeatVOX_main/Builds/MacOSX/RecorderAttempt_2.xcodeproj/project.xcworkspace/xcuserdata/walterkopacz.xcuserdatad/UserInterfaceState.xcuserstate" beforeDir="false" afterPath="$PROJECT_DIR$/JUCE/BeatVOX_main/Builds/MacOSX/RecorderAttempt_2.xcodeproj/project.xcworkspace/xcuserdata/walterkopacz.xcuserdatad/UserInterfaceState.xcuserstate" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />

@@ -20,8 +20,11 @@ onsetDetection:: ~onsetDetection() {
 }
 
 void onsetDetection::makeNoveltyFunction(juce::AudioBuffer<float>buffer, int audioNumOfSamples) {
+    
+    //zero pad
+    int numberOfZeros = audioNumOfSamples%(fftSize*2);
     // turn buffer into vector
-    std::vector<float>audio(audioNumOfSamples, 0);
+    std::vector<float>audio(audioNumOfSamples+numberOfZeros, 0);
     for(int i = 0; i < audioNumOfSamples; i++){
         audio[i] = buffer.getSample(0, i);
     }
