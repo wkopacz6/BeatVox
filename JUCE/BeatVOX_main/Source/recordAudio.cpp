@@ -124,9 +124,7 @@ void recordAudio::prepareToPlay(int samplesPerBlockExpected, double sampleRate)
 }
 
 void recordAudio::releaseResources()
-{
-
-}
+{}
 
 
 void recordAudio::startRecording()
@@ -137,6 +135,7 @@ void recordAudio::startRecording()
 void recordAudio::stopRecording()
 {
     isRecording = false;
+    sendActionMessage("Done Recording");
 
     //Changes length of buffer after recording has stopped.  Only makes a difference if recording was stopped prematurely
     bufferRecordedAudio.setSize(numInputChannels, startSample, true, true, false);
@@ -181,13 +180,19 @@ void recordAudio::fillMidiBuffer(juce::Array<int> onsetArray, juce::Array<int> d
         auto messageOff = juce::MidiMessage::noteOff(message.getChannel(), message.getNoteNumber());
         bufferMidi.addEvent(messageOff, onsetArray[i] + 5000);
     }
-
+    sendActionMessage("Done Analyzing");
 }
 
 
 void recordAudio::outputMidi()
 {
+    midiOutput->clearAllPendingMessages();
     midiOutput->sendBlockOfMessages(bufferMidi, juce::Time::getMillisecondCounter(), mSampleRate);
+}
+
+void recordAudio::stopOutputMidi()
+{
+    midiOutput->clearAllPendingMessages();
 }
 
 

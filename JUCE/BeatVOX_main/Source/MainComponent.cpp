@@ -75,6 +75,10 @@ MainComponent::MainComponent()
     buttonPlayMidi.setEnabled(false);
     buttonPlayMidi.onClick = [this]() { buttonPlayMidiPressed(); };
 
+    addAndMakeVisible(buttonStopMidi);
+    buttonStopMidi.setEnabled(false);
+    buttonStopMidi.onClick = [this]() { recorder.stopOutputMidi(); };
+
     //Checks if audio devices are properly configured on startup
     if (recorder.errored)
     {
@@ -84,12 +88,24 @@ MainComponent::MainComponent()
     else
     {
         reset();
-        errorBox.setText("Audio Devices Successfully configured");
+        errorBox.setText("All Devices Successfully configured");
         sendBufferVals();
+
+        if (recorder.deviceManager.getDefaultMidiOutput() != nullptr)
+        {
+            buttonPlayMidi.setButtonText("Play");
+        }
+        else
+        {
+            buttonPlayMidi.setButtonText("<Set Midi Output>");
+            errorBox.setText("Audio Devices Configured -- Please Set Midi Output");
+            error();
+        }
     }
 
     //When user changes audio devices, the changeListenerCallback function is called
     recorder.deviceManager.addChangeListener(this);
+    recorder.addActionListener(this);
 
     setSize(450, 430);
 
@@ -99,9 +115,9 @@ MainComponent::MainComponent()
 MainComponent::~MainComponent()
 {
     recorder.deviceManager.removeChangeListener(this);
+    recorder.removeActionListener(this);
 }
 
-//==============================================================================
 void MainComponent::paint (juce::Graphics& g)
 {
     g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
@@ -120,9 +136,10 @@ void MainComponent::resized()
     barCount        .setBounds(10, 210, getWidth() - 20, 30);
     newBpm          .setBounds(10, 250, getWidth() - 20, 30);
     buttonMet       .setBounds(10, 290, getWidth() /  4, 30);
+    buttonAnalyze   .setBounds(getWidth()/4, 330, getWidth()/2, 30);
+    buttonPlayMidi  .setBounds(getWidth()/4, 370, getWidth()/4, 20);
+    buttonStopMidi  .setBounds(getWidth()/2, 370, getWidth()/4, 20);
     errorBox        .setBounds(10, 405, getWidth() - 20, 20);
-    buttonAnalyze   .setBounds(getWidth()/4, 330, getWidth() /  2, 30);
-    buttonPlayMidi  .setBounds((getWidth()/4) + 10, 370, (getWidth()/2) - 20, 20);
     audioSetupButton.setBounds(360, 15, getWidth() /  8, 20);
 }
 
@@ -130,7 +147,6 @@ void MainComponent::start()
 {
    
     recorder.startRecording();
-    startTimer(50);
 
     buttonRecord.setButtonText("Recording...");
     buttonRecord.setColour(juce::TextButton::buttonColourId, juce::Colours::red);
@@ -147,10 +163,11 @@ void MainComponent::start()
 void MainComponent::reset()
 {
     recorder.resetRecording();
-    stopTimer();
 
     buttonRecord.setButtonText("Record");
     buttonRecord.setColour(juce::TextButton::buttonColourId, getLookAndFeel().findColour(juce::TextButton::buttonColourId));
+    buttonAnalyze.setButtonText("Analyze");
+    buttonAnalyze.setColour(juce::TextButton::buttonColourId, getLookAndFeel().findColour(juce::TextButton::buttonColourId));
 
     buttonRecord.setEnabled(true);
     buttonReset .setEnabled(false);
@@ -158,13 +175,15 @@ void MainComponent::reset()
     barCount    .setEnabled(true);
     newBpm      .setEnabled(true);
     buttonMet   .setEnabled(true);
+    buttonAnalyze.setEnabled(false);
+    buttonPlayMidi.setEnabled(false);
+    buttonStopMidi.setEnabled(false);
 }
 
 void MainComponent::stop()
 {
     
     recorder.stopRecording();
-    stopTimer();
 
     buttonRecord.setButtonText("Record");
     buttonRecord.setColour(juce::TextButton::buttonColourId, getLookAndFeel().findColour(juce::TextButton::buttonColourId));
@@ -173,6 +192,7 @@ void MainComponent::stop()
     buttonStop  .setEnabled(false);
     buttonReset .setEnabled(true);
     buttonDump  .setEnabled(true);
+    buttonAnalyze.setEnabled(true);
 
 }
 
@@ -188,7 +208,6 @@ void MainComponent::dumpDataToCSV()
 //graphically informs the user that recording has finished
 void MainComponent::done()
 {
-    stopTimer();
 
     buttonRecord.setColour(juce::TextButton::buttonColourId, juce::Colours::green);
     buttonRecord.setButtonText("Done!");
@@ -196,6 +215,7 @@ void MainComponent::done()
     buttonDump .setEnabled(true);
     buttonReset.setEnabled(true);
     buttonStop .setEnabled(false);
+    buttonAnalyze.setEnabled(true);
 }
 
 void MainComponent::sendBufferVals()
@@ -224,7 +244,7 @@ void MainComponent::buttonAnalyzePressed()
     juce::Array<int> drumArray =     {36, 48, 38, 48, 36, 38, 38 };
     juce::Array<int> velocityArray = {100,100,100,100,100,100,100 };
 
-    
+    buttonAnalyze.setEnabled(false);
     recorder.fillMidiBuffer(onsetArray, drumArray, velocityArray);
 }
 
@@ -247,15 +267,7 @@ void MainComponent::error()
     newBpm        .setEnabled(false);
     buttonAnalyze .setEnabled(false);
     buttonPlayMidi.setEnabled(false); 
-}
-
-//Periodically checks if recordAudio class is still in a recording state
-void MainComponent::timerCallback()
-{
-    if (!recorder.isRecording)
-    {
-        done();
-    }
+    buttonStopMidi.setEnabled(false);
 }
 
 //Handles when user changes audio devices anytime after startup
@@ -268,23 +280,38 @@ void MainComponent::changeListenerCallback(juce::ChangeBroadcaster* source)
     }
     else
     {
+        sendBufferVals();
+        reset();
+        errorBox.setText("All Devices Successfully configured");
+
         if (recorder.deviceManager.getDefaultMidiOutput() != nullptr)
         {
-            buttonAnalyze .setEnabled(true);
-            buttonPlayMidi.setEnabled(true);
             buttonPlayMidi.setButtonText("Play");
         }
         else
         {
-            buttonAnalyze .setEnabled(false);
-            buttonPlayMidi.setEnabled(false);
             buttonPlayMidi.setButtonText("<Set Midi Output>");
+            errorBox.setText("Audio Devices Configured -- Please Set Midi Output");
+            error();
         }
-
-        reset();
-        errorBox.setText("Audio Devices Successfully configured");
     }
+}
 
+//This function is called when recording finishes and when algorithm analysis finishes
+void MainComponent::actionListenerCallback(const juce::String& message)
+{
+    if (message == "Done Recording")
+    {
+        done();
+    }
+    else if (message == "Done Analyzing")
+    {
+        buttonAnalyze.setColour(juce::TextButton::buttonColourId, juce::Colours::green);
+        buttonAnalyze.setButtonText("Done!");
+
+        buttonPlayMidi.setEnabled(true);
+        buttonStopMidi.setEnabled(true);
+    }
 }
      
     

@@ -7,8 +7,9 @@
 
 
 class MainComponent : public juce::Component,
-                      public juce::Timer, 
-                      public juce::ChangeListener
+                      public juce::ChangeListener, 
+                      public juce::ActionListener
+                      
 {
 public:
 
@@ -16,8 +17,8 @@ public:
     ~MainComponent() override;
     void paint(juce::Graphics& g) override;
     void resized() override;
-    void timerCallback();
     void changeListenerCallback(juce::ChangeBroadcaster* source) override;
+    void actionListenerCallback(const juce::String& message) override;
 
 private:
     std::unique_ptr<juce::DialogWindow> menuAudioSetup;
@@ -30,6 +31,7 @@ private:
     juce::TextButton buttonMet       { "Metronome Off" };
     juce::TextButton buttonAnalyze   { "Analyze" };
     juce::TextButton buttonPlayMidi  { "<Set MIDI Output>" };
+    juce::TextButton buttonStopMidi  { "Stop" };
     juce::TextButton audioSetupButton{ "Settings" };
 
     juce::TextEditor errorBox;

@@ -12,14 +12,15 @@
 #include "Metronome.h"
 #pragma once
 
-class recordAudio : public juce::AudioAppComponent
+class recordAudio : public juce::AudioAppComponent, 
+                    public juce::ActionBroadcaster
 {
 public:
     recordAudio();
     ~recordAudio();
     void getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill) override;
     void prepareToPlay(int samplesPerBlockExpected, double sampleRate) override;
-    void releaseResources() override;
+    void releaseResources();
 
     void startRecording();
     void stopRecording();
@@ -29,6 +30,7 @@ public:
     void tester();
     void fillMidiBuffer(juce::Array<int> onsetArray, juce::Array<int> drumArray, juce::Array<int> velocityArray);
     void outputMidi();
+    void stopOutputMidi();
 
     bool isRecording{ false };
     bool errored{ false };
