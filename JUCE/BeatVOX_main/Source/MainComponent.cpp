@@ -99,7 +99,9 @@ MainComponent::MainComponent()
         {
             buttonPlayMidi.setButtonText("<Set Midi Output>");
             errorBox.setText("Audio Devices Configured -- Please Set Midi Output");
-            error();
+            buttonPlayMidi.setEnabled(false);
+            buttonStopMidi.setEnabled(false);
+            //error();
         }
     }
 
@@ -292,7 +294,9 @@ void MainComponent::changeListenerCallback(juce::ChangeBroadcaster* source)
         {
             buttonPlayMidi.setButtonText("<Set Midi Output>");
             errorBox.setText("Audio Devices Configured -- Please Set Midi Output");
-            error();
+            buttonPlayMidi.setEnabled(false);
+            buttonStopMidi.setEnabled(false);
+            //error();
         }
     }
 }
@@ -309,8 +313,12 @@ void MainComponent::actionListenerCallback(const juce::String& message)
         buttonAnalyze.setColour(juce::TextButton::buttonColourId, juce::Colours::green);
         buttonAnalyze.setButtonText("Done!");
 
-        buttonPlayMidi.setEnabled(true);
-        buttonStopMidi.setEnabled(true);
+        if (recorder.deviceManager.getDefaultMidiOutput() != nullptr)
+        {
+            buttonPlayMidi.setEnabled(true);
+            buttonStopMidi.setEnabled(true);
+        }
+
     }
 }
      
