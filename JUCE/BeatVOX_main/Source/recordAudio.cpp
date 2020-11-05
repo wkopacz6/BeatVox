@@ -109,13 +109,11 @@ void recordAudio::prepareToPlay(int samplesPerBlockExpected, double sampleRate)
     //Ensures selected audio device has 1 input and 2 outputs
     if ((device == nullptr) || (numInputChannels == 0) || (numOutputChannels != 2))
     {
-       /* errored = true;*/
         sendActionMessage("Device Error");
     }
     else
     {
         sendActionMessage("Device Success");
-        errored = false;
  
         mSampleRate = sampleRate;
         mBufferSize = samplesPerBlockExpected;
@@ -164,14 +162,14 @@ void recordAudio::resetRecording()
     createAudioBuffer(mBar, mBpm);
 }
 
-void recordAudio::createAudioBuffer(int numBar, double bpm)
+void recordAudio::createAudioBuffer(double numBar, double bpm)
 {
     mBar = numBar;
     mBpm = bpm;
     metronome.setBpm(mBpm);
 
     auto samplesToAllocate = mBar * (60.0 / mBpm) * mSampleRate * 4;
-    bufferRecordedAudio.setSize(numInputChannels, samplesToAllocate);
+    bufferRecordedAudio.setSize(numInputChannels, (int)samplesToAllocate);
     bufferRecordedAudio.clear();
 }
 

@@ -23,16 +23,16 @@ Metronome::Metronome()
 
     pMet.reset(new juce::AudioFormatReaderSource(formatReader, true));
 }
-void Metronome::setBpm(int bpm)
+void Metronome::setBpm(double bpm)
 {
     mBpm = bpm;
-    mSampleInterval = (60.0 / mBpm) * mSampleRate;
+    mSampleInterval = int((60.0 / mBpm) * mSampleRate);
 }
 
 void Metronome::prepareToPlay(int samplesPerBlockExpected, double sampleRate)
 {
     mSampleRate = sampleRate;
-    mSampleInterval = (60.0 / mBpm) * mSampleRate;
+    mSampleInterval = int((60.0 / mBpm) * mSampleRate);
 
     if (pMet != nullptr)
     {

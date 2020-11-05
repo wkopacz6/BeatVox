@@ -24,7 +24,7 @@ public:
 
     void startRecording();
     void stopRecording();
-    void createAudioBuffer(int numBars, double bpm);
+    void createAudioBuffer(double numBars, double bpm);
     void resetRecording();
     void metEnabled(bool enable);
     void tester();
@@ -42,7 +42,7 @@ public:
 private:
     
     double mBpm          { 120.0 };
-    int mBar             { 4 };
+    double mBar          { 4.0 };
     int startSample      { 0 };
     int numInputChannels { 1 };
     int numOutputChannels{ 2 };

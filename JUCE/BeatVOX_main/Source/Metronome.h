@@ -17,7 +17,7 @@ public:
     void prepareToPlay(int samplesPerBlockExpected, double sampleRate);
     void getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill);
     void reset();
-    void setBpm(int bpm);
+    void setBpm(double bpm);
 
     bool onMet{ false };
 private:

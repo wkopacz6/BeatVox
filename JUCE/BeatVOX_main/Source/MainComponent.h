@@ -7,7 +7,6 @@
 
 
 class MainComponent : public juce::Component,
-                      public juce::ChangeListener, 
                       public juce::ActionListener
                       
 {
@@ -17,7 +16,6 @@ public:
     ~MainComponent() override;
     void paint(juce::Graphics& g) override;
     void resized() override;
-    void changeListenerCallback(juce::ChangeBroadcaster* source) override;
     void actionListenerCallback(const juce::String& message) override;
 
 private:

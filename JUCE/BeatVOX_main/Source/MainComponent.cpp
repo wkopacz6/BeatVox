@@ -54,7 +54,7 @@ MainComponent::MainComponent()
     addAndMakeVisible(buttonMet);
     buttonMet.setEnabled(true);
     buttonMet.setClickingTogglesState(true);
-    buttonMet.setToggleState(false, true);
+    buttonMet.setToggleState(false, juce::NotificationType::dontSendNotification);
     buttonMet.onClick = [this]() { metPressed(); };
 
     addAndMakeVisible(audioSetupButton);
@@ -96,7 +96,6 @@ MainComponent::MainComponent()
     }
 
     //When user changes audio devices, the changeListenerCallback function is called
-    recorder.deviceManager.addChangeListener(this);
     recorder.addActionListener(this);
 
     setSize(450, 430);
@@ -106,7 +105,6 @@ MainComponent::MainComponent()
 
 MainComponent::~MainComponent()
 {
-    recorder.deviceManager.removeChangeListener(this);
     recorder.removeActionListener(this);
 }
 
@@ -256,38 +254,6 @@ void MainComponent::error()
     buttonMet     .setEnabled(false);
     barCount      .setEnabled(false);
     newBpm        .setEnabled(false);
-    //buttonAnalyze .setEnabled(false);
-    //buttonPlayMidi.setEnabled(false); 
-    //buttonStopMidi.setEnabled(false);
-}
-
-//Handles when user changes audio devices anytime after startup
-void MainComponent::changeListenerCallback(juce::ChangeBroadcaster* source)
-{
-    //if (recorder.errored)
-    //{
-    //    error();
-    //    errorBox.setText("ERROR -- RECONFIGURE AUDIO DEVICES");
-    //}
-    //else
-    //{
-    //    sendBufferVals();
-    //    reset();
-    //    errorBox.setText("All Devices Successfully configured");
-
-    //    if (recorder.deviceManager.getDefaultMidiOutput() != nullptr)
-    //    {
-    //        buttonPlayMidi.setButtonText("Play");
-    //    }
-    //    else
-    //    {
-    //        buttonPlayMidi.setButtonText("<Set Midi Output>");
-    //        errorBox.setText("Audio Devices Configured -- Please Set Midi Output");
-    //        buttonPlayMidi.setEnabled(false);
-    //        buttonStopMidi.setEnabled(false);
-    //        //error();
-    //    }
-    //}
 }
 
 //This function is called when recording finishes and when algorithm analysis finishes
