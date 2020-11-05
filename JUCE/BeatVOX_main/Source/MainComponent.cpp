@@ -59,7 +59,11 @@ MainComponent::MainComponent()
 
     addAndMakeVisible(audioSetupButton);
     audioSetupButton.setEnabled(true);
-    audioSetupButton.onClick = [this]() { ioSetup(); };
+    audioSetupButton.onClick = [this]() 
+    { 
+        stop();
+        ioSetup(); 
+    };
 
     addAndMakeVisible(errorBox);
     errorBox.setReadOnly(true);
@@ -176,18 +180,8 @@ void MainComponent::reset()
 
 void MainComponent::stop()
 {
-    
-    recorder.stopRecording();
-
-    buttonRecord.setButtonText("Record");
-    buttonRecord.setColour(juce::TextButton::buttonColourId, getLookAndFeel().findColour(juce::TextButton::buttonColourId));
-
-    buttonRecord.setEnabled(false);
-    buttonStop  .setEnabled(false);
-    buttonReset .setEnabled(true);
-    buttonDump  .setEnabled(true);
-    buttonAnalyze.setEnabled(true);
-
+    if (recorder.isRecording)
+        recorder.stopRecording();
 }
 
 void MainComponent::dumpDataToCSV()
@@ -209,7 +203,10 @@ void MainComponent::done()
     buttonDump .setEnabled(true);
     buttonReset.setEnabled(true);
     buttonStop .setEnabled(false);
-    buttonAnalyze.setEnabled(true);
+
+    if (!doneAnalyzing)
+        buttonAnalyze.setEnabled(true);
+    
 }
 
 void MainComponent::sendBufferVals()
