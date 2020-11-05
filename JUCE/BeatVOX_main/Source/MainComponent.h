@@ -23,6 +23,9 @@ public:
 private:
     std::unique_ptr<juce::DialogWindow> menuAudioSetup;
     bool metEnable{ false };
+    bool errorState{ false };
+    bool errorMidiState{ true };
+    bool doneAnalyzing{ false };
 
     juce::TextButton buttonRecord    { "Record" };
     juce::TextButton buttonReset     { "Reset" };

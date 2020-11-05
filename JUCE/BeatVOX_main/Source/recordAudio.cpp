@@ -21,7 +21,14 @@ recordAudio::recordAudio()
 
     //Checks if audio devices are configured correctly on startup
     auto* device = deviceManager.getCurrentAudioDevice();
-    if (device == nullptr)
+
+    auto activeInputChannels = device->getActiveInputChannels();
+    numInputChannels = activeInputChannels.getHighestBit() + 1;
+
+    auto activeOutputChannels = device->getActiveOutputChannels();
+    numOutputChannels = activeOutputChannels.getHighestBit() + 1;
+
+    if ((device == nullptr) || (numInputChannels == 0) || (numOutputChannels != 2))
     {
         errored = true;
     }
@@ -102,10 +109,12 @@ void recordAudio::prepareToPlay(int samplesPerBlockExpected, double sampleRate)
     //Ensures selected audio device has 1 input and 2 outputs
     if ((device == nullptr) || (numInputChannels == 0) || (numOutputChannels != 2))
     {
-        errored = true;
+       /* errored = true;*/
+        sendActionMessage("Device Error");
     }
     else
     {
+        sendActionMessage("Device Success");
         errored = false;
  
         mSampleRate = sampleRate;
@@ -119,7 +128,12 @@ void recordAudio::prepareToPlay(int samplesPerBlockExpected, double sampleRate)
     //Initializes Midi Output
     midiOutput = deviceManager.getDefaultMidiOutput();
     if (midiOutput != nullptr)
+    {
         midiOutput->startBackgroundThread();
+        sendActionMessage("Midi Success");
+    }
+    else
+        sendActionMessage("Midi Error");
     
 }
 

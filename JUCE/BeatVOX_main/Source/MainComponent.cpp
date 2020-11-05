@@ -87,22 +87,8 @@ MainComponent::MainComponent()
     }
     else
     {
-        reset();
         errorBox.setText("All Devices Successfully configured");
         sendBufferVals();
-
-        if (recorder.deviceManager.getDefaultMidiOutput() != nullptr)
-        {
-            buttonPlayMidi.setButtonText("Play");
-        }
-        else
-        {
-            buttonPlayMidi.setButtonText("<Set Midi Output>");
-            errorBox.setText("Audio Devices Configured -- Please Set Midi Output");
-            buttonPlayMidi.setEnabled(false);
-            buttonStopMidi.setEnabled(false);
-            //error();
-        }
     }
 
     //When user changes audio devices, the changeListenerCallback function is called
@@ -171,7 +157,11 @@ void MainComponent::reset()
     buttonAnalyze.setButtonText("Analyze");
     buttonAnalyze.setColour(juce::TextButton::buttonColourId, getLookAndFeel().findColour(juce::TextButton::buttonColourId));
 
-    buttonRecord.setEnabled(true);
+    if (errorState)
+        buttonRecord.setEnabled(false);
+    else
+        buttonRecord.setEnabled(true);
+
     buttonReset .setEnabled(false);
     buttonDump  .setEnabled(false);
     barCount    .setEnabled(true);
@@ -180,6 +170,8 @@ void MainComponent::reset()
     buttonAnalyze.setEnabled(false);
     buttonPlayMidi.setEnabled(false);
     buttonStopMidi.setEnabled(false);
+
+    doneAnalyzing = false;
 }
 
 void MainComponent::stop()
@@ -267,53 +259,93 @@ void MainComponent::error()
     buttonMet     .setEnabled(false);
     barCount      .setEnabled(false);
     newBpm        .setEnabled(false);
-    buttonAnalyze .setEnabled(false);
-    buttonPlayMidi.setEnabled(false); 
-    buttonStopMidi.setEnabled(false);
+    //buttonAnalyze .setEnabled(false);
+    //buttonPlayMidi.setEnabled(false); 
+    //buttonStopMidi.setEnabled(false);
 }
 
 //Handles when user changes audio devices anytime after startup
 void MainComponent::changeListenerCallback(juce::ChangeBroadcaster* source)
 {
-    if (recorder.errored)
-    {
-        error();
-        errorBox.setText("ERROR -- RECONFIGURE AUDIO DEVICES");
-    }
-    else
-    {
-        sendBufferVals();
-        reset();
-        errorBox.setText("All Devices Successfully configured");
+    //if (recorder.errored)
+    //{
+    //    error();
+    //    errorBox.setText("ERROR -- RECONFIGURE AUDIO DEVICES");
+    //}
+    //else
+    //{
+    //    sendBufferVals();
+    //    reset();
+    //    errorBox.setText("All Devices Successfully configured");
 
-        if (recorder.deviceManager.getDefaultMidiOutput() != nullptr)
-        {
-            buttonPlayMidi.setButtonText("Play");
-        }
-        else
-        {
-            buttonPlayMidi.setButtonText("<Set Midi Output>");
-            errorBox.setText("Audio Devices Configured -- Please Set Midi Output");
-            buttonPlayMidi.setEnabled(false);
-            buttonStopMidi.setEnabled(false);
-            //error();
-        }
-    }
+    //    if (recorder.deviceManager.getDefaultMidiOutput() != nullptr)
+    //    {
+    //        buttonPlayMidi.setButtonText("Play");
+    //    }
+    //    else
+    //    {
+    //        buttonPlayMidi.setButtonText("<Set Midi Output>");
+    //        errorBox.setText("Audio Devices Configured -- Please Set Midi Output");
+    //        buttonPlayMidi.setEnabled(false);
+    //        buttonStopMidi.setEnabled(false);
+    //        //error();
+    //    }
+    //}
 }
 
 //This function is called when recording finishes and when algorithm analysis finishes
 void MainComponent::actionListenerCallback(const juce::String& message)
 {
-    if (message == "Done Recording")
+    if (message == "Device Success")
+    {
+        if (errorState)
+        {
+            errorState = false;
+            reset();
+        }
+ 
+        sendBufferVals();
+        errorBox.setText("All Devices Successfully configured");
+    }
+    else if (message == "Midi Success")
+    {
+        errorMidiState = false;
+        buttonPlayMidi.setButtonText("Play");
+
+        if (doneAnalyzing)
+        {
+            buttonPlayMidi.setEnabled(true);
+            buttonStopMidi.setEnabled(true);
+        }
+           
+    }
+    else if (message == "Device Error")
+    {
+        error();
+        errorState = true;
+        errorBox.setText("ERROR -- RECONFIGURE AUDIO DEVICES");
+    }
+    else if (message == "Midi Error")
+    {
+        errorMidiState = true;
+
+        buttonPlayMidi.setButtonText("<Set Midi Output>");
+        buttonPlayMidi.setEnabled(false);
+        buttonStopMidi.setEnabled(false);
+
+    }
+    else if (message == "Done Recording")
     {
         done();
     }
     else if (message == "Done Analyzing")
     {
+        doneAnalyzing = true;
+
         buttonAnalyze.setColour(juce::TextButton::buttonColourId, juce::Colours::green);
         buttonAnalyze.setButtonText("Done!");
 
-        if (recorder.deviceManager.getDefaultMidiOutput() != nullptr)
+        if (!errorMidiState)
         {
             buttonPlayMidi.setEnabled(true);
             buttonStopMidi.setEnabled(true);
