@@ -40,9 +40,8 @@ recordAudio::recordAudio()
 
 recordAudio::~recordAudio()
 {
-    bufferRecordedAudio.~AudioBuffer();
+
     bufferRecordedAudio.setSize(0,0);
-    
     bufferMidi.clear();
 
     shutdownAudio();

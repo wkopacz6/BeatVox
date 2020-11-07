@@ -9,3 +9,14 @@
 */
 
 #pragma once
+
+class classification
+{
+
+public:
+
+    
+private:
+
+    
+};
