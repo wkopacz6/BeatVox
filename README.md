@@ -9,10 +9,10 @@ Onset detection evaluated using MIREX 2018 methods: https://www.music-ir.org/mir
 
 ----------------------------------------------------------------
 ## What is BeatVOX?
-<Description of what this thang do be>
+(Description of what this thang do be)
   
 ## Provided Files
-<List of provided files and any special instructions>
+(List of provided files and any special instructions)
   
 ## Startup
 BeatVOX will boot utilizing your computer's default audio input and output devices.  These devices can be changed via pressing the "Settings" button in the top right corner of the application.  Within this settings menu, parameters such as the sample rate, buffer size, and MIDI output device can be modified as well.  By default, the MIDI output device is undefined, due to discrepancies between operating systems, so be sure to manually choose an available output to transmit your MIDI information.  Instructions on setting up a virtual MIDI port are provide later in the document.
@@ -20,10 +20,10 @@ BeatVOX will boot utilizing your computer's default audio input and output devic
 If the selected audio devices are undefined, incompatible, or unable to be opened, the application will provide an error message as well as disable the recording functionality until appropriate modifications are made in the settings menu.  Also, the application will not allow the transmission of MIDI information until a MIDI output device is selected.
 
 ## How To Use BeatVOX
-<Description of GUI and process of how to use the application effectively>
+(Description of GUI and process of how to use the application effectively)
   
 ## Virtual MIDI Port Setup
-<Links to stuff that detail how to set a virtual MIDI port
+(Links to stuff that detail how to set a virtual MIDI port)
 
 ## Things to be Aware of
-<Discusses the limitations, if any, the user should know about>
+(Discusses the limitations, if any, the user should know about)
