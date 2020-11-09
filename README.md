@@ -14,7 +14,7 @@ BeatVOX is an application that can convert an audio recording of beatboxing into
 ## Required Files
 For BeatVOX to function properly, please ensure the following files are present:  RecorderAttempt_2.jucer (I'll change the name of this later), Main.cpp, MainComponent.cpp, MainComponent.h, Metronome.cpp, Metronome.h, classification.cpp, classification.h, onsetDetection.cpp, onsetDetection.h, classification.h, recordAudio.cpp, recordAudio.h, and Cowbell-2.wav.
 
-Please keep all .jucer, .h, and .cpp files in their original folder configuration and move the "Cowbell-2.wav" to your desktop.
+Please place downloaded files in your computer's Documents directory.
   
 ## Startup
 BeatVOX will boot utilizing your computer's default audio input and output devices.  These devices can be changed via pressing the "Settings" button in the top right corner of the application.  Within this settings menu, parameters such as the sample rate, buffer size, and MIDI output device can be modified as well.  By default, the MIDI output device is undefined, due to discrepancies between operating systems, so be sure to manually choose an available output to transmit your MIDI information.  Instructions on setting up a virtual MIDI port are provide later in the document.
