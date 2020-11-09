@@ -9,10 +9,12 @@ Onset detection evaluated using MIREX 2018 methods: https://www.music-ir.org/mir
 
 ----------------------------------------------------------------
 ## What is BeatVOX?
-The BeatVOX allows you to record audio and use our application to generate a corresponding MIDI stream, which can be sent directly to your DAW to record
+BeatVOX is an application that can convert an audio recording of beatboxing into a corresponding MIDI drum pattern, which can be streamed directly to your DAW or other MIDI-input applications.
   
-## Provided Files
-cowbell.wav -- this sound file is used for the metronome, keep this file on your desktop
+## Required Files
+RecorderAttempt_2.jucer (I'll change the name of this later), Main.cpp, MainComponent.cpp, MainComponent.h, Metronome.cpp, Metronome.h, classification.cpp, classification.h, onsetDetection.cpp, onsetDetection.h, classification.h, recordAudio.cpp, recordAudio.h, and Cowbell-2.wav
+
+Please keep all .jucer, .h, and .cpp files in their original folder configuration and move the "Cowbell-2.wav" to your desktop.
   
 ## Startup
 BeatVOX will boot utilizing your computer's default audio input and output devices.  These devices can be changed via pressing the "Settings" button in the top right corner of the application.  Within this settings menu, parameters such as the sample rate, buffer size, and MIDI output device can be modified as well.  By default, the MIDI output device is undefined, due to discrepancies between operating systems, so be sure to manually choose an available output to transmit your MIDI information.  Instructions on setting up a virtual MIDI port are provide later in the document.
@@ -20,14 +22,10 @@ BeatVOX will boot utilizing your computer's default audio input and output devic
 If the selected audio devices are undefined, incompatible, or unable to be opened, the application will provide an error message as well as disable the recording functionality until appropriate modifications are made in the settings menu.  Also, the application will not allow the transmission of MIDI information until a MIDI output device is selected.
 
 ## How To Use BeatVOX
-After your inputs and outputs are initialized under the settings menu, you can configure the desired tempo and number of bars to record, as well as enable or disable the metronome during recording. To record, click "Record" and the app will capture audio for the selected amount of time. If you mess up your recording, simply click "Reset" either during recording or after it has finished. The GUI buttons will update to inform you whether the app is recording, finished, or ready to record again. Once satisfied with your recording, click "Analyze" to process your audio. Once the MIDI is ready, the "Output MIDI" button will become available, and will send the MIDI stream to the selected output. 
+After your inputs and outputs are initialized under the settings menu, you can configure the desired tempo and number of bars to record, as well as enable or disable the metronome during recording. To record, click "Record" and the app will capture audio for the selected amount of time. If you mess up your recording, simply click "Reset" either during recording or after it has finished. The GUI buttons will update to inform you whether the app is recording, finished, or ready to record again. Once satisfied with your recording, click "Analyze" to process your audio. Once the MIDI is ready, the "Play" and "Stop" buttons will become available, which can be used to start/stop streaming the MIDI information to the selected MIDI output.
   
 ## Virtual MIDI Port Setup
-MAC-
-  1). Open "Audio MIDI Setup" from the spotlight search bar
-  2). CLick on the "IAC Driver" and make sure the "Device is online" box is checked
-  3). Add "IAC Bus 1" as a port and apply.
-  4). Make sure your DAW has "IAC Bus 1" selected as a MIDI input(and armed to record if you wish) and select "IAC Bus 1" as an output in the BeatVox app.
+Here's a link to instructions for both MAC and Windows:  https://dialogaudio.com/modulationprocessor/guides/virtual_midi/virtual_midi_setup.php
  
 ## Things to be Aware of
 If you are using the metronome, be sure to use headphones to prevent bleed and possible errors with the classification.
