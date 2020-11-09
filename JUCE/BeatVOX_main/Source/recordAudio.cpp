@@ -36,11 +36,13 @@ recordAudio::recordAudio()
     {
         errored = false;
     }
+
+    if (metronome.errorMet)
+        erroredMet = true;
 }
 
 recordAudio::~recordAudio()
 {
-
     bufferRecordedAudio.setSize(0,0);
     bufferMidi.clear();
 
@@ -156,6 +158,7 @@ void recordAudio::stopRecording()
 
 void recordAudio::resetRecording()
 {
+
     isRecording = false;
     startSample = 0;
     metronome.reset();

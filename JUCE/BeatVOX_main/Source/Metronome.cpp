@@ -14,15 +14,24 @@ Metronome::Metronome()
     //This block of code finds the metronome wav file
     mFormatManager.registerBasicFormats();
 
-    juce::File myFile{ juce::File::getSpecialLocation(juce::File::SpecialLocationType::userDesktopDirectory) };
+    juce::File myFile{ juce::File::getSpecialLocation(juce::File::SpecialLocationType::userDocumentsDirectory) };
     auto mySamples = myFile.findChildFiles(juce::File::TypesOfFileToFind::findFiles, true, "Cowbell-2.wav");
 
-    jassert(mySamples[0].exists());
+    if (mySamples[0].exists())
+    {
+        auto formatReader = mFormatManager.createReaderFor(mySamples[0]);
+        pMet.reset(new juce::AudioFormatReaderSource(formatReader, true));
+    }
+    else
+    {
+        errorMet = true;
+    }
 
-    auto formatReader = mFormatManager.createReaderFor(mySamples[0]);
-
-    pMet.reset(new juce::AudioFormatReaderSource(formatReader, true));
 }
+
+Metronome::~Metronome()
+{}
+
 void Metronome::setBpm(double bpm)
 {
     mBpm = bpm;
