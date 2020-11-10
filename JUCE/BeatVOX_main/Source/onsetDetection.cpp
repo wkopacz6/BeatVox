@@ -38,13 +38,12 @@ void onsetDetection::makeNoveltyFunction(juce::AudioBuffer<float>buffer, int aud
     {
         audio[i] = audio[i] / absmax;
     }
-    
     // Allocate array for FFT data
     int fftSize = forwardFFT.getSize();
     int numOfFFTs = ceil(audioNumOfSamples/(hopLength));
-    std::vector<std::vector<float>> fftData(numOfFFTs);
+    std::vector<std::vector<float>> fftData(numOfFFTs+1);
        
-    for(int i = 0; i < numOfFFTs; i++) {
+    for(int i = 0; i < numOfFFTs + 1; i++) {
         std::vector<float> audioData(fftSize*2);
         
         // Prepare for FFT
@@ -59,12 +58,16 @@ void onsetDetection::makeNoveltyFunction(juce::AudioBuffer<float>buffer, int aud
         for(int j = 0; j < audioData.size(); j++){
             audioData[j] = 20*log10(audioData[j]+1e-12);
         }
-        
+        if (i == 0){
+            fftData[i] = audioData;
+            fftData[i+1] = audioData;
+            i += 1;
+        }
         fftData[i] = audioData;
     }
     
     // Diff each spectrum
-    std::vector<std::vector<float>> flux(fftData.size() - 1);
+    std::vector<std::vector<float>> flux(fftData.size());
     for(int i = 0; i < flux.size(); i++){ flux[i].resize(fftSize*2); }
     
     for(int i = 0; i < fftData.size() - 1; i++){
@@ -130,7 +133,7 @@ void onsetDetection::pickPeaks(std::vector<float>noveltyFunction) {
         currentBlock[3] = noveltyFunctionZeroPadded[i+1];
         currentBlock[4] = noveltyFunctionZeroPadded[i+2];
         std::sort(currentBlock.begin(), currentBlock.end());
-        adaptiveThreshold[i-2] = currentBlock[2];
+        adaptiveThreshold[i-2] = currentBlock[2] + .2;
     }
     //pick the peaks
     for(int i = 1; i < noveltyFunction.size(); i++){
@@ -179,6 +182,7 @@ void onsetDetection::testSegmentation(){
     myFile.~File();
     DBG("Done writing");
 }
+
 
     
 

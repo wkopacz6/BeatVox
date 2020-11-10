@@ -17,7 +17,7 @@ def compute_novelty_function(x, method, nfft, hoplength):
     #normalize audio
     x = x/max(abs(x))
     # use librosa to calculate the stft
-    X = librosa.core.stft(x, n_fft=nfft, hop_length=hoplength)
+    X = librosa.core.stft(x, n_fft=nfft, hop_length=hoplength, center=False)
     if method == 'log-mag':
 
         #compute the log-magnitude spectrum
@@ -163,17 +163,29 @@ def test_onset_detection(audio, ground_truth, method, thres, nfft, hoplength, fs
     end
 
 
-audio_paths_analysis = ['/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/snare_hex.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/putfile_william.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/putfile_vonny.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/putfile_pepouni.wav']
-audio_paths_test = ['/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/putfile_dbztenkaichi.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/putfile_bui.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/callout_Turn-Table.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/callout_Pneumatic.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/callout_mouss.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/callout_mcld.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/callout_luckeymonkey.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/callout_azeem.wav' , '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/callout_adiao.wav' , '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/battleclip_daq.wav']
+#audio_paths_analysis = ['/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/snare_hex.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/putfile_william.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/putfile_vonny.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/putfile_pepouni.wav']
+#audio_paths_test = ['/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/putfile_dbztenkaichi.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/putfile_bui.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/callout_Turn-Table.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/callout_Pneumatic.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/callout_mouss.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/callout_mcld.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/callout_luckeymonkey.wav', '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/callout_azeem.wav' , '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/callout_adiao.wav' , '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/battleclip_daq.wav']
 
-ground_truth_path_analysis = '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/beatboxset1_annotations/beatboxset1_onsets.csv'
-ground_truth_path_test = '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/beatboxset1_annotations/beatboxset2_onsets.csv'
-
-
-
-print(test_onset_detection(audio_paths_test, ground_truth_path_test, 'log-mag', 0, nfft=1024, hoplength=768, fs=44100))
+#ground_truth_path_analysis = '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/beatboxset1_annotations/beatboxset1_onsets.csv'
+#ground_truth_path_test = '/Users/walterkopacz/Documents/GitHub/BeatVox/Python/beatboxset1/beatboxset1_annotations/beatboxset2_onsets.csv'
 
 
+
+#print(test_onset_detection(audio_paths_test, ground_truth_path_test, 'log-mag', 0, nfft=1024, hoplength=768, fs=44100))
+
+
+recorded_audio = pd.read_csv('/Users/walterkopacz/Documents/Test_Audio_Recording.csv')
+JUCE_onsets = pd.read_csv('/Users/walterkopacz/Documents/Test_Segmentation.csv')
+
+recorded_audio_np = recorded_audio.to_numpy()
+JUCE_onsets = JUCE_onsets.to_numpy()
+novelty_func = compute_novelty_function(recorded_audio_np[:, 0], 'log-mag', 1024, 768)
+pks = pick_peaks(novelty_func, .2, 1024, 768, 44100)[0]
+
+
+dif = np.c_[np.transpose(novelty_func), JUCE_onsets[:, 0]]
+diff_nov = np.diff(dif, axis=1)
+diff_peaks = np.diff(pks, JUCE_onsets.loc[:, 1])
 
 
 
