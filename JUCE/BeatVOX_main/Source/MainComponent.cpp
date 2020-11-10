@@ -95,6 +95,12 @@ MainComponent::MainComponent()
         sendBufferVals();
     }
 
+    if (recorder.erroredMet)
+    {
+        buttonMet.setEnabled(false);
+        errorBox.setText("ERROR -- Metronome Disabled -- Couldn't find Cowbell_2.wav");
+    }
+
     //When user changes audio devices, the changeListenerCallback function is called
     recorder.addActionListener(this);
 
@@ -168,7 +174,10 @@ void MainComponent::reset()
     buttonDump  .setEnabled(false);
     barCount    .setEnabled(true);
     newBpm      .setEnabled(true);
-    buttonMet   .setEnabled(true);
+
+    if (!recorder.erroredMet)
+        buttonMet   .setEnabled(true);
+
     buttonAnalyze.setEnabled(false);
     buttonPlayMidi.setEnabled(false);
     buttonStopMidi.setEnabled(false);

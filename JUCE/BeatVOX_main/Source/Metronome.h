@@ -14,12 +14,14 @@ class Metronome
 public:
 
     Metronome();
+    ~Metronome();
     void prepareToPlay(int samplesPerBlockExpected, double sampleRate);
     void getNextAudioBlock(const juce::AudioSourceChannelInfo& bufferToFill);
     void reset();
     void setBpm(double bpm);
 
     bool onMet{ false };
+    bool errorMet{ false };
 private:
 
     double mSampleRate { 0 };

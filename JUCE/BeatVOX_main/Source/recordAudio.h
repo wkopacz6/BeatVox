@@ -34,6 +34,7 @@ public:
 
     bool isRecording{ false };
     bool errored{ false };
+    bool erroredMet{ false };
  
     std::unique_ptr<juce::AudioDeviceSelectorComponent> audioSetupComp;
     juce::AudioBuffer<float> bufferRecordedAudio;

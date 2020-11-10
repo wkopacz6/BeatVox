@@ -3,6 +3,7 @@
 #include <JuceHeader.h>
 #include "recordAudio.h"
 #include "onsetDetection.h"
+#include "Metronome.h"
 
 
 
