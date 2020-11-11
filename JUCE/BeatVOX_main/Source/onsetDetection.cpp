@@ -72,7 +72,7 @@ void onsetDetection::makeNoveltyFunction(juce::AudioBuffer<float>buffer, int aud
     }
     
     // Diff each spectrum
-    std::vector<std::vector<float>> flux(fftData.size()*2-1);
+    std::vector<std::vector<float>> flux(fftData.size()-1);
     for(int i = 0; i < flux.size(); i++){ flux[i].resize(fftSize*2); }
     
     //Only take first half of the fft (non-negative frequencies)
