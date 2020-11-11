@@ -22,7 +22,7 @@ onsetDetection:: ~onsetDetection() {
 void onsetDetection::makeNoveltyFunction(juce::AudioBuffer<float>buffer, int audioNumOfSamples) {
 
     //zero pad
-    int numberOfZeros = fftSize - (audioNumOfSamples%(fftSize));
+    int numberOfZeros = fftSize - (audioNumOfSamples%(hopLength));
     // turn buffer into vector
     std::vector<float>audio(audioNumOfSamples+numberOfZeros, 0);
     for(int i = 0; i < audioNumOfSamples; i++){
@@ -40,7 +40,7 @@ void onsetDetection::makeNoveltyFunction(juce::AudioBuffer<float>buffer, int aud
     }
     // Allocate array for FFT data
     
-    int numOfFFTs = ceil(audioNumOfSamples/(hopLength));
+    int numOfFFTs = ceil((audioNumOfSamples)/(hopLength));
     fftData.resize(numOfFFTs + 1);
     
     
