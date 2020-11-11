@@ -142,7 +142,7 @@ void onsetDetection::pickPeaks(std::vector<float>noveltyFunction) {
         adaptiveThreshold[i-2] = currentBlock[2] + .2;
     }
     //pick the peaks
-    for(int i = 1; i < noveltyFunction.size(); i++){
+    for(int i = 1; i < noveltyFunction.size()-1; i++){
         if (noveltyFunction[i-1] < noveltyFunction[i] &&
             noveltyFunction[i+1] < noveltyFunction[i] &&
             noveltyFunction[i] > adaptiveThreshold[i]){
