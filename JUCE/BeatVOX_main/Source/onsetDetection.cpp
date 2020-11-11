@@ -20,7 +20,7 @@ onsetDetection:: ~onsetDetection() {
 }
 
 void onsetDetection::makeNoveltyFunction(juce::AudioBuffer<float>buffer, int audioNumOfSamples) {
-    
+
     //zero pad
     int numberOfZeros = audioNumOfSamples%(fftSize*2);
     // turn buffer into vector
@@ -39,15 +39,16 @@ void onsetDetection::makeNoveltyFunction(juce::AudioBuffer<float>buffer, int aud
         audio[i] = audio[i] / absmax;
     }
     // Allocate array for FFT data
-    int fftSize = forwardFFT.getSize();
+    
     int numOfFFTs = ceil(audioNumOfSamples/(hopLength));
-    std::vector<std::vector<float>> fftData(numOfFFTs+1);
-       
+    fftData.resize(numOfFFTs + 1);
+    
+    
     for(int i = 0; i < numOfFFTs + 1; i++) {
         std::vector<float> audioData(fftSize*2);
         
         // Prepare for FFT
-        for (int n = 0; n < (fftSize*2)-1; n++){
+        for (int n = 0; n < (fftSize); n++){
             audioData[n] = audio[n+(hopLength*i)];
         }
         
@@ -60,18 +61,23 @@ void onsetDetection::makeNoveltyFunction(juce::AudioBuffer<float>buffer, int aud
         }
         if (i == 0){
             fftData[i] = audioData;
-            fftData[i+1] = audioData;
-            i += 1;
+            fftData[i+1] = (audioData);
+            i++;
         }
+        else {
         fftData[i] = audioData;
+        }
+
+
     }
     
     // Diff each spectrum
-    std::vector<std::vector<float>> flux(fftData.size());
+    std::vector<std::vector<float>> flux(fftData.size()*2-1);
     for(int i = 0; i < flux.size(); i++){ flux[i].resize(fftSize*2); }
     
+    //Only take first half of the fft (non-negative frequencies)
     for(int i = 0; i < fftData.size() - 1; i++){
-        for(int j = 0; j < fftData[i].size(); j++){
+        for(int j = 0; j < (fftData[i].size()); j++){
             flux[i][j] = pow((fftData[i][j] - fftData[i+1][j]), 2);
             // square for RMS
         }
@@ -87,17 +93,17 @@ void onsetDetection::makeNoveltyFunction(juce::AudioBuffer<float>buffer, int aud
     }
     
     // RMS
-    std::vector<float>mean(flux.size(), 0);
+    std::vector<float>mean(numOfFFTs);
     
     for(int i = 0; i < flux.size(); i++){
-        std::vector<float> sum(flux[i].size(), 0);
+        std::vector<float> sum(flux[i].size());
         for(int j = 0; j < flux[i].size(); j++){
             sum[i] = sum[i] + flux[i][j];
         }
         mean[i] = sum[i] / flux[i].size();
     }
     
-    std::vector<float>RMS(mean.size(), 0);
+    std::vector<float>RMS(mean.size());
     for(int i = 0; i < mean.size(); i++){
         RMS[i] = sqrt(mean[i]);
     }

@@ -30,8 +30,8 @@
             filePath = "../../Source/onsetDetection.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "45"
-            endingLineNumber = "45"
+            startingLineNumber = "46"
+            endingLineNumber = "46"
             landmarkName = "onsetDetection::makeNoveltyFunction(buffer, audioNumOfSamples)"
             landmarkType = "7">
          </BreakpointContent>
@@ -46,8 +46,8 @@
             filePath = "../../Source/onsetDetection.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "71"
-            endingLineNumber = "71"
+            startingLineNumber = "76"
+            endingLineNumber = "76"
             landmarkName = "onsetDetection::makeNoveltyFunction(buffer, audioNumOfSamples)"
             landmarkType = "7">
          </BreakpointContent>
@@ -62,8 +62,8 @@
             filePath = "../../Source/onsetDetection.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "72"
-            endingLineNumber = "72"
+            startingLineNumber = "77"
+            endingLineNumber = "77"
             landmarkName = "onsetDetection::makeNoveltyFunction(buffer, audioNumOfSamples)"
             landmarkType = "7">
          </BreakpointContent>
@@ -78,8 +78,8 @@
             filePath = "../../Source/onsetDetection.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "92"
-            endingLineNumber = "92"
+            startingLineNumber = "98"
+            endingLineNumber = "98"
             landmarkName = "onsetDetection::makeNoveltyFunction(buffer, audioNumOfSamples)"
             landmarkType = "7">
          </BreakpointContent>
@@ -94,8 +94,8 @@
             filePath = "../../Source/onsetDetection.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "110"
-            endingLineNumber = "110"
+            startingLineNumber = "116"
+            endingLineNumber = "116"
             landmarkName = "onsetDetection::makeNoveltyFunction(buffer, audioNumOfSamples)"
             landmarkType = "7">
          </BreakpointContent>
@@ -104,14 +104,14 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "F1F2FF6E-7769-43A8-BAA6-857EA63B3B53"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../Source/onsetDetection.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "70"
-            endingLineNumber = "70"
+            startingLineNumber = "75"
+            endingLineNumber = "75"
             landmarkName = "onsetDetection::makeNoveltyFunction(buffer, audioNumOfSamples)"
             landmarkType = "7">
          </BreakpointContent>
@@ -126,8 +126,8 @@
             filePath = "../../Source/onsetDetection.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "69"
-            endingLineNumber = "69"
+            startingLineNumber = "74"
+            endingLineNumber = "74"
             landmarkName = "onsetDetection::makeNoveltyFunction(buffer, audioNumOfSamples)"
             landmarkType = "7">
          </BreakpointContent>
@@ -142,8 +142,8 @@
             filePath = "../../Source/onsetDetection.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "80"
-            endingLineNumber = "80"
+            startingLineNumber = "86"
+            endingLineNumber = "86"
             landmarkName = "onsetDetection::makeNoveltyFunction(buffer, audioNumOfSamples)"
             landmarkType = "7">
          </BreakpointContent>
@@ -158,8 +158,8 @@
             filePath = "../../Source/onsetDetection.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "90"
-            endingLineNumber = "90"
+            startingLineNumber = "96"
+            endingLineNumber = "96"
             landmarkName = "onsetDetection::makeNoveltyFunction(buffer, audioNumOfSamples)"
             landmarkType = "7">
          </BreakpointContent>
@@ -168,19 +168,19 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "037D9AA1-83B9-4467-8AF8-AF624B47475D"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../../Source/onsetDetection.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "116"
-            endingLineNumber = "116"
+            startingLineNumber = "122"
+            endingLineNumber = "122"
             landmarkName = "onsetDetection::makeNoveltyFunction(buffer, audioNumOfSamples)"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "037D9AA1-83B9-4467-8AF8-AF624B47475D - f8ca84382db0a65a"
+                  uuid = "037D9AA1-83B9-4467-8AF8-AF624B47475D - f8ca84382db0a690"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -190,12 +190,12 @@
                   urlString = "file:///Users/walterkopacz/Documents/GitHub/BeatVox/JUCE/BeatVOX_main/Source/onsetDetection.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "116"
-                  endingLineNumber = "116"
+                  startingLineNumber = "122"
+                  endingLineNumber = "122"
                   offsetFromSymbolStart = "305">
                </Location>
                <Location
-                  uuid = "037D9AA1-83B9-4467-8AF8-AF624B47475D - f8ca84382db0a65a"
+                  uuid = "037D9AA1-83B9-4467-8AF8-AF624B47475D - f8ca84382db0a690"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -205,12 +205,12 @@
                   urlString = "file:///Users/walterkopacz/Documents/GitHub/BeatVox/JUCE/BeatVOX_main/Source/onsetDetection.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "116"
-                  endingLineNumber = "116"
+                  startingLineNumber = "122"
+                  endingLineNumber = "122"
                   offsetFromSymbolStart = "679">
                </Location>
                <Location
-                  uuid = "037D9AA1-83B9-4467-8AF8-AF624B47475D - f8ca84382db0a65a"
+                  uuid = "037D9AA1-83B9-4467-8AF8-AF624B47475D - f8ca84382db0a690"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -220,12 +220,12 @@
                   urlString = "file:///Users/walterkopacz/Documents/GitHub/BeatVox/JUCE/BeatVOX_main/Source/onsetDetection.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "116"
-                  endingLineNumber = "116"
-                  offsetFromSymbolStart = "1275">
+                  startingLineNumber = "122"
+                  endingLineNumber = "122"
+                  offsetFromSymbolStart = "1279">
                </Location>
                <Location
-                  uuid = "037D9AA1-83B9-4467-8AF8-AF624B47475D - f8ca84382db0a65a"
+                  uuid = "037D9AA1-83B9-4467-8AF8-AF624B47475D - f8ca84382db0a690"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -235,12 +235,12 @@
                   urlString = "file:///Users/walterkopacz/Documents/GitHub/BeatVox/JUCE/BeatVOX_main/Source/onsetDetection.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "116"
-                  endingLineNumber = "116"
-                  offsetFromSymbolStart = "2234">
+                  startingLineNumber = "122"
+                  endingLineNumber = "122"
+                  offsetFromSymbolStart = "2193">
                </Location>
                <Location
-                  uuid = "037D9AA1-83B9-4467-8AF8-AF624B47475D - f8ca84382db0a65a"
+                  uuid = "037D9AA1-83B9-4467-8AF8-AF624B47475D - f8ca84382db0a690"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -250,12 +250,12 @@
                   urlString = "file:///Users/walterkopacz/Documents/GitHub/BeatVox/JUCE/BeatVOX_main/Source/onsetDetection.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "116"
-                  endingLineNumber = "116"
-                  offsetFromSymbolStart = "2829">
+                  startingLineNumber = "122"
+                  endingLineNumber = "122"
+                  offsetFromSymbolStart = "2771">
                </Location>
                <Location
-                  uuid = "037D9AA1-83B9-4467-8AF8-AF624B47475D - f8ca84382db0a65a"
+                  uuid = "037D9AA1-83B9-4467-8AF8-AF624B47475D - f8ca84382db0a690"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -265,9 +265,9 @@
                   urlString = "file:///Users/walterkopacz/Documents/GitHub/BeatVox/JUCE/BeatVOX_main/Source/onsetDetection.cpp"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "116"
-                  endingLineNumber = "116"
-                  offsetFromSymbolStart = "2836">
+                  startingLineNumber = "122"
+                  endingLineNumber = "122"
+                  offsetFromSymbolStart = "2778">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -282,8 +282,8 @@
             filePath = "../../Source/onsetDetection.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "115"
-            endingLineNumber = "115"
+            startingLineNumber = "121"
+            endingLineNumber = "121"
             landmarkName = "onsetDetection::makeNoveltyFunction(buffer, audioNumOfSamples)"
             landmarkType = "7">
             <Locations>
@@ -423,8 +423,8 @@
             filePath = "../../Source/onsetDetection.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "149"
-            endingLineNumber = "149"
+            startingLineNumber = "155"
+            endingLineNumber = "155"
             landmarkName = "onsetDetection::convertIndiciesToTime(peaksInIndicies)"
             landmarkType = "7">
          </BreakpointContent>
@@ -439,8 +439,8 @@
             filePath = "../../Source/onsetDetection.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "153"
-            endingLineNumber = "153"
+            startingLineNumber = "159"
+            endingLineNumber = "159"
             landmarkName = "onsetDetection::convertIndiciesToTime(peaksInIndicies)"
             landmarkType = "7">
          </BreakpointContent>
@@ -455,8 +455,8 @@
             filePath = "../../Source/onsetDetection.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "150"
-            endingLineNumber = "150"
+            startingLineNumber = "156"
+            endingLineNumber = "156"
             landmarkName = "onsetDetection::convertIndiciesToTime(peaksInIndicies)"
             landmarkType = "7">
          </BreakpointContent>
@@ -471,8 +471,8 @@
             filePath = "../../Source/onsetDetection.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "139"
-            endingLineNumber = "139"
+            startingLineNumber = "145"
+            endingLineNumber = "145"
             landmarkName = "onsetDetection::pickPeaks(noveltyFunction)"
             landmarkType = "7">
          </BreakpointContent>
@@ -487,8 +487,8 @@
             filePath = "../../Source/onsetDetection.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "144"
-            endingLineNumber = "144"
+            startingLineNumber = "150"
+            endingLineNumber = "150"
             landmarkName = "onsetDetection::pickPeaks(noveltyFunction)"
             landmarkType = "7">
          </BreakpointContent>
@@ -521,6 +521,198 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "42"
             endingLineNumber = "42"
+            landmarkName = "onsetDetection::makeNoveltyFunction(buffer, audioNumOfSamples)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "FAFA7176-7F8F-492C-9E2C-BAD84EFF9F01"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../Source/onsetDetection.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "63"
+            endingLineNumber = "63"
+            landmarkName = "onsetDetection::makeNoveltyFunction(buffer, audioNumOfSamples)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "DFE780DB-A6B8-465B-9E4F-42BDB08B85D3"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../Source/onsetDetection.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "67"
+            endingLineNumber = "67"
+            landmarkName = "onsetDetection::makeNoveltyFunction(buffer, audioNumOfSamples)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "89B9C8C8-6874-4BB0-A45C-5F8912B26E46"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../Source/onsetDetection.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "72"
+            endingLineNumber = "72"
+            landmarkName = "onsetDetection::makeNoveltyFunction(buffer, audioNumOfSamples)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3790397E-D73E-43C2-BB6F-C4F11F67BB77"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../Source/onsetDetection.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "64"
+            endingLineNumber = "64"
+            landmarkName = "onsetDetection::makeNoveltyFunction(buffer, audioNumOfSamples)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "99FC7F92-92F6-4F4B-BD76-B869C71AEAAF"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../Source/onsetDetection.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "65"
+            endingLineNumber = "65"
+            landmarkName = "onsetDetection::makeNoveltyFunction(buffer, audioNumOfSamples)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E962BFF7-7AB9-4344-ABB2-191C6EC65500"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../Source/onsetDetection.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "66"
+            endingLineNumber = "66"
+            landmarkName = "onsetDetection::makeNoveltyFunction(buffer, audioNumOfSamples)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "90B458B4-E185-4D43-A37B-12011F1200B7"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../Source/onsetDetection.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "69"
+            endingLineNumber = "69"
+            landmarkName = "onsetDetection::makeNoveltyFunction(buffer, audioNumOfSamples)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3708B010-F215-4047-8017-4951D9FB861C"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../Source/onsetDetection.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "62"
+            endingLineNumber = "62"
+            landmarkName = "onsetDetection::makeNoveltyFunction(buffer, audioNumOfSamples)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "8A59B646-E471-4D6C-A2A9-7995AEFB30E1"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../Source/onsetDetection.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "68"
+            endingLineNumber = "68"
+            landmarkName = "onsetDetection::makeNoveltyFunction(buffer, audioNumOfSamples)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "1F78FFE6-AF7D-49B5-8676-8E037A9D8C13"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../Source/onsetDetection.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "70"
+            endingLineNumber = "70"
+            landmarkName = "onsetDetection::makeNoveltyFunction(buffer, audioNumOfSamples)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "128A2C23-8ED0-46CF-AB2E-3C7B172344BA"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../Source/onsetDetection.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "56"
+            endingLineNumber = "56"
+            landmarkName = "onsetDetection::makeNoveltyFunction(buffer, audioNumOfSamples)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "8E8EC71B-AF77-4232-A2EB-0BB769179B4C"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../Source/onsetDetection.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "59"
+            endingLineNumber = "59"
             landmarkName = "onsetDetection::makeNoveltyFunction(buffer, audioNumOfSamples)"
             landmarkType = "7">
          </BreakpointContent>

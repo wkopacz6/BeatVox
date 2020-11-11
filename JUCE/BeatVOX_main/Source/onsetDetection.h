@@ -26,6 +26,7 @@ public:
     void convertIndiciesToTime(std::vector<int>peaksInIndicies);
     void testSegmentation();
     
+    std::vector<std::vector<float>>fftData;
     std::vector<float>noveltyFunction;
     std::vector<int>peaks;
     std::vector<float>peaksInSeconds;
