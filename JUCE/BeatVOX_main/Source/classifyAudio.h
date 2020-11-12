@@ -16,7 +16,7 @@ class classifyAudio
 {
 
 public:
-    void splitAudio(std::vector<float> audio, std::vector<int>peaks);
+    void splitAudio(juce::AudioBuffer<float>buffer, std::vector<int>peaks);
     std::vector<std::vector<int>> constructFilterBank();
     double freqToMel(double freq);
     double melToFreq(double mel);

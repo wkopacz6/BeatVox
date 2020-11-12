@@ -59,6 +59,7 @@ private:
     
     recordAudio recorder;
     onsetDetection segments;
+    classifyAudio classification;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };

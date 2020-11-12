@@ -197,6 +197,7 @@ void MainComponent::dumpDataToCSV()
     segments.makeNoveltyFunction(recorder.bufferRecordedAudio, recorder.bufferRecordedAudio.getNumSamples());
     segments.pickPeaks(segments.noveltyFunction);
     segments.convertIndiciesToTime(segments.peaks);
+    //classification.splitAudio(recorder.bufferRecordedAudio, segments.peaks);
     segments.testSegmentation();
 }
 

@@ -11,9 +11,13 @@
 #include "classifyAudio.h"
 #include <cmath>
 
-void classifyAudio::splitAudio(std::vector<float> audio, std::vector<int>peaks)
+void classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::vector<int>peaks)
 {
-    
+    std::vector<float>audio(buffer.getNumSamples(), 0);
+    for (int i = 0; i < buffer.getNumSamples(); i++) 
+    {
+        audio[i] = buffer.getSample(0, i);
+    }
     for (auto i = 0; i < peaks.size(); i++)
     {
         auto section = std::vector<float>(5000, 0);
@@ -26,10 +30,11 @@ void classifyAudio::splitAudio(std::vector<float> audio, std::vector<int>peaks)
             section.resize(start_ind + end_ind);
         }
         
-        for (auto j = start_ind; j <= end_ind; j++)
+        for (auto j = start_ind; j < end_ind; j++)
         {
-            section[j] = audio[j];
+            section[j-start_ind] = audio[j];
         }
+
     }
 }
 
