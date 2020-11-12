@@ -4,6 +4,9 @@
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1">
   <MAINGROUP id="tYHnyg" name="RecorderAttempt_2">
     <GROUP id="{BAD37735-A74E-7EE1-9848-D4A5049016CC}" name="Source">
+      <FILE id="kksNyq" name="classifyAudio.cpp" compile="1" resource="0"
+            file="Source/classifyAudio.cpp"/>
+      <FILE id="EZMNJh" name="classifyAudio.h" compile="0" resource="0" file="Source/classifyAudio.h"/>
       <FILE id="mhk0B9" name="onsetDetection.cpp" compile="1" resource="0"
             file="Source/onsetDetection.cpp"/>
       <FILE id="o5Was8" name="onsetDetection.h" compile="0" resource="0"

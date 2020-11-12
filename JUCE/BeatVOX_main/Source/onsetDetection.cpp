@@ -177,7 +177,7 @@ void onsetDetection::testSegmentation(){
     {
         juce::String dataString1 = (juce::String) noveltyFunction[sample];
         output2.writeString(dataString1);
-        if (sample <= peaks.size()){
+        if (sample < peaks.size()){
             juce::String dataString2 = (juce::String) peaks[sample];
             juce::String dataString3 = (juce::String) peaksInSeconds[sample];
             output2.writeString(",");
