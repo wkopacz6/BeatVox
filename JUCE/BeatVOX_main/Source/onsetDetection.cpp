@@ -16,6 +16,8 @@ onsetDetection::onsetDetection() : forwardFFT(fftOrder) {
 }
 
 onsetDetection:: ~onsetDetection() {
+    peaks.clear();
+    peaksInSeconds.clear();
     
 }
 
