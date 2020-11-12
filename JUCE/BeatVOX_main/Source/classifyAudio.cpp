@@ -11,6 +11,28 @@
 #include "classifyAudio.h"
 #include <cmath>
 
+void classifyAudio::splitAudio(std::vector<float> audio, std::vector<int>peaks)
+{
+    
+    for (auto i = 0; i < peaks.size(); i++)
+    {
+        auto section = std::vector<float>(5000, 0);
+        auto start_ind = peaks[i];
+        auto end_ind = peaks[i] + 5000;
+
+        if (end_ind > audio.size())
+        {
+            end_ind = audio.size();
+            section.resize(start_ind + end_ind);
+        }
+        
+        for (auto j = start_ind; j <= end_ind; j++)
+        {
+            section[j] = audio[j];
+        }
+    }
+}
+
 std::vector<std::vector<float>> classifyAudio::normalize(std::vector<std::vector<int>> filters)
 {
     std::vector<double> enorm;
