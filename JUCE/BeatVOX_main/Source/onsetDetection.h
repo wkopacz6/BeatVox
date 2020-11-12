@@ -9,6 +9,7 @@
 */
 
 #include "recordAudio.h"
+#include "classifyAudio.h"
 #pragma once
 class onsetDetection
 {
@@ -37,6 +38,7 @@ private:
    
     juce::dsp::FFT forwardFFT; // FFT object to perform forward fft on
     recordAudio Audio;
+    classifyAudio classification;
     
         
     

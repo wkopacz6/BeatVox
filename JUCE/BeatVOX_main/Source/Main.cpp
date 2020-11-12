@@ -11,7 +11,7 @@
 #include "recordAudio.h"
 #include "Metronome.h"
 #include "onsetDetection.h"
-#include "classification.h"
+#include "classifyAudio.h"
 
 //==============================================================================
 class RecorderAttempt_2Application  : public juce::JUCEApplication
