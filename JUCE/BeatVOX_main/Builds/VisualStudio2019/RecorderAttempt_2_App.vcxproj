@@ -139,6 +139,7 @@
     <Lib/>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\classifyAudio.cpp"/>
     <ClCompile Include="..\..\Source\onsetDetection.cpp"/>
     <ClCompile Include="..\..\Source\Metronome.cpp"/>
     <ClCompile Include="..\..\Source\recordAudio.cpp"/>
@@ -2135,6 +2136,7 @@
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_gui_extra.cpp"/>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\classifyAudio.h"/>
     <ClInclude Include="..\..\Source\onsetDetection.h"/>
     <ClInclude Include="..\..\Source\Metronome.h"/>
     <ClInclude Include="..\..\Source\recordAudio.h"/>

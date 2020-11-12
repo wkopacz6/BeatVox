@@ -10,7 +10,8 @@
 #include <cmath>
 #include "onsetDetection.h"
 
-onsetDetection::onsetDetection() : forwardFFT(fftOrder) {
+onsetDetection::onsetDetection() : forwardFFT(fftOrder),
+hannWindow(fftSize, juce::dsp::WindowingFunction<float>::hann){
 
      
 }
@@ -22,7 +23,10 @@ onsetDetection:: ~onsetDetection() {
 }
 
 void onsetDetection::makeNoveltyFunction(juce::AudioBuffer<float>buffer, int audioNumOfSamples) {
-
+    
+    
+    
+    
     //zero pad
     int numberOfZeros = fftSize - (audioNumOfSamples%(hopLength));
     // turn buffer into vector
@@ -51,9 +55,9 @@ void onsetDetection::makeNoveltyFunction(juce::AudioBuffer<float>buffer, int aud
         
         // Prepare for FFT
         for (int n = 0; n < (fftSize); n++){
-            audioData[n] = audio[n+(hopLength*i)];
+            float hannWindowMultiplier = 0.5 * (1 - cos(2*M_PI*n/1023));
+            audioData[n] = hannWindowMultiplier * audio[n+(hopLength*i)];
         }
-        
         // JUCE FFT
         forwardFFT.performFrequencyOnlyForwardTransform(audioData.data());
         
@@ -61,13 +65,25 @@ void onsetDetection::makeNoveltyFunction(juce::AudioBuffer<float>buffer, int aud
         for(int j = 0; j < audioData.size(); j++){
             audioData[j] = 20*log10(audioData[j]+1e-12);
         }
+        // Take only positive frequency part of fft
+        std::vector<float>posfftData(fftSize/2, 0);
+        fftData[i].resize(fftSize/2);
         if (i == 0){
-            fftData[i] = audioData;
-            fftData[i+1] = (audioData);
+            for (int j = 0; j < fftSize/2; j++){
+                posfftData[j] = audioData[j];
+            }
+            fftData[i] = posfftData;
+            fftData[i+1] = posfftData;
             i++;
         }
         else {
-        fftData[i] = audioData;
+            
+            for (int j = 0; j < fftSize/2; j++){
+                posfftData[j] = audioData[j];
+            }
+            fftData[i] = posfftData;
+        
+            
         }
 
 

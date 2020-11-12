@@ -445,6 +445,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\classifyAudio.cpp">
+      <Filter>RecorderAttempt_2\Source</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\onsetDetection.cpp">
       <Filter>RecorderAttempt_2\Source</Filter>
     </ClCompile>
@@ -2589,6 +2592,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\classifyAudio.h">
+      <Filter>RecorderAttempt_2\Source</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\onsetDetection.h">
       <Filter>RecorderAttempt_2\Source</Filter>
     </ClInclude>

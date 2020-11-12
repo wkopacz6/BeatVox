@@ -38,6 +38,7 @@ private:
     
    
     juce::dsp::FFT forwardFFT; // FFT object to perform forward fft on
+    juce::dsp::WindowingFunction<float> hannWindow; 
     recordAudio Audio;
     
         

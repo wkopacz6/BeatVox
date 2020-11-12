@@ -57,6 +57,10 @@
 			isa = PBXBuildFile;
 			fileRef = 2CC7DCE65C2A6901DD0314D1;
 		};
+		6517D96B447298D48D405090 = {
+			isa = PBXBuildFile;
+			fileRef = 51C1F43803613E45CF15BD7D;
+		};
 		8383BB5BB23ABBAAA0247D0E = {
 			isa = PBXBuildFile;
 			fileRef = 1E9E579807410048A168453D;
@@ -130,6 +134,13 @@
 			lastKnownFileType = sourcecode.cpp.cpp;
 			name = Metronome.cpp;
 			path = ../../Source/Metronome.cpp;
+			sourceTree = "SOURCE_ROOT";
+		};
+		05B8E8BD717A02D2EF567FB9 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = classifyAudio.h;
+			path = ../../Source/classifyAudio.h;
 			sourceTree = "SOURCE_ROOT";
 		};
 		0680B53CA2EA231C4CA40452 = {
@@ -257,6 +268,13 @@
 			name = Accelerate.framework;
 			path = System/Library/Frameworks/Accelerate.framework;
 			sourceTree = SDKROOT;
+		};
+		51C1F43803613E45CF15BD7D = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = classifyAudio.cpp;
+			path = ../../Source/classifyAudio.cpp;
+			sourceTree = "SOURCE_ROOT";
 		};
 		54244AA34D45EC2A8785F18A = {
 			isa = PBXFileReference;
@@ -464,6 +482,8 @@
 		8B842842F1856770D96D9B42 = {
 			isa = PBXGroup;
 			children = (
+				51C1F43803613E45CF15BD7D,
+				05B8E8BD717A02D2EF567FB9,
 				1E9E579807410048A168453D,
 				746340310ED18E22AD4D253A,
 				00FD4C49F4B8306BD96E1766,
@@ -832,6 +852,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6517D96B447298D48D405090,
 				8383BB5BB23ABBAAA0247D0E,
 				DC7178BFF1B76E099A576DF2,
 				FE7D4CCD7D5A73306B3281B9,
