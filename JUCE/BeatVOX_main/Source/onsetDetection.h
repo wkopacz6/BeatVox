@@ -9,16 +9,17 @@
 */
 
 #include "recordAudio.h"
-#include "classifyAudio.h"
+
 #pragma once
 class onsetDetection
 {
+
+public:
+
     static constexpr auto fftOrder = 10; // The order of the fft; nfft = 2^order
     static constexpr auto fftSize = 1 << fftOrder; // Size of fft in binary
     static constexpr auto hopLength = 768;
-    
-    
-public:
+
     onsetDetection();
     ~onsetDetection();
     
@@ -38,7 +39,6 @@ private:
    
     juce::dsp::FFT forwardFFT; // FFT object to perform forward fft on
     recordAudio Audio;
-    classifyAudio classification;
     
         
     
