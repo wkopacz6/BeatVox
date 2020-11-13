@@ -10,14 +10,18 @@
 
 #include <JuceHeader.h>
 #include "onsetDetection.h"
+#include <cmath>
+#include <math.h>
 #pragma once
 
 class classifyAudio
 {
-
+ 
     static constexpr auto fftOrder = 10; // The order of the fft; nfft = 2^order
     static constexpr auto fftSize = 1 << fftOrder; // Size of fft in binary
     static constexpr auto hopLength = 768;
+    static constexpr auto melFilterNum = 128;
+    static constexpr auto dctFilterNum = 40;
 
 public:
     void splitAudio(juce::AudioBuffer<float>buffer, std::vector<int>peaks, double sampleRate);
@@ -30,11 +34,13 @@ public:
     std::vector<double> arange(double start, double end, double spacing);
     std::vector<std::vector<float>> doFilter(std::vector<std::vector<float>> signal_power);
     std::vector<std::vector<float>> signalPower(std::vector<std::vector<float>> fftData);
+    std::vector<std::vector<float>> constructDCT();
     std::vector<std::vector<float>> normalize(std::vector<std::vector<int>> filters);
-    std::vector<std::vector<float>> dotProduct(std::vector<std::vector<float>> matrix1 , std::vector<std::vector<float>> matrix2);
-    
+    std::vector<std::vector<float>> dotProduct(std::vector<std::vector<float>> matrix1, std::vector<std::vector<float>> matrix2);
+
 private:
 
+    std::vector<std::vector<float>> normFilters;
     std::vector<int> filterpoints;
     std::vector<double> freqs;
     onsetDetection onset;
@@ -43,5 +49,5 @@ private:
     juce::dsp::WindowingFunction<float> hannWindow;
 
     double mSampleRate{ 0 };
-
+    double pi = 3.1415;
 };

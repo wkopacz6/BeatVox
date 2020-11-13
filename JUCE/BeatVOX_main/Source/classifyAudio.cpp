@@ -9,14 +9,16 @@
 */
 
 #include "classifyAudio.h"
-#include <cmath>
+
 
 void classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::vector<int>peaks, double sampleRate)
 {
     mSampleRate = sampleRate;
 
     getFilterPoints(mSampleRate);
-    constructFilterBank();
+    auto filters = constructFilterBank();
+    normFilters = normalize(filters);
+    auto dctFilters = constructDCT();
 
     std::vector<float>audio(buffer.getNumSamples(), 0);
     for (int i = 0; i < buffer.getNumSamples(); i++) {
@@ -44,7 +46,8 @@ void classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::vector<int>p
 
         auto fft = doFFT(section);
         auto signal_power = signalPower(fft);
-     
+        auto audio_filtered = doFilter(signal_power);
+        auto cepCoeff = dotProduct(dctFilters, audio_filtered);
     }
 }
 
@@ -60,7 +63,7 @@ std::vector<std::vector<float>> classifyAudio::doFFT(std::vector<float> audio)
 
         // Prepare for FFT
         for (int n = 0; n < (fftSize); n++) {
-            float hannWindowMultiplier = 0.5 * (1 - cos(2 * M_PI * n / 1023));
+            float hannWindowMultiplier = 0.5 * (1 - cos(2 * pi * n / 1023));
             audioData[n] = hannWindowMultiplier * audio[n + (hopLength * i)];
         }
         // JUCE FFT
@@ -140,7 +143,7 @@ void classifyAudio::getFilterPoints(double sampleRate)
 {
     auto fmin_mel = freqToMel(0);
     auto fmax_mel = freqToMel(sampleRate/2);
-    std::vector<double>mels = linspace(fmin_mel, fmax_mel, 130);
+    std::vector<double>mels = linspace(fmin_mel, fmax_mel, melFilterNum + 2);
     freqs = std::vector<double>(mels.size(), 0);
 
     for (auto i = 0; i < mels.size(); i++)
@@ -192,6 +195,40 @@ std::vector<std::vector<float>> classifyAudio::doFilter(std::vector<std::vector<
         }
     }
 
+    auto dot = dotProduct(normFilters, trans_vec);
+    std::vector<std::vector<float> > audio_log(dot.size(), std::vector<float>(dot[0].size()));
+
+    for (auto i = 0; i < audio_log.size(); i++) {
+        for (auto j = 0; j < audio_log[0].size(); j++) {
+            audio_log[i][j] = 10.0*log10f(dot[i][j]);
+        }
+    }
+
+    return (audio_log);
+
+}
+
+std::vector<std::vector<float>> classifyAudio::constructDCT()
+{
+    std::vector<std::vector<float>> basis(dctFilterNum, std::vector<float>(melFilterNum));
+
+    for (auto i = 0; i < basis[0].size(); i++)
+    {
+        basis[0][i] = 1.0 / sqrt(melFilterNum);
+    }
+
+    auto samples = arange(1, 2 * melFilterNum, 2);
+
+    for (auto i = 0; i < samples.size(); i++)
+    {
+        samples[i] = pi / (2 * melFilterNum);
+    }
+
+    for (auto i = 1; i < basis.size(); i++)
+        for (auto j = 0; j < basis[0].size(); j++)
+            basis[i][j] = cos(i * samples[j]) * sqrt(2.0 / melFilterNum);
+
+    return basis;
 }
 
 std::vector<std::vector<float>> classifyAudio::dotProduct(std::vector<std::vector<float>> matrix1, std::vector<std::vector<float>> matrix2)
