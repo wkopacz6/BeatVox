@@ -63,7 +63,7 @@ void onsetDetection::makeNoveltyFunction(juce::AudioBuffer<float>buffer, int aud
         
         // Convert to dB
         for(int j = 0; j < audioData.size(); j++){
-            audioData[j] = 20*log10(audioData[j]+1e-12);
+            audioData[j] = 20*log10(abs(audioData[j])+1e-12);
         }
         // Take only positive frequency part of fft
         std::vector<float>posfftData(fftSize/2, 0);
@@ -93,14 +93,12 @@ void onsetDetection::makeNoveltyFunction(juce::AudioBuffer<float>buffer, int aud
     std::vector<std::vector<float>> flux(fftData.size()-1);
     for(int i = 0; i < flux.size(); i++){ flux[i].resize(fftSize*2); }
     
-    //Only take first half of the fft (non-negative frequencies)
     for(int i = 0; i < fftData.size() - 1; i++){
         for(int j = 0; j < (fftData[i].size()); j++){
-            flux[i][j] = pow((fftData[i][j] - fftData[i+1][j]), 2);
-            // square for RMS
+            flux[i][j] = fftData[i][j] - fftData[i+1][j];
+            
         }
     }
-    
     //Halfwave rectification
     for(int i = 0; i < flux.size(); i++){
         for(int j = 0; j < flux[i].size(); j++){
@@ -109,6 +107,15 @@ void onsetDetection::makeNoveltyFunction(juce::AudioBuffer<float>buffer, int aud
             }
         }
     }
+    // square for RMS
+    //for (int i = 0;i < flux.size(); i++) {
+      //  for (int j = 0; j < flux[i].size(); j++) {
+        //    flux[i][j] = pow(flux[i][j], 2);
+       // }
+   // }
+  
+    
+   
     
     // RMS
     std::vector<float>mean(numOfFFTs);
@@ -122,9 +129,10 @@ void onsetDetection::makeNoveltyFunction(juce::AudioBuffer<float>buffer, int aud
     }
     
     std::vector<float>RMS(mean.size());
-    for(int i = 0; i < mean.size(); i++){
-        RMS[i] = sqrt(mean[i]);
-    }
+    RMS = mean;
+    //for(int i = 0; i < mean.size(); i++){
+    //    RMS[i] = sqrt(mean[i]);
+    //}
     // Normalize novelty function
     float absmax_nov = 0;
     for (size_t i = 0; i < RMS.size(); ++i)
