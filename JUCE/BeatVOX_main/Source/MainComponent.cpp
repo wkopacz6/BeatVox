@@ -193,12 +193,14 @@ void MainComponent::stop()
 
 void MainComponent::dumpDataToCSV()
 {
-    recorder.tester();
-    segments.makeNoveltyFunction(recorder.bufferRecordedAudio, recorder.bufferRecordedAudio.getNumSamples());
-    segments.pickPeaks(segments.noveltyFunction);
-    segments.convertIndiciesToTime(segments.peaks);
-    //classification.splitAudio(recorder.bufferRecordedAudio, segments.peaks);
-    segments.testSegmentation();
+    //recorder.tester();
+    //segments.makeNoveltyFunction(recorder.bufferRecordedAudio, recorder.bufferRecordedAudio.getNumSamples());
+    //segments.pickPeaks(segments.noveltyFunction);
+    //segments.convertIndiciesToTime(segments.peaks);
+    ////classification.splitAudio(recorder.bufferRecordedAudio, segments.peaks);
+    //segments.testSegmentation();
+
+    classification.tester(recorder.bufferRecordedAudio);
 }
 
 //graphically informs the user that recording has finished

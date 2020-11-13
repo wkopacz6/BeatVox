@@ -10,6 +10,21 @@
 
 #include "classifyAudio.h"
 
+classifyAudio::classifyAudio() : forwardFFT(fftOrder),
+hannWindow(fftSize, juce::dsp::WindowingFunction<float>::hann) {};
+
+classifyAudio::~classifyAudio() {};
+
+void classifyAudio::tester(juce::AudioBuffer<float> buffer)
+{
+    std::vector<int> peaks = { 20, 5000, 39998 };
+    double sampleRate = 44100;
+    //juce::AudioBuffer<float> buffer(1, 40000);
+    //buffer.clear();
+
+    splitAudio(buffer, peaks, sampleRate);
+
+}
 
 void classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::vector<int>peaks, double sampleRate)
 {
@@ -98,12 +113,12 @@ std::vector<std::vector<float>> classifyAudio::doFFT(std::vector<float> audio)
     return fftData;
 }
 
-std::vector<std::vector<float>> classifyAudio::normalize(std::vector<std::vector<int>> filters)
+std::vector<std::vector<float>> classifyAudio::normalize(std::vector<std::vector<float>> filters)
 {
-    std::vector<double> enorm;
+    std::vector<double> enorm(melFilterNum, 0);
     auto normFilter = std::vector<std::vector<float>>(filters.size(), std::vector<float>(filters[0].size()));
-    for (auto i = 0; i < 128; i++) {
-        enorm[i] = 1.0 / (freqs[i + 2] - freqs[i]);
+    for (auto i = 0; i < melFilterNum; i++) {
+        enorm[i] = 2.0 / (freqs[i + 2] - freqs[i]);
 
     }
     for (auto i = 0; i < filters.size(); i++) {
@@ -154,29 +169,27 @@ void classifyAudio::getFilterPoints(double sampleRate)
     filterpoints = std::vector<int>(freqs.size(), 0);
     for (auto i = 0; i < freqs.size(); i++)
     {
-        filterpoints[i] = (int)(floor(fftSize + 1) * sampleRate * freqs[i]);
+        filterpoints[i] = (int)(floor((fftSize + 1) / sampleRate * freqs[i]));
     }
 }
 
 
-std::vector<std::vector<int>> classifyAudio::constructFilterBank() 
+std::vector<std::vector<float>> classifyAudio::constructFilterBank() 
 {
-    auto filters = std::vector<std::vector<int>>(filterpoints.size()-2, std::vector<int>((int)fftSize/2 + 1));
+    auto filters = std::vector<std::vector<float>>(filterpoints.size()-2, std::vector<float>((int)fftSize/2 + 1));
 
     for (auto n = 0; n < filterpoints.size() - 2; n++)
     {
         auto lin1 = linspace(0, 1, filterpoints[n + 1] - filterpoints[n]);
         auto lin2 = linspace(1, 0, filterpoints[n + 2] - filterpoints[n + 1]);
-        for (auto j = filterpoints[n]; j <= filterpoints[n + 1]; j++)
+        for (auto j = filterpoints[n]; j < filterpoints[n + 1]; j++)
         {
-            for (auto i = 0; i < lin1.size(); i++)
-                filters[n][j] = lin1[i];
+                filters[n][j] = lin1[j - filterpoints[n]];
         }
 
-        for (auto j = filterpoints[n + 1]; j <= filterpoints[n + 2]; j++)
+        for (auto j = filterpoints[n + 1]; j < filterpoints[n + 2]; j++)
         {
-            for (auto i = 0; i < lin2.size(); i++)
-                filters[n][j] = lin2[i];
+                filters[n][j] = lin2[j - filterpoints[n+1]];
         }
     }
 
@@ -221,7 +234,7 @@ std::vector<std::vector<float>> classifyAudio::constructDCT()
 
     for (auto i = 0; i < samples.size(); i++)
     {
-        samples[i] = pi / (2 * melFilterNum);
+        samples[i] = samples[i] * pi / (2 * melFilterNum);
     }
 
     for (auto i = 1; i < basis.size(); i++)
@@ -255,17 +268,17 @@ std::vector<std::vector<float>> classifyAudio::dotProduct(std::vector<std::vecto
     return output;
 }
 
-std::vector<double> classifyAudio::arange(double start, double end, double spacing)
+std::vector<double> classifyAudio::arange(double start_in, double end_in, double spacing)
 {
     std::vector<double>aranged;
-    double start = static_cast<double>(start);
-    double end = static_cast<double>(end);
+    double start = static_cast<double>(start_in);
+    double end = static_cast<double>(end_in);
     double num = static_cast<double>(spacing);
     double current = start;
     aranged.push_back(start);
  
 
-    while (current < end) 
+    while ((current + spacing) < end) 
     {
             aranged.push_back(current + spacing);
             current += spacing;

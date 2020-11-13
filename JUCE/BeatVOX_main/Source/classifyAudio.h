@@ -18,25 +18,30 @@ class classifyAudio
 {
  
     static constexpr auto fftOrder = 10; // The order of the fft; nfft = 2^order
-    static constexpr auto fftSize = 1 << fftOrder; // Size of fft in binary
+    static constexpr auto fftSize = 2 << fftOrder; // Size of fft in binary
     static constexpr auto hopLength = 768;
-    static constexpr auto melFilterNum = 128;
+    static constexpr auto melFilterNum = 10;
     static constexpr auto dctFilterNum = 40;
 
 public:
+    classifyAudio();
+    ~classifyAudio();
+
     void splitAudio(juce::AudioBuffer<float>buffer, std::vector<int>peaks, double sampleRate);
     std::vector<std::vector<float>> doFFT(std::vector<float> audio);
-    std::vector<std::vector<int>> constructFilterBank();
+    std::vector<std::vector<float>> constructFilterBank();
     double freqToMel(double freq);
     double melToFreq(double mel);
     void getFilterPoints(double sampleRate);
     std::vector<double> linspace(double start_in, double end_in, int num_in);
-    std::vector<double> arange(double start, double end, double spacing);
+    std::vector<double> arange(double start_in, double end_in, double spacing);
     std::vector<std::vector<float>> doFilter(std::vector<std::vector<float>> signal_power);
     std::vector<std::vector<float>> signalPower(std::vector<std::vector<float>> fftData);
     std::vector<std::vector<float>> constructDCT();
-    std::vector<std::vector<float>> normalize(std::vector<std::vector<int>> filters);
+    std::vector<std::vector<float>> normalize(std::vector<std::vector<float>> filters);
     std::vector<std::vector<float>> dotProduct(std::vector<std::vector<float>> matrix1, std::vector<std::vector<float>> matrix2);
+
+    void tester(juce::AudioBuffer<float> buffer);
 
 private:
 
