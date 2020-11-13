@@ -200,7 +200,7 @@ void MainComponent::dumpDataToCSV()
     ////classification.splitAudio(recorder.bufferRecordedAudio, segments.peaks);
     //segments.testSegmentation();
 
-    classification.tester(recorder.bufferRecordedAudio);
+    //classification.tester(recorder.bufferRecordedAudio);
 }
 
 //graphically informs the user that recording has finished

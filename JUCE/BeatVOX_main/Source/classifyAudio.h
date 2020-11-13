@@ -18,7 +18,7 @@ class classifyAudio
 {
  
     static constexpr auto fftOrder = 10; // The order of the fft; nfft = 2^order
-    static constexpr auto fftSize = 2 << fftOrder; // Size of fft in binary
+    static constexpr auto fftSize = 1 << fftOrder; // Size of fft in binary
     static constexpr auto hopLength = 768;
     static constexpr auto melFilterNum = 10;
     static constexpr auto dctFilterNum = 40;
