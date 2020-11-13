@@ -215,6 +215,7 @@ std::vector<std::vector<float>> classifyAudio::dotProduct(std::vector<std::vecto
         }     
         output[i][index] = currentSum;        
     }
+    return output;
 }
 
 std::vector<double> classifyAudio::arange(double start, double end, double spacing)
@@ -232,7 +233,7 @@ std::vector<double> classifyAudio::arange(double start, double end, double spaci
             aranged.push_back(current + spacing);
             current += spacing;
     }
-
+    return aranged;
 }
 
 std::vector<double> classifyAudio::linspace(double start_in, double end_in, int num_in)
