@@ -44,7 +44,7 @@ void classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::vector<int>p
 
         auto fft = doFFT(section);
         auto signal_power = signalPower(fft);
-
+     
     }
 }
 
@@ -138,8 +138,8 @@ double classifyAudio::melToFreq(double mel)
 
 void classifyAudio::getFilterPoints(double sampleRate)
 {
-    auto fmin_mel = freqToMel(fmin);
-    auto fmax_mel = freqToMel(fmax);
+    auto fmin_mel = freqToMel(0);
+    auto fmax_mel = freqToMel(sampleRate/2);
     std::vector<double>mels = linspace(fmin_mel, fmax_mel, 130);
     freqs = std::vector<double>(mels.size(), 0);
 
@@ -154,6 +154,7 @@ void classifyAudio::getFilterPoints(double sampleRate)
         filterpoints[i] = (int)(floor(fftSize + 1) * sampleRate * freqs[i]);
     }
 }
+
 
 std::vector<std::vector<int>> classifyAudio::constructFilterBank() 
 {
@@ -177,6 +178,43 @@ std::vector<std::vector<int>> classifyAudio::constructFilterBank()
     }
 
     return filters;
+}
+
+std::vector<std::vector<float>> classifyAudio::doFilter(std::vector<std::vector<float>> signal_power)
+{
+    std::vector<std::vector<float> > trans_vec(signal_power[0].size(), std::vector<float>(signal_power.size()));
+
+    for (int i = 0; i < signal_power.size(); i++)
+    {
+        for (int j = 0; j < signal_power[i].size(); j++)
+        {
+            trans_vec[j][i] = signal_power[i][j];
+        }
+    }
+
+}
+
+std::vector<std::vector<float>> classifyAudio::dotProduct(std::vector<std::vector<float>> matrix1, std::vector<std::vector<float>> matrix2)
+{
+    std::vector<std::vector<float>> output();
+}
+
+std::vector<double> classifyAudio::arange(double start, double end, double spacing)
+{
+    std::vector<double>aranged;
+    double start = static_cast<double>(start);
+    double end = static_cast<double>(end);
+    double num = static_cast<double>(spacing);
+    double current = start;
+    aranged.push_back(start);
+ 
+
+    while (current < end) 
+    {
+            aranged.push_back(current + spacing);
+            current += spacing;
+    }
+
 }
 
 std::vector<double> classifyAudio::linspace(double start_in, double end_in, int num_in)
@@ -204,3 +242,4 @@ std::vector<double> classifyAudio::linspace(double start_in, double end_in, int 
     linspaced.push_back(end); 
     return linspaced;
 }
+

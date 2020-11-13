@@ -27,9 +27,12 @@ public:
     double melToFreq(double mel);
     void getFilterPoints(double sampleRate);
     std::vector<double> linspace(double start_in, double end_in, int num_in);
+    std::vector<double> arange(double start, double end, double spacing);
+    std::vector<std::vector<float>> doFilter(std::vector<std::vector<float>> signal_power);
     std::vector<std::vector<float>> signalPower(std::vector<std::vector<float>> fftData);
     std::vector<std::vector<float>> normalize(std::vector<std::vector<int>> filters);
-    
+    std::vector<std::vector<float>> dotProduct(std::vector<std::vector<float>> matrix1, std::vector<std::vector<float>> matrix2);
+
 private:
 
     std::vector<int> filterpoints;
