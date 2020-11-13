@@ -196,7 +196,25 @@ std::vector<std::vector<float>> classifyAudio::doFilter(std::vector<std::vector<
 
 std::vector<std::vector<float>> classifyAudio::dotProduct(std::vector<std::vector<float>> matrix1, std::vector<std::vector<float>> matrix2)
 {
-    std::vector<std::vector<float>> output();
+    std::vector<std::vector<float>> output(matrix1.size(), std::vector<float>(matrix2[0].size()));
+    double currentSum = 0;
+    int index;
+
+    if (matrix1[0].size() != matrix2.size())
+    {
+        DBG("cannot perform dot product");
+    }
+
+    for (int i = 0; i < matrix1.size(); i++) 
+    {
+        index = 0;
+        for (int j = 0; j < matrix1[0].size(); j++)
+        {
+            currentSum += matrix1[i][j] * matrix2[j][i];
+            index += 1;
+        }     
+        output[i][index] = currentSum;        
+    }
 }
 
 std::vector<double> classifyAudio::arange(double start, double end, double spacing)
