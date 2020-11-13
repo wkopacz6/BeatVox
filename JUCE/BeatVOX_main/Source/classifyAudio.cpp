@@ -103,7 +103,7 @@ std::vector<std::vector<float>> classifyAudio::normalize(std::vector<std::vector
     std::vector<double> enorm;
     auto normFilter = std::vector<std::vector<float>>(filters.size(), std::vector<float>(filters[0].size()));
     for (auto i = 0; i < 128; i++) {
-        enorm[i] = 2.0 / (freqs[i + 2] - freqs[i]);
+        enorm[i] = 1.0 / (freqs[i + 2] - freqs[i]);
 
     }
     for (auto i = 0; i < filters.size(); i++) {
