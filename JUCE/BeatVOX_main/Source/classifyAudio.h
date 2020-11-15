@@ -18,7 +18,7 @@ class classifyAudio
 {
  
     static constexpr auto fftOrder = 10; // The order of the fft; nfft = 2^order
-    static constexpr auto fftSize = 1 << fftOrder; // Size of fft in binary
+    static constexpr auto fftSize = 2 << fftOrder; // Size of fft in binary
     static constexpr auto hopLength = 768;
     static constexpr auto melFilterNum = 10;
     static constexpr auto dctFilterNum = 40;
@@ -41,7 +41,7 @@ public:
     std::vector<std::vector<float>> normalize(std::vector<std::vector<float>> filters);
     std::vector<std::vector<float>> dotProduct(std::vector<std::vector<float>> matrix1, std::vector<std::vector<float>> matrix2);
 
-    void tester(juce::AudioBuffer<float> buffer);
+    void tester(juce::AudioBuffer<float> buffer, double sampleRate);
 
 private:
 
@@ -51,7 +51,6 @@ private:
     onsetDetection onset;
 
     juce::dsp::FFT forwardFFT; // FFT object to perform forward fft on
-    juce::dsp::WindowingFunction<float> hannWindow;
 
     double mSampleRate{ 0 };
     double pi = 3.1415;

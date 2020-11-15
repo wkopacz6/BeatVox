@@ -10,15 +10,13 @@
 
 #include "classifyAudio.h"
 
-classifyAudio::classifyAudio() : forwardFFT(fftOrder),
-hannWindow(fftSize, juce::dsp::WindowingFunction<float>::hann) {};
+classifyAudio::classifyAudio() : forwardFFT(fftOrder){};
 
 classifyAudio::~classifyAudio() {};
 
-void classifyAudio::tester(juce::AudioBuffer<float> buffer)
+void classifyAudio::tester(juce::AudioBuffer<float> buffer, double sampleRate)
 {
     std::vector<int> peaks = { 20, 5000, 39998 };
-    double sampleRate = 44100;
     //juce::AudioBuffer<float> buffer(1, 40000);
     //buffer.clear();
 
@@ -68,7 +66,8 @@ void classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::vector<int>p
 
 std::vector<std::vector<float>> classifyAudio::doFFT(std::vector<float> audio)
 {
-    int numOfFFTs = ceil((audio.size()) / (hopLength));
+    auto length = (int)(mSampleRate * 0.04);
+    int numOfFFTs = ceil(length / (hopLength));
     std::vector<std::vector<float>> fftData;
     fftData.resize(numOfFFTs + 1);
 
@@ -89,10 +88,10 @@ std::vector<std::vector<float>> classifyAudio::doFFT(std::vector<float> audio)
             audioData[j] = 20 * log10(audioData[j] + 1e-12);
         }
         // Take only positive frequency part of fft
-        std::vector<float>posfftData(fftSize / 2, 0);
-        fftData[i].resize(fftSize / 2);
+        std::vector<float>posfftData(1 + (fftSize / 2), 0);
+        fftData[i].resize(1 + (fftSize / 2));
         if (i == 0) {
-            for (int j = 0; j < fftSize / 2; j++) {
+            for (int j = 0; j <= fftSize / 2; j++) {
                 posfftData[j] = audioData[j];
             }
             fftData[i] = posfftData;
@@ -101,7 +100,7 @@ std::vector<std::vector<float>> classifyAudio::doFFT(std::vector<float> audio)
         }
         else {
 
-            for (int j = 0; j < fftSize / 2; j++) {
+            for (int j = 0; j <= fftSize / 2; j++) {
                 posfftData[j] = audioData[j];
             }
             fftData[i] = posfftData;
@@ -139,7 +138,6 @@ std::vector<std::vector<float>> classifyAudio::signalPower(std::vector<std::vect
         for (auto j = 0; j < fftData[0].size() ; j++) {
             power[i][j] = pow(abs(fftData[i][j]), 2);
         }
-    
     }
     return power;
 }
@@ -246,24 +244,25 @@ std::vector<std::vector<float>> classifyAudio::constructDCT()
 
 std::vector<std::vector<float>> classifyAudio::dotProduct(std::vector<std::vector<float>> matrix1, std::vector<std::vector<float>> matrix2)
 {
-    std::vector<std::vector<float>> output(matrix1.size(), std::vector<float>(matrix2[0].size()));
-    double currentSum = 0;
-    int index;
+     std::vector<std::vector<float>> output(matrix1.size(), std::vector<float>(matrix2[0].size()));
 
     if (matrix1[0].size() != matrix2.size())
     {
         DBG("cannot perform dot product");
     }
-
-    for (int i = 0; i < matrix1.size(); i++) 
+    else
     {
-        index = 0;
-        for (int j = 0; j < matrix1[0].size(); j++)
+        for (auto i = 0; i < matrix1.size(); i++)
         {
-            currentSum += matrix1[i][j] * matrix2[j][i];
-            index += 1;
-        }     
-        output[i][index] = currentSum;        
+            for (auto j = 0; j < matrix2[0].size(); j++)
+            {
+                output[i][j] = 0;
+                for (auto k = 0; k < matrix1[0].size(); k++)
+                {
+                    output[i][j] += matrix1[i][k] * matrix2[k][j];
+                }
+            }
+        }
     }
     return output;
 }
