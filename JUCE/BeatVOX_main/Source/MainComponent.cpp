@@ -201,6 +201,7 @@ void MainComponent::dumpDataToCSV()
     //segments.testSegmentation();
 
     classification.tester(recorder.bufferRecordedAudio, recorder.mSampleRate);
+    DBG("done");
 }
 
 //graphically informs the user that recording has finished

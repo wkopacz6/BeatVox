@@ -18,6 +18,7 @@ void classifyAudio::tester(juce::AudioBuffer<float> buffer, double sampleRate)
 {
     std::vector<int> peaks = { 20, 5000, 39998 };
     //juce::AudioBuffer<float> buffer(1, 40000);
+    //buffer.setSize(1, 40000, true);
     //buffer.clear();
 
     splitAudio(buffer, peaks, sampleRate);
@@ -77,7 +78,7 @@ std::vector<std::vector<float>> classifyAudio::doFFT(std::vector<float> audio)
 
         // Prepare for FFT
         for (int n = 0; n < (fftSize); n++) {
-            float hannWindowMultiplier = 0.5 * (1 - cos(2 * pi * n / 1023));
+            float hannWindowMultiplier = 0.5 * (1 - cos(2 * pi * n / (fftSize - 1)));
             audioData[n] = hannWindowMultiplier * audio[n + (hopLength * i)];
         }
         // JUCE FFT
@@ -223,21 +224,16 @@ std::vector<std::vector<float>> classifyAudio::constructDCT()
 {
     std::vector<std::vector<float>> basis(dctFilterNum, std::vector<float>(melFilterNum));
 
-    for (auto i = 0; i < basis[0].size(); i++)
+    for (auto i = 0; i < basis.size(); i++)
     {
-        basis[0][i] = 1.0 / sqrt(melFilterNum);
-    }
-
-    auto samples = arange(1, 2 * melFilterNum, 2);
-
-    for (auto i = 0; i < samples.size(); i++)
-    {
-        samples[i] = samples[i] * pi / (2 * melFilterNum);
-    }
-
-    for (auto i = 1; i < basis.size(); i++)
         for (auto j = 0; j < basis[0].size(); j++)
-            basis[i][j] = cos(i * samples[j]) * sqrt(2.0 / melFilterNum);
+        {
+            if (j == 0)
+                basis[i][j] = sqrt(1.0 / (4 * melFilterNum)) * 2 * cos((2 * i + 1) * (j * pi) / sqrt(1.0 / (2 * melFilterNum)));
+            else
+                basis[i][j] = sqrt(1.0 / (2 * melFilterNum)) * 2 * cos((2 * i + 1) * (j * pi) / sqrt(1.0 / (2 * melFilterNum)));
+        }
+    }
 
     return basis;
 }
