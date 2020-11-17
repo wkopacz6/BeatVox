@@ -20,7 +20,7 @@ class classifyAudio
     static constexpr auto fftOrder = 10; // The order of the fft; nfft = 2^order
     static constexpr auto fftSize = 1 << fftOrder; // Size of fft in binary
     static constexpr auto hopLength = 768;
-    static constexpr auto melFilterNum = 10;
+    static constexpr auto melFilterNum = 128;
     static constexpr auto dctFilterNum = 40;
 
 public:
@@ -29,10 +29,10 @@ public:
 
     void splitAudio(juce::AudioBuffer<float>buffer, std::vector<int>peaks, double sampleRate);
     std::vector<std::vector<float>> doFFT(std::vector<float> audio);
-    std::vector<std::vector<float>> constructFilterBank();
+    /*std::vector<std::vector<float>> constructFilterBank();*/
     double freqToMel(double freq);
     double melToFreq(double mel);
-    void getFilterPoints(double sampleRate);
+    std::vector<std::vector<float>> getMelFilterBank(double sampleRate);
     std::vector<double> linspace(double start_in, double end_in, int num_in);
     std::vector<double> arange(double start_in, double end_in, double spacing);
     std::vector<std::vector<float>> doFilter(std::vector<std::vector<float>> signal_power);
@@ -54,4 +54,6 @@ private:
 
     double mSampleRate{ 0 };
     double pi = 3.1415;
+
+    juce::AudioFormatManager mFormatManager;
 };

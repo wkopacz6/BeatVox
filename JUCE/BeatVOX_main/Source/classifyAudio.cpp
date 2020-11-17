@@ -16,7 +16,9 @@ classifyAudio::~classifyAudio() {};
 
 void classifyAudio::tester(juce::AudioBuffer<float> buffer, double sampleRate)
 {
-    std::vector<int> peaks = { 20, 5000, 30000 };
+
+
+    std::vector<int> peaks = { 0 };
     //juce::AudioBuffer<float> buffer(1, 40000);
     //buffer.setSize(1, 40000, true);
     //buffer.clear();
@@ -29,19 +31,34 @@ void classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::vector<int>p
 {
     mSampleRate = sampleRate;
 
-    getFilterPoints(mSampleRate);
+    mFormatManager.registerBasicFormats();
+
+    juce::File myFile{ juce::File::getSpecialLocation(juce::File::SpecialLocationType::userDocumentsDirectory) };
+    auto mySamples = myFile.findChildFiles(juce::File::TypesOfFileToFind::findFiles, true, "snare.wav");
+
+    auto reader = mFormatManager.createReaderFor(mySamples[0]);
+    juce::AudioSampleBuffer bufferTest(reader->numChannels, reader->lengthInSamples);
+    reader->read(&bufferTest, 0, reader->lengthInSamples, 0, true, true);
+
+    std::vector<float>audio(bufferTest.getNumSamples(), 0);
+    for (int i = 0; i < bufferTest.getNumSamples(); i++) {
+       audio[i] = bufferTest.getSample(0, i);
+     }
+
+    /*getFilterPoints(mSampleRate);
     auto filters = constructFilterBank();
-    normFilters = normalize(filters);
+    normFilters = normalize(filters);*/
+    auto mel_basis = getMelFilterBank(mSampleRate);
     auto dctFilters = constructDCT();
 
-    std::vector<float>audio(buffer.getNumSamples(), 0);
+    /*std::vector<float>audio(buffer.getNumSamples(), 0);
     for (int i = 0; i < buffer.getNumSamples(); i++) {
         audio[i] = buffer.getSample(0, i);
-    }
+    }*/
 
     for (auto i = 0; i < peaks.size(); i++)
     {
-        auto length = int(mSampleRate * 0.25);
+        auto length = int(mSampleRate * 0.04);
         auto remainder = (length - fftSize + hopLength) % hopLength;
 
         int numberOfZeros = 0;
@@ -51,7 +68,7 @@ void classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::vector<int>p
         auto section = std::vector<float>(length + numberOfZeros, 0);
 
         auto start_ind = peaks[i];
-        auto end_ind = peaks[i] + section.size();
+        auto end_ind = peaks[i] + length;
 
         if (end_ind > audio.size())
         {
@@ -94,10 +111,6 @@ std::vector<std::vector<float>> classifyAudio::doFFT(std::vector<float> audio)
         // JUCE FFT
         forwardFFT.performFrequencyOnlyForwardTransform(audioData.data());
 
-        // Convert to dB
-        for (int j = 0; j < audioData.size(); j++) {
-            audioData[j] = 20 * log10(audioData[j] + 1e-12);
-        }
         // Take only positive frequency part of fft
         std::vector<float>posfftData(1 + (fftSize / 2), 0);
         
@@ -124,7 +137,6 @@ std::vector<std::vector<float>> classifyAudio::normalize(std::vector<std::vector
         for(auto j = 0; j < filters[i].size(); j++) {
             normFilter[i][j] = (float)filters[i][j] * enorm[i];
         }
-        
     }
 
     return normFilter;
@@ -139,6 +151,7 @@ std::vector<std::vector<float>> classifyAudio::signalPower(std::vector<std::vect
             power[i][j] = pow(abs(fftData[i][j]), 2);
         }
     }
+
     return power;
 }
 
@@ -152,10 +165,65 @@ double classifyAudio::melToFreq(double mel)
     return 700.0 * ( pow(10, (mel / 2595.0)) - 1.0);
 }
 
-void classifyAudio::getFilterPoints(double sampleRate)
+std::vector<std::vector<float>> classifyAudio::getMelFilterBank(double sampleRate)
 {
     auto fmin_mel = freqToMel(0);
     auto fmax_mel = freqToMel(sampleRate/2);
+
+    std::vector<std::vector<float>> weights(melFilterNum, std::vector<float>(1 + fftSize / 2));
+    weights.clear();
+
+    auto fftFreqs = linspace(0, sampleRate / 2, int(1 + fftSize / 2));
+    auto mel_f = linspace(fmin_mel, fmax_mel, melFilterNum + 2);
+
+    for (auto i = 0; i < mel_f.size(); i++)
+        mel_f[i] = melToFreq(mel_f[i]);
+
+    std::vector<float> fdiff(mel_f.size() - 1, 0);
+
+    for (auto i = 0; i < fdiff.size(); i++)
+        fdiff[i] = mel_f[i + 1] - mel_f[i];
+
+    std::vector<std::vector<float>> ramps(mel_f.size(), std::vector<float>(fftFreqs.size()));
+    ramps.clear();
+    for (auto i = 0; i < mel_f.size(); i++)
+        for (auto j = 0; j < fftFreqs.size(); j++)
+            ramps[i][j] = mel_f[i] - fftFreqs[j];
+
+    for (auto i = 0; i < melFilterNum; i++)
+    {
+        std::vector<float>lower(ramps[0].size(), 0);
+        std::vector<float>upper(ramps[0].size(), 0);
+        for (auto j = 0; j < ramps[0].size(); j++)
+        {
+            lower[j] = -ramps[i][j] / fdiff[i];
+            upper[j] = ramps[i + 2][j] / fdiff[i + 1];
+        }
+
+        std::vector<float> minimum(lower.size(), 0);
+        for (auto x = 0; x < lower.size(); x++)
+        {
+            if (lower[x] <= upper[x])
+                minimum[x] = lower[x];
+            else
+                minimum[x] = upper[x];
+        }
+        
+        std::vector<float> maximum(minimum.size(), 0);
+        for (auto x = 0; x < minimum.size(); x++)
+        {
+            if (minimum[x] > maximum[x])
+                maximum[x] = minimum[x];
+        }
+
+        weights[i] = maximum;
+
+        weights = normalize(weights);
+
+        return weights;
+
+    }
+
     std::vector<double>mels = linspace(fmin_mel, fmax_mel, melFilterNum + 2);
     freqs = std::vector<double>(mels.size(), 0); 
 
@@ -172,27 +240,27 @@ void classifyAudio::getFilterPoints(double sampleRate)
 }
 
 
-std::vector<std::vector<float>> classifyAudio::constructFilterBank() 
-{
-    auto filters = std::vector<std::vector<float>>(filterpoints.size()-2, std::vector<float>((int)fftSize/2 + 1));
-
-    for (auto n = 0; n < filterpoints.size() - 2; n++)
-    {
-        auto lin1 = linspace(0, 1, filterpoints[n + 1] - filterpoints[n]);
-        auto lin2 = linspace(1, 0, filterpoints[n + 2] - filterpoints[n + 1]);
-        for (auto j = filterpoints[n]; j < filterpoints[n + 1]; j++)
-        {
-                filters[n][j] = lin1[j - filterpoints[n]];
-        }
-
-        for (auto j = filterpoints[n + 1]; j < filterpoints[n + 2]; j++)
-        {
-                filters[n][j] = lin2[j - filterpoints[n+1]];
-        }
-    }
-
-    return filters;
-}
+//std::vector<std::vector<float>> classifyAudio::constructFilterBank() 
+//{
+//    auto filters = std::vector<std::vector<float>>(filterpoints.size()-2, std::vector<float>((int)fftSize/2 + 1));
+//
+//    for (auto n = 0; n < filterpoints.size() - 2; n++)
+//    {
+//        auto lin1 = linspace(0, 1, filterpoints[n + 1] - filterpoints[n]);
+//        auto lin2 = linspace(1, 0, filterpoints[n + 2] - filterpoints[n + 1]);
+//        for (auto j = filterpoints[n]; j < filterpoints[n + 1]; j++)
+//        {
+//                filters[n][j] = lin1[j - filterpoints[n]];
+//        }
+//
+//        for (auto j = filterpoints[n + 1]; j < filterpoints[n + 2]; j++)
+//        {
+//                filters[n][j] = lin2[j - filterpoints[n+1]];
+//        }
+//    }
+//
+//    return filters;
+//}
 
 std::vector<std::vector<float>> classifyAudio::doFilter(std::vector<std::vector<float>> signal_power)
 {
@@ -211,7 +279,7 @@ std::vector<std::vector<float>> classifyAudio::doFilter(std::vector<std::vector<
 
     for (auto i = 0; i < audio_log.size(); i++) {
         for (auto j = 0; j < audio_log[0].size(); j++) {
-            audio_log[i][j] = 10.0*log10f(dot[i][j]);
+            audio_log[i][j] = 20.0*log10(dot[i][j]);
         }
     }
 
