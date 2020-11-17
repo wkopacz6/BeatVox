@@ -6,6 +6,7 @@
       <change beforePath="$PROJECT_DIR$/JUCE/BeatVOX_main/Builds/MacOSX/RecorderAttempt_2.xcodeproj/project.xcworkspace/xcuserdata/walterkopacz.xcuserdatad/UserInterfaceState.xcuserstate" beforeDir="false" afterPath="$PROJECT_DIR$/JUCE/BeatVOX_main/Builds/MacOSX/RecorderAttempt_2.xcodeproj/project.xcworkspace/xcuserdata/walterkopacz.xcuserdatad/UserInterfaceState.xcuserstate" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/JUCE/BeatVOX_main/Builds/MacOSX/RecorderAttempt_2.xcodeproj/xcuserdata/walterkopacz.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist" beforeDir="false" afterPath="$PROJECT_DIR$/JUCE/BeatVOX_main/Builds/MacOSX/RecorderAttempt_2.xcodeproj/xcuserdata/walterkopacz.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/JUCE/BeatVOX_main/Builds/MacOSX/build/Debug/RecorderAttempt_2.app/Contents/MacOS/RecorderAttempt_2" beforeDir="false" afterPath="$PROJECT_DIR$/JUCE/BeatVOX_main/Builds/MacOSX/build/Debug/RecorderAttempt_2.app/Contents/MacOS/RecorderAttempt_2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JUCE/BeatVOX_main/Source/MainComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/JUCE/BeatVOX_main/Source/MainComponent.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/JUCE/BeatVOX_main/Source/onsetDetection.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/JUCE/BeatVOX_main/Source/onsetDetection.cpp" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />

@@ -47,10 +47,10 @@ void onsetDetection::makeNoveltyFunction(juce::AudioBuffer<float>buffer, int aud
     // Allocate array for FFT data
     
     int numOfFFTs = ceil((audioNumOfSamples)/(hopLength));
-    fftData.resize(numOfFFTs + 1);
+    fftData.resize(numOfFFTs);
     
     
-    for(int i = 0; i < numOfFFTs + 1; i++) {
+    for(int i = 0; i < numOfFFTs; i++) {
         std::vector<float> audioData(fftSize*2);
         
         // Prepare for FFT
@@ -68,26 +68,18 @@ void onsetDetection::makeNoveltyFunction(juce::AudioBuffer<float>buffer, int aud
         // Take only positive frequency part of fft
         std::vector<float>posfftData(fftSize/2, 0);
         fftData[i].resize(fftSize/2);
-        if (i == 0){
-            for (int j = 0; j < fftSize/2; j++){
-                posfftData[j] = audioData[j];
-            }
-            fftData[i] = posfftData;
-            fftData[i+1] = posfftData;
-            i++;
-        }
-        else {
-            
-            for (int j = 0; j < fftSize/2; j++){
-                posfftData[j] = audioData[j];
-            }
-            fftData[i] = posfftData;
         
             
+        for (int j = 0; j < fftSize/2; j++){
+            posfftData[j] = audioData[j];
         }
-
-
+        fftData[i] = posfftData;
     }
+    
+    //Duplicate the first frame so first flux will be zero
+    
+    
+    fftData.insert(fftData.begin(), fftData[0]);
     
     // Diff each spectrum
     std::vector<std::vector<float>> flux(fftData.size()-1);
@@ -108,11 +100,11 @@ void onsetDetection::makeNoveltyFunction(juce::AudioBuffer<float>buffer, int aud
         }
     }
     // square for RMS
-    //for (int i = 0;i < flux.size(); i++) {
-      //  for (int j = 0; j < flux[i].size(); j++) {
-        //    flux[i][j] = pow(flux[i][j], 2);
-       // }
-   // }
+    for (int i = 0;i < flux.size(); i++) {
+        for (int j = 0; j < flux[i].size(); j++) {
+            flux[i][j] = pow(flux[i][j], 2);
+        }
+    }
   
     
    
@@ -130,9 +122,9 @@ void onsetDetection::makeNoveltyFunction(juce::AudioBuffer<float>buffer, int aud
     
     std::vector<float>RMS(mean.size());
     RMS = mean;
-    //for(int i = 0; i < mean.size(); i++){
-    //    RMS[i] = sqrt(mean[i]);
-    //}
+    for(int i = 0; i < mean.size(); i++){
+        RMS[i] = sqrt(mean[i]);
+    }
     // Normalize novelty function
     float absmax_nov = 0;
     for (size_t i = 0; i < RMS.size(); ++i)
