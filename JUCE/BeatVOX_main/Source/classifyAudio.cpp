@@ -273,7 +273,6 @@ std::vector<std::vector<float>> classifyAudio::getMelFilterBank(double sampleRat
     }*/
 }
 
-
 std::vector<std::vector<float>> classifyAudio::doFilter(std::vector<std::vector<float>> signal_power, std::vector<std::vector<float>> mel_basis)
 {
     std::vector<std::vector<float> > trans_vec(signal_power[0].size(), std::vector<float>(signal_power.size()));
@@ -303,14 +302,14 @@ std::vector<std::vector<float>> classifyAudio::constructDCT()
 {
     std::vector<std::vector<float>> basis(dctFilterNum, std::vector<float>(melFilterNum));
 
-    for (auto i = 0; i < basis.size(); i++)
+    for (auto j = 0; j < basis[0].size(); j++)
     {
-        for (auto j = 0; j < basis[0].size(); j++)
+        for (auto i = 0; i < basis.size(); i++)
         {
-            if (j == 0)
-                basis[i][j] = sqrt(1.0 / (4 * melFilterNum)) * 2 * cos((2 * i + 1) * (j * pi) / (2 * melFilterNum));
+            if (i == 0)
+                basis[i][j] = sqrt(1.0 / (4 * melFilterNum)) * 2 * cos((2 * j + 1) * (i * pi) / (2 * melFilterNum));
             else
-                basis[i][j] = sqrt(1.0 / (2 * melFilterNum)) * 2 * cos((2 * i + 1) * (j * pi) / (2 * melFilterNum));
+                basis[i][j] = sqrt(1.0 / (2 * melFilterNum)) * 2 * cos((2 * j + 1) * (i * pi) / (2 * melFilterNum));
         }
     }
 
