@@ -202,7 +202,7 @@ void MainComponent::dumpDataToCSV()
     segments.peaks.clear();
     segments.peaksInSeconds.clear();
 
-    classification.tester(recorder.bufferRecordedAudio, recorder.mSampleRate);
+    //classification.tester(recorder.bufferRecordedAudio, recorder.mSampleRate);
     DBG("done");
 }
 
