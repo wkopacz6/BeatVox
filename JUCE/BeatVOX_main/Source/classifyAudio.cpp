@@ -43,7 +43,7 @@ void classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::vector<int>p
     std::vector<float>audio(bufferTest.getNumSamples(), 0);
     for (int i = 0; i < bufferTest.getNumSamples(); i++) {
        audio[i] = bufferTest.getSample(0, i);
-     }
+    }
 
     /*std::vector<float>audio(buffer.getNumSamples(), 0);
     for (int i = 0; i < buffer.getNumSamples(); i++) {
@@ -56,13 +56,6 @@ void classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::vector<int>p
     for (auto i = 0; i < peaks.size(); i++)
     {
         auto length = int(mSampleRate * 0.04);
-        /*auto remainder = (length - fftSize + hopLength) % hopLength;
-
-        int numberOfZeros = 0;
-        if (remainder != 0)
-            numberOfZeros = hopLength - remainder;
-
-        auto section = std::vector<float>(length + numberOfZeros, 0);*/
 
         auto start_ind = peaks[i];
         auto end_ind = start_ind + length;
@@ -165,7 +158,6 @@ std::vector<std::vector<float>> classifyAudio::signalPower(std::vector<std::vect
 
 double classifyAudio::freqToMel(double freq)
 {
-    //return(2595.0 * log10(1.0 + freq / 700.0));
 
     auto f_min = 0.0;
     auto f_sp = 200.0 / 3;
@@ -184,7 +176,6 @@ double classifyAudio::freqToMel(double freq)
 
 double classifyAudio::melToFreq(double mel)
 {
-    //return 700.0 * ( pow(10, (mel / 2595.0)) - 1.0);
 
     auto f_min = 0.0;
     auto f_sp = 200.0 / 3;
@@ -258,19 +249,6 @@ std::vector<std::vector<float>> classifyAudio::getMelFilterBank(double sampleRat
 
     return weights;
 
-    /*std::vector<double>mels = linspace(fmin_mel, fmax_mel, melFilterNum + 2);
-    freqs = std::vector<double>(mels.size(), 0); 
-
-    for (auto i = 0; i < mels.size(); i++)
-    {
-        freqs[i] = melToFreq(mels[i]);
-    }
-
-    filterpoints = std::vector<int>(freqs.size(), 0);
-    for (auto i = 0; i < freqs.size(); i++)
-    {
-        filterpoints[i] = (int)(floor((fftSize + 1) / sampleRate * freqs[i]));
-    }*/
 }
 
 std::vector<std::vector<float>> classifyAudio::doFilter(std::vector<std::vector<float>> signal_power, std::vector<std::vector<float>> mel_basis)

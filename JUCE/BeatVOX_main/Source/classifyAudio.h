@@ -21,7 +21,7 @@ class classifyAudio
     static constexpr auto fftSize = 1 << fftOrder; // Size of fft in binary
     static constexpr auto hopLength = 768;
     static constexpr auto melFilterNum = 128;
-    static constexpr auto dctFilterNum = 40;
+    static constexpr auto dctFilterNum = 18;
 
 public:
     classifyAudio();
