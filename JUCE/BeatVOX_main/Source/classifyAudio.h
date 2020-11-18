@@ -29,16 +29,15 @@ public:
 
     void splitAudio(juce::AudioBuffer<float>buffer, std::vector<int>peaks, double sampleRate);
     std::vector<std::vector<float>> doFFT(std::vector<float> audio);
-    /*std::vector<std::vector<float>> constructFilterBank();*/
     double freqToMel(double freq);
     double melToFreq(double mel);
     std::vector<std::vector<float>> getMelFilterBank(double sampleRate);
     std::vector<double> linspace(double start_in, double end_in, int num_in);
     std::vector<double> arange(double start_in, double end_in, double spacing);
-    std::vector<std::vector<float>> doFilter(std::vector<std::vector<float>> signal_power);
+    std::vector<std::vector<float>> doFilter(std::vector<std::vector<float>> signal_power, std::vector<std::vector<float>> mel_basis);
     std::vector<std::vector<float>> signalPower(std::vector<std::vector<float>> fftData);
     std::vector<std::vector<float>> constructDCT();
-    std::vector<std::vector<float>> normalize(std::vector<std::vector<float>> filters);
+    std::vector<std::vector<float>> normalize(std::vector<std::vector<float>> weights, std::vector<double> mel_f);
     std::vector<std::vector<float>> dotProduct(std::vector<std::vector<float>> matrix1, std::vector<std::vector<float>> matrix2);
 
     void tester(juce::AudioBuffer<float> buffer, double sampleRate);
