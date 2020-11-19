@@ -29,12 +29,12 @@ void classifyAudio::tester(juce::AudioBuffer<float> buffer, double sampleRate)
 
 void classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::vector<int>peaks, double sampleRate)
 {
-    mSampleRate = 44100;
+    mSampleRate = 22050;
 
     mFormatManager.registerBasicFormats();
 
     juce::File myFile{ juce::File::getSpecialLocation(juce::File::SpecialLocationType::userDocumentsDirectory) };
-    auto mySamples = myFile.findChildFiles(juce::File::TypesOfFileToFind::findFiles, true, "snare.wav");
+    auto mySamples = myFile.findChildFiles(juce::File::TypesOfFileToFind::findFiles, true, "snare2.wav");
 
     auto reader = mFormatManager.createReaderFor(mySamples[0]);
     juce::AudioSampleBuffer bufferTest(reader->numChannels, reader->lengthInSamples);
@@ -81,13 +81,14 @@ void classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::vector<int>p
         {
             section[j + numPad] = audio[j + start_ind];
         }
-
+     
         for (auto i = 0; i < numPad; i++)
+        {
             section[(numPad - 1) - i] = section[(numPad + 1) + i];
-
-        for (auto i = 0; i < numPad; i++)
             section[(numPad + length) + i] = section[(numPad + length - 2) - i];
-      
+        }
+           
+               
         auto fft = doFFT(section);
         auto signal_power = signalPower(fft);
         auto audio_filtered = doFilter(signal_power, mel_basis);

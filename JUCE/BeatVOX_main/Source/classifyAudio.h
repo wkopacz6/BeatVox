@@ -9,7 +9,6 @@
 */
 
 #include <JuceHeader.h>
-#include "onsetDetection.h"
 #include <cmath>
 #include <math.h>
 #pragma once
@@ -43,11 +42,6 @@ public:
     void tester(juce::AudioBuffer<float> buffer, double sampleRate);
 
 private:
-
-    std::vector<std::vector<float>> normFilters;
-    std::vector<int> filterpoints;
-    std::vector<double> freqs;
-    onsetDetection onset;
 
     juce::dsp::FFT forwardFFT; // FFT object to perform forward fft on
 
