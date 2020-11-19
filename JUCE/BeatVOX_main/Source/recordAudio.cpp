@@ -28,13 +28,22 @@ recordAudio::recordAudio()
     auto activeOutputChannels = device->getActiveOutputChannels();
     numOutputChannels = activeOutputChannels.getHighestBit() + 1;
 
+    auto sampleRate = device->getCurrentSampleRate();
+
     if ((device == nullptr) || (numInputChannels == 0) || (numOutputChannels != 2))
     {
         errored = true;
     }
     else
     {
+
         errored = false;
+        
+        if (sampleRate == 44100 || sampleRate == 48000)
+            erroredSR = false;
+        else
+            erroredSR = true;
+           
     }
 
     if (metronome.errorMet)
@@ -116,10 +125,20 @@ void recordAudio::prepareToPlay(int samplesPerBlockExpected, double sampleRate)
     }
     else
     {
-        sendActionMessage("Device Success");
  
+        if (mSampleRate != sampleRate)
+        {
+            sendActionMessage("Sample Rate Change");
+        }
+
         mSampleRate = sampleRate;
         mBufferSize = samplesPerBlockExpected;
+
+        if (mSampleRate == 44100 || mSampleRate == 48000)
+            sendActionMessage("Device Success");
+        else
+            sendActionMessage("Sample Rate Error");
+            
 
         metronome.prepareToPlay(mBufferSize, mSampleRate);
 

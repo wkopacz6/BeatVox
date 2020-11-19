@@ -91,8 +91,17 @@ MainComponent::MainComponent()
     }
     else
     {
-        errorBox.setText("All Devices Successfully configured");
-        sendBufferVals();
+        if (recorder.erroredSR)
+        {
+            error();
+            errorBox.setText("Please choose a different sample rate");
+        }
+        else
+        {
+            errorBox.setText("All Devices Successfully configured");
+            sendBufferVals();
+        }
+
     }
 
     if (recorder.erroredMet)
@@ -311,6 +320,19 @@ void MainComponent::actionListenerCallback(const juce::String& message)
         buttonPlayMidi.setEnabled(false);
         buttonStopMidi.setEnabled(false);
 
+    }
+    else if (message == "Sample Rate Change")
+    {
+        reset();
+    }
+    else if (message == "Sample Rate Error")
+    {
+        error();
+        buttonAnalyze.setEnabled(false);
+        buttonPlayMidi.setEnabled(false);
+        buttonStopMidi.setEnabled(false);
+        errorState = true;
+        errorBox.setText("Please choose a different sample rate");
     }
     else if (message == "Done Recording")
     {
