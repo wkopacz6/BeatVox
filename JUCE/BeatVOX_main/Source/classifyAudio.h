@@ -38,7 +38,7 @@ public:
     std::vector<std::vector<float>> constructDCT();
     std::vector<std::vector<float>> normalize(std::vector<std::vector<float>> weights, std::vector<double> mel_f);
     std::vector<std::vector<float>> dotProduct(std::vector<std::vector<float>> matrix1, std::vector<std::vector<float>> matrix2);
-
+    std::vector<double> meanMfcc(std::vector<std::vector<float>> matrix);
     void tester(juce::AudioBuffer<float> buffer, double sampleRate);
 
 private:

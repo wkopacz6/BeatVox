@@ -29,7 +29,7 @@ void classifyAudio::tester(juce::AudioBuffer<float> buffer, double sampleRate)
 
 void classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::vector<int>peaks, double sampleRate)
 {
-    mSampleRate = 22050;
+    mSampleRate = 44100;
 
     mFormatManager.registerBasicFormats();
 
@@ -93,6 +93,7 @@ void classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::vector<int>p
         auto signal_power = signalPower(fft);
         auto audio_filtered = doFilter(signal_power, mel_basis);
         auto cepCoeff = dotProduct(dctFilters, audio_filtered);
+        auto meanCepCoeff = meanMfcc(cepCoeff);
     }
 }
 
@@ -335,6 +336,26 @@ std::vector<double> classifyAudio::arange(double start_in, double end_in, double
             current += spacing;
     }
     return aranged;
+}
+
+std::vector<double> classifyAudio::meanMfcc(std::vector<std::vector<float>> matrix)
+{
+    std::vector<double>mean(matrix.size());
+    double rowsum;
+    int index;
+
+    for (int i = 0; i < matrix.size(); i++)
+    {
+        rowsum = 0;
+        index = 0;
+        for (int j = 0; j < matrix[0].size(); j++)
+        {
+            index += 1;
+            rowsum += matrix[i][j];
+        }
+        mean[i] = rowsum/index;        
+    }
+    return mean;
 }
 
 std::vector<double> classifyAudio::linspace(double start_in, double end_in, int num_in)
