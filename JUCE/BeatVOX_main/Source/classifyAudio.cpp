@@ -27,6 +27,21 @@ void classifyAudio::tester(juce::AudioBuffer<float> buffer, double sampleRate)
 
 }
 
+std::vector<double> classifyAudio::normalizeFeatures(std::vector<double> featureVec)
+{   
+    if (featureVec.size() != minVals.size() || featureVec.size() != maxVals.size())
+        DBG("cannot perform feature normalization");
+
+    std::vector<double> normFeatureVec(featureVec.size());
+
+    for (auto i = 0; i < minVals.size(); i++)
+    {
+        normFeatureVec[i] = (featureVec[i] - minVals[i]) / (maxVals[i] - minVals[i]);
+    }
+    return normFeatureVec;
+}
+
+
 void classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::vector<int>peaks, double sampleRate)
 {
     mSampleRate = 44100;
@@ -94,6 +109,7 @@ void classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::vector<int>p
         auto audio_filtered = doFilter(signal_power, mel_basis);
         auto cepCoeff = dotProduct(dctFilters, audio_filtered);
         auto meanCepCoeff = meanMfcc(cepCoeff);
+        auto normalizedVec = normalizeFeatures(meanCepCoeff);
     }
 }
 
@@ -383,4 +399,5 @@ std::vector<double> classifyAudio::linspace(double start_in, double end_in, int 
     linspaced.push_back(end); 
     return linspaced;
 }
+
 

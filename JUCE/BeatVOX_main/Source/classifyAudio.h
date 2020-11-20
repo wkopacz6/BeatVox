@@ -22,10 +22,12 @@ class classifyAudio
     static constexpr auto melFilterNum = 128;
     static constexpr auto dctFilterNum = 18;
 
+    
 public:
     classifyAudio();
     ~classifyAudio();
 
+    std::vector<double> normalizeFeatures(std::vector<double> featureVec);
     void splitAudio(juce::AudioBuffer<float>buffer, std::vector<int>peaks, double sampleRate);
     std::vector<std::vector<float>> doFFT(std::vector<float> audio);
     double freqToMel(double freq);
@@ -47,6 +49,8 @@ private:
 
     double mSampleRate{ 0 };
     double pi = 3.1415;
+    std::vector<double> minVals = { 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3 };
+    std::vector<double> maxVals = { 3, 4, 5, 3, 4, 5, 3, 4, 5, 3, 4, 5, 3, 4, 5, 3, 4, 5 };
 
     juce::AudioFormatManager mFormatManager;
 };
