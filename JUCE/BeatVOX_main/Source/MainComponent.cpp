@@ -192,6 +192,9 @@ void MainComponent::reset()
     buttonStopMidi.setEnabled(false);
 
     doneAnalyzing = false;
+    segments.peaks.clear();
+    segments.peaksInSeconds.clear();
+
 }
 
 void MainComponent::stop()
@@ -206,11 +209,10 @@ void MainComponent::dumpDataToCSV()
     segments.makeNoveltyFunction(recorder.bufferRecordedAudio, recorder.bufferRecordedAudio.getNumSamples());
     segments.pickPeaks(segments.noveltyFunction);
     segments.convertIndiciesToTime(segments.peaks);
+    segments.convertTimeToSamples(segments.peaksInSeconds);
     //classification.splitAudio(recorder.bufferRecordedAudio, segments.peaks);
     segments.testSegmentation();
-    segments.peaks.clear();
-    segments.peaksInSeconds.clear();
-
+    
     //classification.tester(recorder.bufferRecordedAudio, recorder.mSampleRate);
     DBG("done");
 }
@@ -253,7 +255,10 @@ void MainComponent::metPressed()
 
 void MainComponent::buttonAnalyzePressed()
 {
-    juce::Array<int> onsetArray =    {0, 22050, 44100, 66150, 88200, 132300, 154350};
+    juce::Array<int> onsetArray;
+    for (int i = 0; i < segments.peaksInSeconds.size(); i++){
+        onsetArray.add(segments.peaksInSamples[i]);
+    }
     juce::Array<int> drumArray =     {36, 48, 38, 48, 36, 38, 38 };
     juce::Array<int> velocityArray = {100,100,100,100,100,100,100 };
 

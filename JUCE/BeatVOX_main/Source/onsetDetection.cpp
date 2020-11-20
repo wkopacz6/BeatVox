@@ -177,6 +177,13 @@ void onsetDetection::convertIndiciesToTime(std::vector<int>peaksInIndicies){
         }
     }
 }
+void onsetDetection::convertTimeToSamples(std::vector<float>peaksInTime){
+    if (peaksInTime.size() > 0){
+        for (int i = 0; i < peaksInTime.size(); i++){
+            peaksInSamples.push_back(peaksInTime[i] * Audio.mSampleRate);
+        }
+    }
+}
 
 void onsetDetection::testSegmentation(){
     juce::File myFile;

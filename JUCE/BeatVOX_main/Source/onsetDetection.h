@@ -27,11 +27,13 @@ public:
     void pickPeaks(std::vector<float>noveltyFunction);
     void convertIndiciesToTime(std::vector<int>peaksInIndicies);
     void testSegmentation();
+    void convertTimeToSamples(std::vector<float>peaksInTime);
     
     std::vector<std::vector<float>>fftData;
     std::vector<float>noveltyFunction;
     std::vector<int>peaks;
     std::vector<float>peaksInSeconds;
+    std::vector<float>peaksInSamples;
     
 
 private:
