@@ -9,6 +9,7 @@
 */
 
 #include "classifyAudio.h"
+#include <math.h>
 
 classifyAudio::classifyAudio() : forwardFFT(fftOrder){};
 
@@ -22,7 +23,7 @@ void classifyAudio::tester(juce::AudioBuffer<float> buffer, double sampleRate)
     //juce::AudioBuffer<float> buffer(1, 40000);
     //buffer.setSize(1, 40000, true);
     //buffer.clear();
-
+    
     splitAudio(buffer, peaks, sampleRate);
 
 }
@@ -49,7 +50,7 @@ void classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::vector<int>p
     mFormatManager.registerBasicFormats();
 
     juce::File myFile{ juce::File::getSpecialLocation(juce::File::SpecialLocationType::userDocumentsDirectory) };
-    auto mySamples = myFile.findChildFiles(juce::File::TypesOfFileToFind::findFiles, true, "snare.wav");
+    auto mySamples = myFile.findChildFiles(juce::File::TypesOfFileToFind::findFiles, true, "ShowMustGoOn.wav");
 
     auto reader = mFormatManager.createReaderFor(mySamples[0]);
     juce::AudioSampleBuffer bufferTest(reader->numChannels, reader->lengthInSamples);
@@ -69,7 +70,8 @@ void classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::vector<int>p
 
     for (auto i = 0; i < peaks.size(); i++)
     {
-        auto length = int(mSampleRate * 0.04);
+        //auto length = int(mSampleRate * 0.04);
+        auto length = audio.size();
 
         auto start_ind = peaks[i];
         auto end_ind = start_ind + length;
@@ -101,7 +103,6 @@ void classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::vector<int>p
             section[(numPad - 1) - i] = section[(numPad + 1) + i];
             section[(numPad + length) + i] = section[(numPad + length - 2) - i];
         }
-           
                
         auto fft = doFFT(section);
         auto signal_power = signalPower(fft);
@@ -118,7 +119,6 @@ std::vector<std::vector<float>> classifyAudio::doFFT(std::vector<float> audio)
 {
     int numOfFFTs = 1 + int((audio.size() - fftSize) / hopLength);
     std::vector<std::vector<float>> fftData(numOfFFTs, std::vector<float>(fftSize / 2 + 1));
-
 
     for (int i = 0; i < numOfFFTs; i++) {
     std::vector<float> audioData(fftSize * 2);
@@ -286,11 +286,39 @@ std::vector<std::vector<float>> classifyAudio::doFilter(std::vector<std::vector<
 
     
     auto dot = dotProduct(mel_basis, trans_vec);
+
+    auto amin = 1e-10;
+    auto topDB = 80.0;
+
     std::vector<std::vector<float> > audio_log(dot.size(), std::vector<float>(dot[0].size()));
 
     for (auto i = 0; i < audio_log.size(); i++) {
-        for (auto j = 0; j < audio_log[0].size(); j++) {
-            audio_log[i][j] = 10.0*log10(dot[i][j]);
+        for (auto j = 0; j < audio_log[0].size(); j++) 
+        {
+            auto val1 = dot[i][j];
+            if (amin >= dot[i][j])
+                val1 = amin;
+
+            audio_log[i][j] = 10.0 * log10(val1);
+        }
+    }
+
+    auto max = audio_log[0][0];
+    for (auto i = 0; i < audio_log.size(); i++)
+    {
+        for (auto j = 0; j < audio_log[0].size(); j++)
+        {
+            if (audio_log[i][j] > max)
+                max = audio_log[i][j];
+        }
+    }
+
+    for (auto i = 0; i < audio_log.size(); i++) {
+        for (auto j = 0; j < audio_log[0].size(); j++)
+        {
+            auto newVal = max - topDB;
+            if (newVal > audio_log[i][j])
+                audio_log[i][j] = newVal;
         }
     }
 
@@ -316,6 +344,8 @@ std::vector<std::vector<float>> classifyAudio::constructDCT(std::vector<std::vec
                     sum += sqrt(1.0 / (4.0 * N)) * 2.0 * signal_filtered[n][c] * cos((pi * k) * (2.0 * n + 1.0) / (2.0 * N));
                 else
                     sum += sqrt(1.0 / (2.0 * N)) * 2.0 * signal_filtered[n][c] * cos((pi * k) * (2.0 * n + 1.0) / (2.0 * N));
+
+                
             }
             result[k][c] = sum;
         }
@@ -446,6 +476,40 @@ void classifyAudio::testAccuracy(std::vector<std::vector<float>> cepCoeff) {
     output2.flush();
     myFile.~File();
 
+}
+
+void classifyAudio::testAccuracy1(std::vector<float> section)
+{
+    juce::File myFile;
+
+    auto parentDir = juce::File::getSpecialLocation(juce::File::userDocumentsDirectory);
+
+    myFile = parentDir.getChildFile("Test_Classification.csv");
+    myFile.deleteFile();
+
+    juce::FileOutputStream output2(myFile);
+
+    for (auto frame = 0; frame < section.size(); ++frame)
+    {
+        output2.writeString("frame" + (juce::String)frame + ",");
+    }
+
+    output2.writeString("\n");
+
+    for (auto mfcc = 0; mfcc < section.size(); ++mfcc)
+    {
+
+     
+
+            juce::String dataString1 = (juce::String) section[mfcc];
+            output2.writeString(dataString1);
+            output2.writeString(",");
+
+        
+
+    }
+    output2.flush();
+    myFile.~File();
 }
 
 

@@ -11,6 +11,7 @@
 #include <JuceHeader.h>
 #include <cmath>
 #include <math.h>
+
 #pragma once
 
 class classifyAudio
@@ -43,13 +44,14 @@ public:
     std::vector<double> meanMfcc(std::vector<std::vector<float>> matrix);
     void tester(juce::AudioBuffer<float> buffer, double sampleRate);
     void testAccuracy(std::vector<std::vector<float>> cepCoeff);
+    void testAccuracy1(std::vector<float> section);
 
 private:
 
     juce::dsp::FFT forwardFFT; // FFT object to perform forward fft on
 
     double mSampleRate{ 0 };
-    double pi = 3.1415926535897;
+    double pi = 3.1415926535897932385;
     std::vector<double> minVals = { 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3 };
     std::vector<double> maxVals = { 3, 4, 5, 3, 4, 5, 3, 4, 5, 3, 4, 5, 3, 4, 5, 3, 4, 5 };
 
