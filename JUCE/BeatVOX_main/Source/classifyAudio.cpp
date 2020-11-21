@@ -49,7 +49,7 @@ void classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::vector<int>p
     mFormatManager.registerBasicFormats();
 
     juce::File myFile{ juce::File::getSpecialLocation(juce::File::SpecialLocationType::userDocumentsDirectory) };
-    auto mySamples = myFile.findChildFiles(juce::File::TypesOfFileToFind::findFiles, true, "snare2.wav");
+    auto mySamples = myFile.findChildFiles(juce::File::TypesOfFileToFind::findFiles, true, "snare.wav");
 
     auto reader = mFormatManager.createReaderFor(mySamples[0]);
     juce::AudioSampleBuffer bufferTest(reader->numChannels, reader->lengthInSamples);
@@ -66,7 +66,6 @@ void classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::vector<int>p
     }*/
 
     auto mel_basis = getMelFilterBank(mSampleRate);
-    auto dctFilters = constructDCT();
 
     for (auto i = 0; i < peaks.size(); i++)
     {
@@ -107,9 +106,11 @@ void classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::vector<int>p
         auto fft = doFFT(section);
         auto signal_power = signalPower(fft);
         auto audio_filtered = doFilter(signal_power, mel_basis);
-        auto cepCoeff = dotProduct(dctFilters, audio_filtered);
+        auto cepCoeff = constructDCT(audio_filtered);
         auto meanCepCoeff = meanMfcc(cepCoeff);
         auto normalizedVec = normalizeFeatures(meanCepCoeff);
+
+        testAccuracy(cepCoeff);
     }
 }
 
@@ -118,12 +119,14 @@ std::vector<std::vector<float>> classifyAudio::doFFT(std::vector<float> audio)
     int numOfFFTs = 1 + int((audio.size() - fftSize) / hopLength);
     std::vector<std::vector<float>> fftData(numOfFFTs, std::vector<float>(fftSize / 2 + 1));
 
+
     for (int i = 0; i < numOfFFTs; i++) {
     std::vector<float> audioData(fftSize * 2);
 
         // Prepare for FFT
         for (int n = 0; n < (fftSize); n++) {
-            float hannWindowMultiplier = 0.5 * (1 - cos(2 * pi * n / (fftSize - 1)));
+            float hannWindowMultiplier = 0.5 * (1.0 - cos(2.0 * pi * n / (fftSize)));
+            auto x = hannWindowMultiplier * audio[n + (hopLength * i)];
             audioData[n] = hannWindowMultiplier * audio[n + (hopLength * i)];
         }
 
@@ -281,6 +284,7 @@ std::vector<std::vector<float>> classifyAudio::doFilter(std::vector<std::vector<
         }
     }
 
+    
     auto dot = dotProduct(mel_basis, trans_vec);
     std::vector<std::vector<float> > audio_log(dot.size(), std::vector<float>(dot[0].size()));
 
@@ -294,22 +298,30 @@ std::vector<std::vector<float>> classifyAudio::doFilter(std::vector<std::vector<
 
 }
 
-std::vector<std::vector<float>> classifyAudio::constructDCT()
+std::vector<std::vector<float>> classifyAudio::constructDCT(std::vector<std::vector<float>> signal_filtered)
 {
-    std::vector<std::vector<float>> basis(dctFilterNum, std::vector<float>(melFilterNum));
 
-    for (auto j = 0; j < basis[0].size(); j++)
+    auto col = signal_filtered[0].size();
+    auto N = signal_filtered.size();
+    std::vector<std::vector<float>> result(N, std::vector<float>(col));
+
+    for (auto c = 0; c < col; c++)
     {
-        for (auto i = 0; i < basis.size(); i++)
+        for (auto k = 0; k < N; k++)
         {
-            if (i == 0)
-                basis[i][j] = sqrt(1.0 / (4 * melFilterNum)) * 2 * cos((2 * j + 1) * (i * pi) / (2 * melFilterNum));
-            else
-                basis[i][j] = sqrt(1.0 / (2 * melFilterNum)) * 2 * cos((2 * j + 1) * (i * pi) / (2 * melFilterNum));
+            float sum = 0.0;
+            for (auto n = 0; n < N; n++)
+            {
+                if (k == 0)
+                    sum += sqrt(1.0 / (4.0 * N)) * 2.0 * signal_filtered[n][c] * cos((pi * k) * (2.0 * n + 1.0) / (2.0 * N));
+                else
+                    sum += sqrt(1.0 / (2.0 * N)) * 2.0 * signal_filtered[n][c] * cos((pi * k) * (2.0 * n + 1.0) / (2.0 * N));
+            }
+            result[k][c] = sum;
         }
     }
 
-    return basis;
+    return result;
 }
 
 std::vector<std::vector<float>> classifyAudio::dotProduct(std::vector<std::vector<float>> matrix1, std::vector<std::vector<float>> matrix2)
@@ -398,6 +410,42 @@ std::vector<double> classifyAudio::linspace(double start_in, double end_in, int 
     }
     linspaced.push_back(end); 
     return linspaced;
+}
+
+void classifyAudio::testAccuracy(std::vector<std::vector<float>> cepCoeff) {
+    juce::File myFile;
+
+    auto parentDir = juce::File::getSpecialLocation(juce::File::userDocumentsDirectory);
+
+    myFile = parentDir.getChildFile("Test_Classification.csv");
+    myFile.deleteFile();
+
+    juce::FileOutputStream output2(myFile);
+ 
+    for (auto frame = 0; frame < cepCoeff[0].size(); ++frame)
+    {
+        output2.writeString("frame" + (juce::String)frame + ",");
+    }
+
+    output2.writeString("\n");
+
+    for (auto mfcc = 0; mfcc < cepCoeff.size(); ++mfcc)
+    {
+        
+        for (auto frame = 0; frame < cepCoeff[0].size(); ++frame)
+        {
+
+            juce::String dataString1 = (juce::String) cepCoeff[mfcc][frame];
+            output2.writeString(dataString1);
+            output2.writeString(",");
+
+        }
+
+        output2.writeString("\n");
+    }
+    output2.flush();
+    myFile.~File();
+
 }
 
 
