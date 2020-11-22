@@ -49,12 +49,12 @@ std::vector<double> classifyAudio::normalizeFeatures(std::vector<double> feature
 void classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::vector<int>peaks, double sampleRate)
 {
     mSampleRate = sampleRate;
-    /*mSampleRate = 44100;
+   /* mSampleRate = 48000;
 
     mFormatManager.registerBasicFormats();
 
     juce::File myFile{ juce::File::getSpecialLocation(juce::File::SpecialLocationType::userDocumentsDirectory) };
-    auto mySamples = myFile.findChildFiles(juce::File::TypesOfFileToFind::findFiles, true, "snare2.wav");
+    auto mySamples = myFile.findChildFiles(juce::File::TypesOfFileToFind::findFiles, true, "impulse-response.wav");
 
     auto reader = mFormatManager.createReaderFor(mySamples[0]);
     juce::AudioSampleBuffer bufferTest((int)reader->numChannels, (int)reader->lengthInSamples);
@@ -70,6 +70,16 @@ void classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::vector<int>p
         audio[i] = buffer.getSample(0, i);
     }
 
+    float absmax = 0;
+    for (size_t i = 0; i < audio.size(); ++i)
+    {
+        absmax = std::max(absmax, std::abs(audio[i]));
+    }
+    for (size_t i = 0; i < audio.size(); ++i)
+    {
+        audio[i] = audio[i] / absmax;
+    }
+    
     //testAccuracy1(audio);
 
     auto mel_basis = getMelFilterBank(mSampleRate);
