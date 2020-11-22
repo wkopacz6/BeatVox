@@ -10,6 +10,9 @@
 
 #include "classifyAudio.h"
 #include <math.h>
+#include "svm.h"
+#define Malloc(type,n) (type *)malloc((n)*sizeof(type))
+
 
 classifyAudio::classifyAudio() : forwardFFT(fftOrder){};
 
@@ -46,12 +49,12 @@ std::vector<double> classifyAudio::normalizeFeatures(std::vector<double> feature
 void classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::vector<int>peaks, double sampleRate)
 {
     mSampleRate = sampleRate;
-    /*mSampleRate = 44100;
+    mSampleRate = 44100;
 
     mFormatManager.registerBasicFormats();
 
     juce::File myFile{ juce::File::getSpecialLocation(juce::File::SpecialLocationType::userDocumentsDirectory) };
-    auto mySamples = myFile.findChildFiles(juce::File::TypesOfFileToFind::findFiles, true, "AcousticGuitar.wav");
+    auto mySamples = myFile.findChildFiles(juce::File::TypesOfFileToFind::findFiles, true, "snare2.wav");
 
     auto reader = mFormatManager.createReaderFor(mySamples[0]);
     juce::AudioSampleBuffer bufferTest((int)reader->numChannels, (int)reader->lengthInSamples);
@@ -60,12 +63,12 @@ void classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::vector<int>p
     std::vector<float>audio(bufferTest.getNumSamples(), 0);
     for (int i = 0; i < bufferTest.getNumSamples(); i++) {
        audio[i] = bufferTest.getSample(0, i);
-    }*/
-
-    std::vector<float>audio(buffer.getNumSamples(), 0);
-    for (int i = 0; i < buffer.getNumSamples(); i++) {
-        audio[i] = buffer.getSample(0, i);
     }
+
+    //std::vector<float>audio(buffer.getNumSamples(), 0);
+    //for (int i = 0; i < buffer.getNumSamples(); i++) {
+    //    audio[i] = buffer.getSample(0, i);
+    //}
 
     testAccuracy1(audio);
 
@@ -115,8 +118,39 @@ void classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::vector<int>p
         auto cepCoeff = constructDCT(audio_filtered);
         auto meanCepCoeff = meanMfcc(cepCoeff);
         auto normalizedVec = normalizeFeatures(meanCepCoeff);
+        struct svm_model* model = svm_load_model("C:\\Users\\Joshua\\Documents\\GitHub\\BeatVox\\JUCE\\BeatVOX_main\\model_file44100");
 
-        testAccuracy(cepCoeff);
+        //intialize node
+        struct svm_node* x;
+ 
+        //std::array<svm_node, 18> node;
+  
+        
+        
+        struct svm_problem prob;
+        struct svm_node* x_space;
+        prob.l = 1;
+
+        svm_node* testnode= Malloc(svm_node, dctFilterNum+1);
+
+        //testnode[0].index = 0;
+        //testnode[0].value = 2;
+        //testnode[1].index = 1;
+        //testnode[1].value = 3;
+
+        for (int i = 0; i < normalizedVec.size(); i++)
+        {
+                testnode[i].index = i;
+                testnode[i].value = normalizedVec[i];
+        }
+        testnode[normalizedVec.size()].index = -1;
+
+
+        svm_node* oof = &testnode[4];
+        auto label = svm_predict(model, testnode);
+        
+
+        //testAccuracy(cepCoeff);
     }
 }
 
@@ -355,7 +389,16 @@ std::vector<std::vector<float>> classifyAudio::constructDCT(std::vector<std::vec
         }
     }
 
-    return result;
+    std::vector<std::vector<float>> output(dctFilterNum,std::vector<float>(result[0].size()));
+
+    for (auto i = 0; i < dctFilterNum; i++)
+    {
+        for (auto j = 0; j < result[0].size(); j++)
+        {
+            output[i][j] = result[i][j];
+        }
+    }
+    return output;
 }
 
 std::vector<std::vector<float>> classifyAudio::dotProduct(std::vector<std::vector<float>> matrix1, std::vector<std::vector<float>> matrix2)

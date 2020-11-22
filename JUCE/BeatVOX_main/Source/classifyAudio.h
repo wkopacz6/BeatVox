@@ -28,6 +28,7 @@ public:
     classifyAudio();
     ~classifyAudio();
 
+
     std::vector<double> normalizeFeatures(std::vector<double> featureVec);
     void splitAudio(juce::AudioBuffer<float>buffer, std::vector<int>peaks, double sampleRate);
     std::vector<std::vector<float>> doFFT(std::vector<float> audio);
