@@ -45,16 +45,17 @@ std::vector<double> classifyAudio::normalizeFeatures(std::vector<double> feature
 
 void classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::vector<int>peaks, double sampleRate)
 {
+    mSampleRate = sampleRate;
     mSampleRate = 44100;
 
     mFormatManager.registerBasicFormats();
 
     juce::File myFile{ juce::File::getSpecialLocation(juce::File::SpecialLocationType::userDocumentsDirectory) };
-    auto mySamples = myFile.findChildFiles(juce::File::TypesOfFileToFind::findFiles, true, "ShowMustGoOn.wav");
+    auto mySamples = myFile.findChildFiles(juce::File::TypesOfFileToFind::findFiles, true, "AcousticGuitar.wav");
 
     auto reader = mFormatManager.createReaderFor(mySamples[0]);
-    juce::AudioSampleBuffer bufferTest(reader->numChannels, reader->lengthInSamples);
-    reader->read(&bufferTest, 0, reader->lengthInSamples, 0, true, true);
+    juce::AudioSampleBuffer bufferTest((int)reader->numChannels, (int)reader->lengthInSamples);
+    reader->read(&bufferTest, 0, (int)reader->lengthInSamples, 0, true, true);
 
     std::vector<float>audio(bufferTest.getNumSamples(), 0);
     for (int i = 0; i < bufferTest.getNumSamples(); i++) {
@@ -70,7 +71,7 @@ void classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::vector<int>p
 
     for (auto i = 0; i < peaks.size(); i++)
     {
-        //auto length = int(mSampleRate * 0.04);
+        //int length = int(mSampleRate * 0.04);
         auto length = audio.size();
 
         auto start_ind = peaks[i];
@@ -78,7 +79,7 @@ void classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::vector<int>p
 
         if (end_ind > audio.size())
         {
-            end_ind = audio.size();
+            end_ind = (int)audio.size();
         }
 
         if (i != (peaks.size() - 1))
@@ -89,21 +90,21 @@ void classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::vector<int>p
 
         length = end_ind - start_ind;
 
-        auto numPad = int(fftSize / 2);
+        int numPad = int(fftSize / 2);
 
-        std::vector<float> section(length + (2 * numPad), 0);
-        
+        std::vector<float> section((size_t)(length + (2.0 * numPad)), 0);
+   
         for (auto j = 0; j < length; j++)
         {
             section[j + numPad] = audio[j + start_ind];
         }
      
-        for (auto i = 0; i < numPad; i++)
+        for (auto j = 0; j < numPad; j++)
         {
-            section[(numPad - 1) - i] = section[(numPad + 1) + i];
-            section[(numPad + length) + i] = section[(numPad + length - 2) - i];
+            section[(numPad - 1) - j] = section[(numPad + 1) + j];
+            section[(numPad + length) + j] = section[(numPad + length - 2) - j];
         }
-               
+
         auto fft = doFFT(section);
         auto signal_power = signalPower(fft);
         auto audio_filtered = doFilter(signal_power, mel_basis);
@@ -125,9 +126,8 @@ std::vector<std::vector<float>> classifyAudio::doFFT(std::vector<float> audio)
 
         // Prepare for FFT
         for (int n = 0; n < (fftSize); n++) {
-            float hannWindowMultiplier = 0.5 * (1.0 - cos(2.0 * pi * n / (fftSize)));
-            auto x = hannWindowMultiplier * audio[n + (hopLength * i)];
-            audioData[n] = hannWindowMultiplier * audio[n + (hopLength * i)];
+            float hannWindowMultiplier = (float)(0.5 * (1.0 - cos(2.0 * pi * n / ((float)fftSize))));
+            audioData[n] = hannWindowMultiplier * (float)audio[n + (hopLength * i)];
         }
 
         // JUCE FFT
@@ -152,7 +152,7 @@ std::vector<std::vector<float>> classifyAudio::normalize(std::vector<std::vector
     std::vector<float> enorm(melFilterNum, 0);
     auto normWeights = std::vector<std::vector<float>>(weights.size(), std::vector<float>(weights[0].size()));
     for (auto i = 0; i < melFilterNum; i++) {
-        enorm[i] = 2.0 / (mel_f[i + 2] - mel_f[i]);
+        enorm[i] = (float)(2.0 / (mel_f[i + 2] - mel_f[i]));
     }
 
     for (auto i = 0; i < weights.size(); i++) {
@@ -229,12 +229,12 @@ std::vector<std::vector<float>> classifyAudio::getMelFilterBank(double sampleRat
     std::vector<float> fdiff(mel_f.size() - 1, 0);
 
     for (auto i = 0; i < fdiff.size(); i++)
-        fdiff[i] = mel_f[i + 1] - mel_f[i];
+        fdiff[i] = (float)(mel_f[i + 1] - mel_f[i]);
 
     std::vector<std::vector<float>> ramps(mel_f.size(), std::vector<float>(fftFreqs.size()));
     for (auto i = 0; i < mel_f.size(); i++)
         for (auto j = 0; j < fftFreqs.size(); j++)
-            ramps[i][j] = mel_f[i] - fftFreqs[j];
+            ramps[i][j] = (float)mel_f[i] - (float)fftFreqs[j];
 
     for (auto i = 0; i < melFilterNum; i++)
     {
@@ -287,8 +287,8 @@ std::vector<std::vector<float>> classifyAudio::doFilter(std::vector<std::vector<
     
     auto dot = dotProduct(mel_basis, trans_vec);
 
-    auto amin = 1e-10;
-    auto topDB = 80.0;
+    auto amin = (float)1e-10;
+    auto topDB = (float)80.0;
 
     std::vector<std::vector<float> > audio_log(dot.size(), std::vector<float>(dot[0].size()));
 
@@ -299,7 +299,7 @@ std::vector<std::vector<float>> classifyAudio::doFilter(std::vector<std::vector<
             if (amin >= dot[i][j])
                 val1 = amin;
 
-            audio_log[i][j] = 10.0 * log10(val1);
+            audio_log[i][j] = (float)(10.0 * log10(val1));
         }
     }
 
@@ -337,7 +337,7 @@ std::vector<std::vector<float>> classifyAudio::constructDCT(std::vector<std::vec
     {
         for (auto k = 0; k < N; k++)
         {
-            float sum = 0.0;
+            auto sum = 0.0;
             for (auto n = 0; n < N; n++)
             {
                 if (k == 0)
@@ -347,7 +347,7 @@ std::vector<std::vector<float>> classifyAudio::constructDCT(std::vector<std::vec
 
                 
             }
-            result[k][c] = sum;
+            result[k][c] = (float)sum;
         }
     }
 
@@ -388,7 +388,7 @@ std::vector<double> classifyAudio::arange(double start_in, double end_in, double
     aranged.push_back(start);
  
 
-    while ((current + spacing) < end) 
+    while ((current + num) < end) 
     {
             aranged.push_back(current + spacing);
             current += spacing;
