@@ -46,7 +46,7 @@ std::vector<double> classifyAudio::normalizeFeatures(std::vector<double> feature
 void classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::vector<int>peaks, double sampleRate)
 {
     mSampleRate = sampleRate;
-    mSampleRate = 44100;
+    /*mSampleRate = 44100;
 
     mFormatManager.registerBasicFormats();
 
@@ -60,19 +60,21 @@ void classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::vector<int>p
     std::vector<float>audio(bufferTest.getNumSamples(), 0);
     for (int i = 0; i < bufferTest.getNumSamples(); i++) {
        audio[i] = bufferTest.getSample(0, i);
-    }
+    }*/
 
-    /*std::vector<float>audio(buffer.getNumSamples(), 0);
+    std::vector<float>audio(buffer.getNumSamples(), 0);
     for (int i = 0; i < buffer.getNumSamples(); i++) {
         audio[i] = buffer.getSample(0, i);
-    }*/
+    }
+
+    testAccuracy1(audio);
 
     auto mel_basis = getMelFilterBank(mSampleRate);
 
     for (auto i = 0; i < peaks.size(); i++)
     {
-        //int length = int(mSampleRate * 0.04);
-        auto length = audio.size();
+        int length = int(mSampleRate * 0.04);
+        //auto length = audio.size();
 
         auto start_ind = peaks[i];
         auto end_ind = start_ind + length;
@@ -104,6 +106,8 @@ void classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::vector<int>p
             section[(numPad - 1) - j] = section[(numPad + 1) + j];
             section[(numPad + length) + j] = section[(numPad + length - 2) - j];
         }
+
+        
 
         auto fft = doFFT(section);
         auto signal_power = signalPower(fft);
@@ -447,7 +451,7 @@ void classifyAudio::testAccuracy(std::vector<std::vector<float>> cepCoeff) {
 
     auto parentDir = juce::File::getSpecialLocation(juce::File::userDocumentsDirectory);
 
-    myFile = parentDir.getChildFile("Test_Classification.csv");
+    myFile = parentDir.getChildFile("Test_Classification_mfcc.csv");
     myFile.deleteFile();
 
     juce::FileOutputStream output2(myFile);
@@ -484,29 +488,18 @@ void classifyAudio::testAccuracy1(std::vector<float> section)
 
     auto parentDir = juce::File::getSpecialLocation(juce::File::userDocumentsDirectory);
 
-    myFile = parentDir.getChildFile("Test_Classification.csv");
+    myFile = parentDir.getChildFile("Test_Classification_recording.csv");
     myFile.deleteFile();
 
     juce::FileOutputStream output2(myFile);
 
-    for (auto frame = 0; frame < section.size(); ++frame)
+    output2.writeString("Data\n");
+
+    for (auto i = 0; i < section.size(); ++i)
     {
-        output2.writeString("frame" + (juce::String)frame + ",");
-    }
-
-    output2.writeString("\n");
-
-    for (auto mfcc = 0; mfcc < section.size(); ++mfcc)
-    {
-
-     
-
-            juce::String dataString1 = (juce::String) section[mfcc];
-            output2.writeString(dataString1);
-            output2.writeString(",");
-
-        
-
+        juce::String dataString1 = (juce::String) section[i];
+        output2.writeString(dataString1);
+        output2.writeString("\n");
     }
     output2.flush();
     myFile.~File();
