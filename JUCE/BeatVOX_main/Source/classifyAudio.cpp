@@ -49,7 +49,7 @@ std::vector<double> classifyAudio::normalizeFeatures(std::vector<double> feature
 void classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::vector<int>peaks, double sampleRate)
 {
     mSampleRate = sampleRate;
-    mSampleRate = 44100;
+    /*mSampleRate = 44100;
 
     mFormatManager.registerBasicFormats();
 
@@ -63,14 +63,14 @@ void classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::vector<int>p
     std::vector<float>audio(bufferTest.getNumSamples(), 0);
     for (int i = 0; i < bufferTest.getNumSamples(); i++) {
        audio[i] = bufferTest.getSample(0, i);
+    }*/
+
+    std::vector<float>audio(buffer.getNumSamples(), 0);
+    for (int i = 0; i < buffer.getNumSamples(); i++) {
+        audio[i] = buffer.getSample(0, i);
     }
 
-    //std::vector<float>audio(buffer.getNumSamples(), 0);
-    //for (int i = 0; i < buffer.getNumSamples(); i++) {
-    //    audio[i] = buffer.getSample(0, i);
-    //}
-
-    testAccuracy1(audio);
+    //testAccuracy1(audio);
 
     auto mel_basis = getMelFilterBank(mSampleRate);
 
@@ -110,46 +110,31 @@ void classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::vector<int>p
             section[(numPad + length) + j] = section[(numPad + length - 2) - j];
         }
 
-        
-
         auto fft = doFFT(section);
         auto signal_power = signalPower(fft);
         auto audio_filtered = doFilter(signal_power, mel_basis);
         auto cepCoeff = constructDCT(audio_filtered);
         auto meanCepCoeff = meanMfcc(cepCoeff);
         auto normalizedVec = normalizeFeatures(meanCepCoeff);
-        struct svm_model* model = svm_load_model("C:\\Users\\Joshua\\Documents\\GitHub\\BeatVox\\JUCE\\BeatVOX_main\\model_file44100");
-
-        //intialize node
-        struct svm_node* x;
+        struct svm_model* model44100 = svm_load_model("C:\\Users\\JohnK\\Documents\\GitHub\\BeatVox\\JUCE\\BeatVOX_main\\model_file44100");
+        struct svm_model* model48000 = svm_load_model("C:\\Users\\JohnK\\Documents\\GitHub\\BeatVox\\JUCE\\BeatVOX_main\\model_file48000");
  
-        //std::array<svm_node, 18> node;
-  
-        
-        
-        struct svm_problem prob;
-        struct svm_node* x_space;
-        prob.l = 1;
-
         svm_node* testnode= Malloc(svm_node, dctFilterNum+1);
 
-        //testnode[0].index = 0;
-        //testnode[0].value = 2;
-        //testnode[1].index = 1;
-        //testnode[1].value = 3;
-
-        for (int i = 0; i < normalizedVec.size(); i++)
+        for (int j = 0; j < normalizedVec.size(); j++)
         {
-                testnode[i].index = i;
-                testnode[i].value = normalizedVec[i];
+                testnode[j].index = j;
+                testnode[j].value = normalizedVec[j];
         }
         testnode[normalizedVec.size()].index = -1;
 
+        auto label = 0.0;
+        if (mSampleRate == 48000)
+            label = svm_predict(model48000, testnode);
+        else
+            label = svm_predict(model44100, testnode);
 
-        svm_node* oof = &testnode[4];
-        auto label = svm_predict(model, testnode);
-        
-
+        DBG(label);
         //testAccuracy(cepCoeff);
     }
 }
