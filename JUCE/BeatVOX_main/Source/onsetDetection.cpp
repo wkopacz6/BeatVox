@@ -58,7 +58,7 @@ void onsetDetection::makeNoveltyFunction(juce::AudioBuffer<float>buffer, int aud
         
         // Prepare for FFT
         for (int n = 0; n < (fftSize); n++){
-            float hannWindowMultiplier =(float)(0.5 * (1.0 - cos(2.0 * pi * n / ((float)fftSize))));
+            double hannWindowMultiplier =(double)(0.5 * (1.0 - cos(2.0 * pi * n / ((double)fftSize))));
             audioData[n] = hannWindowMultiplier * audio[n+(hopLength*i)];
         }
         // JUCE FFT
