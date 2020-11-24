@@ -33,9 +33,21 @@ void classifyAudio::tester(juce::AudioBuffer<float> buffer, double sampleRate)
 
 std::vector<double> classifyAudio::normalizeFeatures(std::vector<double> featureVec)
 {   
-    if (featureVec.size() != minVals.size() || featureVec.size() != maxVals.size())
+    if (featureVec.size() != minVals44100.size() || featureVec.size() != maxVals44100.size())
         DBG("cannot perform feature normalization");
 
+    std::vector<double> minVals, maxVals;
+
+    if (mSampleRate == 48000) 
+    {
+        minVals = minVals48000;
+        maxVals = maxVals48000;
+    }
+    else
+    {
+        minVals = minVals44100;
+        maxVals = maxVals44100;
+    }
     std::vector<double> normFeatureVec(featureVec.size());
 
     for (auto i = 0; i < minVals.size(); i++)
