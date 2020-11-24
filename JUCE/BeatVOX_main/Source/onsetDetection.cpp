@@ -7,7 +7,8 @@
 
   ==============================================================================
 */
-#include <cmath>
+
+#include <math.h>
 #include "onsetDetection.h"
 
 onsetDetection::onsetDetection() : forwardFFT(fftOrder),
@@ -25,7 +26,7 @@ onsetDetection:: ~onsetDetection() {
 void onsetDetection::makeNoveltyFunction(juce::AudioBuffer<float>buffer, int audioNumOfSamples) {
     
     
-    
+    double pi = 3.141592653589793;
     
     //zero pad
     int numberOfZeros = fftSize - (audioNumOfSamples%(hopLength));
@@ -40,6 +41,8 @@ void onsetDetection::makeNoveltyFunction(juce::AudioBuffer<float>buffer, int aud
     {
         absmax = std::max(absmax, std::abs(audio[i]));
     }
+    float x = round(absmax*1000000);
+    absmax = x/1000000;
     for (size_t i = 0; i < audioNumOfSamples; ++i)
     {
         audio[i] = audio[i] / absmax;
@@ -55,7 +58,7 @@ void onsetDetection::makeNoveltyFunction(juce::AudioBuffer<float>buffer, int aud
         
         // Prepare for FFT
         for (int n = 0; n < (fftSize); n++){
-            float hannWindowMultiplier = 0.5 * (1 - cos(2*M_PI*n/1023));
+            float hannWindowMultiplier =(float)(0.5 * (1.0 - cos(2.0 * pi * n / ((float)fftSize))));
             audioData[n] = hannWindowMultiplier * audio[n+(hopLength*i)];
         }
         // JUCE FFT
@@ -83,7 +86,7 @@ void onsetDetection::makeNoveltyFunction(juce::AudioBuffer<float>buffer, int aud
     
     // Diff each spectrum
     std::vector<std::vector<float>> flux(fftData.size()-1);
-    for(int i = 0; i < flux.size(); i++){ flux[i].resize(fftSize*2); }
+    for(int i = 0; i < flux.size(); i++){ flux[i].resize(fftSize/2); }
     
     for(int i = 0; i < fftData.size() - 1; i++){
         for(int j = 0; j < (fftData[i].size()); j++){

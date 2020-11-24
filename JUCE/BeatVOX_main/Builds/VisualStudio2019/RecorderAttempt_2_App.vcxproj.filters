@@ -457,6 +457,9 @@
     <ClCompile Include="..\..\Source\recordAudio.cpp">
       <Filter>RecorderAttempt_2\Source</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\svm.cpp">
+      <Filter>RecorderAttempt_2\Source</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\Main.cpp">
       <Filter>RecorderAttempt_2\Source</Filter>
     </ClCompile>
@@ -2602,6 +2605,9 @@
       <Filter>RecorderAttempt_2\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\recordAudio.h">
+      <Filter>RecorderAttempt_2\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\svm.h">
       <Filter>RecorderAttempt_2\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\MainComponent.h">

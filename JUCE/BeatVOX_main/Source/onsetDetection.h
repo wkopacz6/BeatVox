@@ -9,6 +9,8 @@
 */
 
 #include "recordAudio.h"
+#include <cmath>
+#include <math.h>
 
 #pragma once
 class onsetDetection

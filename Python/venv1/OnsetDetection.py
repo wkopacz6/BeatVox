@@ -15,9 +15,11 @@ import pandas as pd
 #Compute novelty function based on spectral flux (log magnitude)
 def compute_novelty_function(x, method, nfft, hoplength):
     #normalize audio
-    x = x/max(abs(x))
+    max1 = max(abs(x))
+    x = x/max1
     # use librosa to calculate the stft
     X = librosa.core.stft(x, n_fft=nfft, hop_length=hoplength, center=False)
+    X = abs(X)
     if method == 'log-mag':
 
         #compute the log-magnitude spectrum

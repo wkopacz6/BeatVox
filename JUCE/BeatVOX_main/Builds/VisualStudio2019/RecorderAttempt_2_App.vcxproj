@@ -143,6 +143,7 @@
     <ClCompile Include="..\..\Source\onsetDetection.cpp"/>
     <ClCompile Include="..\..\Source\Metronome.cpp"/>
     <ClCompile Include="..\..\Source\recordAudio.cpp"/>
+    <ClCompile Include="..\..\Source\svm.cpp"/>
     <ClCompile Include="..\..\Source\Main.cpp"/>
     <ClCompile Include="..\..\Source\MainComponent.cpp"/>
     <ClCompile Include="C:\JUCE\modules\juce_audio_basics\buffers\juce_AudioChannelSet.cpp">
@@ -2140,6 +2141,7 @@
     <ClInclude Include="..\..\Source\onsetDetection.h"/>
     <ClInclude Include="..\..\Source\Metronome.h"/>
     <ClInclude Include="..\..\Source\recordAudio.h"/>
+    <ClInclude Include="..\..\Source\svm.h"/>
     <ClInclude Include="..\..\Source\MainComponent.h"/>
     <ClInclude Include="C:\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.h"/>
     <ClInclude Include="C:\JUCE\modules\juce_audio_basics\buffers\juce_AudioChannelSet.h"/>
