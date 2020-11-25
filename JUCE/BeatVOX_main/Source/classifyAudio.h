@@ -11,6 +11,7 @@
 #include <JuceHeader.h>
 #include <cmath>
 #include <math.h>
+#include "onsetDetection.h"
 
 #pragma once
 
@@ -30,7 +31,7 @@ public:
 
 
     std::vector<double> normalizeFeatures(std::vector<double> featureVec);
-    void splitAudio(juce::AudioBuffer<float>buffer, std::vector<int>peaks, double sampleRate);
+    std::vector<int> splitAudio(juce::AudioBuffer<float>buffer, std::vector<int>peaks, double sampleRate);
     std::vector<std::vector<float>> doFFT(std::vector<float> audio);
     double freqToMel(double freq);
     double melToFreq(double mel);
@@ -48,7 +49,7 @@ public:
     void testAccuracy1(std::vector<float> section);
 
 private:
-
+    onsetDetection onset;
     juce::dsp::FFT forwardFFT; // FFT object to perform forward fft on
 
     double mSampleRate{ 0 };
