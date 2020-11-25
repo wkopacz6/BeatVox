@@ -9,6 +9,7 @@
 */
 
 #include "recordAudio.h"
+#include "classifyAudio.h"
 #include <cmath>
 #include <math.h>
 
@@ -44,7 +45,7 @@ private:
     juce::dsp::FFT forwardFFT; // FFT object to perform forward fft on
     juce::dsp::WindowingFunction<float> hannWindow; 
     recordAudio Audio;
-    
+    classifyAudio classification;
         
     
 };

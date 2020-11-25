@@ -29,9 +29,10 @@ void onsetDetection::makeNoveltyFunction(juce::AudioBuffer<float>buffer, int aud
     double pi = 3.141592653589793;
     
     //zero pad
-    int numberOfZeros = fftSize - (audioNumOfSamples%(hopLength));
+    //int numberOfZeros = fftSize - (audioNumOfSamples%(hopLength));
     // turn buffer into vector
-    std::vector<float>audio(audioNumOfSamples+numberOfZeros, 0);
+    //std::vector<float>audio(audioNumOfSamples+numberOfZeros, 0);
+    std::vector<float>audio(audioNumOfSamples, 0);
     for(int i = 0; i < audioNumOfSamples; i++){
         audio[i] = buffer.getSample(0, i);
     }
@@ -49,9 +50,12 @@ void onsetDetection::makeNoveltyFunction(juce::AudioBuffer<float>buffer, int aud
     }
     // Allocate array for FFT data
     
-    int numOfFFTs = ceil((audioNumOfSamples)/(hopLength));
-    fftData.resize(numOfFFTs);
-    
+    //classification.testAccuracy1(audio);
+
+    int numOfFFTs = 1 + int((audio.size() - fftSize) / hopLength);
+    std::vector<std::vector<float>> fftData(numOfFFTs, std::vector<float>(fftSize / 2 + 1));
+    /*int numOfFFTs = ceil((audioNumOfSamples)/(hopLength));
+    fftData.resize(numOfFFTs);*/
     
     for(int i = 0; i < numOfFFTs; i++) {
         std::vector<float> audioData(fftSize*2);
@@ -65,28 +69,29 @@ void onsetDetection::makeNoveltyFunction(juce::AudioBuffer<float>buffer, int aud
         forwardFFT.performFrequencyOnlyForwardTransform(audioData.data());
         
         // Convert to dB
-        for(int j = 0; j < audioData.size(); j++){
+       /* for(int j = 0; j < audioData.size(); j++){
             audioData[j] = 20*log10(abs(audioData[j])+1e-12);
-        }
+        }*/
+
         // Take only positive frequency part of fft
-        std::vector<float>posfftData(fftSize/2, 0);
-        fftData[i].resize(fftSize/2);
-        
-            
-        for (int j = 0; j < fftSize/2; j++){
+        std::vector<float>posfftData(1 + (fftSize / 2), 0);
+
+        for (int j = 0; j <= fftSize / 2; j++)
+        {
             posfftData[j] = audioData[j];
         }
+
         fftData[i] = posfftData;
     }
     
+    //classification.testAccuracy(fftData);
+
     //Duplicate the first frame so first flux will be zero
-    
-    
     fftData.insert(fftData.begin(), fftData[0]);
     
     // Diff each spectrum
     std::vector<std::vector<float>> flux(fftData.size()-1);
-    for(int i = 0; i < flux.size(); i++){ flux[i].resize(fftSize/2); }
+    for(int i = 0; i < flux.size(); i++){ flux[i].resize(fftSize/2 + 1); }
     
     for(int i = 0; i < fftData.size() - 1; i++){
         for(int j = 0; j < (fftData[i].size()); j++){
