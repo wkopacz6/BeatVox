@@ -255,16 +255,42 @@ void MainComponent::metPressed()
 
 void MainComponent::buttonAnalyzePressed()
 {
-    juce::Array<int> onsetArray;
-    for (int i = 0; i < segments.peaksInSeconds.size(); i++){
+    segments.makeNoveltyFunction(recorder.bufferRecordedAudio, recorder.bufferRecordedAudio.getNumSamples());
+    segments.pickPeaks(segments.noveltyFunction);
+    segments.convertIndiciesToTime(segments.peaks);
+    segments.convertTimeToSamples(segments.peaksInSeconds);
+    
+    //for midi numbers
+    std::vector<int> finalLabels = classification.splitAudio(recorder.bufferRecordedAudio, segments.peaks, recorder.mSampleRate);
+    int* midiLabels = finalLabels.data();
+    for (int i = 0; i < finalLabels.size(); i++)
+    {
+        midiArray.add(midiLabels[i]);
+    }
+    
+    //For onsets
+    for (int i = 0; i < segments.peaksInSeconds.size(); i++)
+    {
         onsetArray.add(segments.peaksInSamples[i]);
     }
-    juce::Array<int> drumArray =     {36, 48, 38, 48, 36, 38, 38 };
-    juce::Array<int> velocityArray = {100,100,100,100,100,100,100 };
-
+    
+    //for velocities
+    std::vector<int> velocityArray;
+    velocityArray.resize(finalLabels.size());
+    for (int i=0; i < finalLabels.size(); i++)
+    {
+        velocityArray[i]=100;
+    }
+    int* velocityLabels = velocityArray.data();
+    for (int i = 0; i < finalLabels.size(); i++)
+    {
+        velocityConstant.add(velocityLabels[i]);
+    }
+    
     buttonAnalyze.setEnabled(false);
-    recorder.fillMidiBuffer(onsetArray, drumArray, velocityArray);
+    recorder.fillMidiBuffer(onsetArray, midiArray, velocityConstant);
 }
+
 
 void MainComponent::buttonPlayMidiPressed()
 {
