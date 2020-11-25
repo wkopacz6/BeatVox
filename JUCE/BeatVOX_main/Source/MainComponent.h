@@ -45,6 +45,11 @@ private:
     juce::Slider newBpm;
     juce::Label newBpmLabel;
 
+    //Arrays for Midi Buffer
+    juce::Array<int> midiArray;
+    juce::Array<int> velocityConstant;
+    juce::Array<int> onsetArray;
+    
     void start();
     void reset();
     void stop();
