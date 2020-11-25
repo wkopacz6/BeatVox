@@ -67,11 +67,6 @@ void onsetDetection::makeNoveltyFunction(juce::AudioBuffer<float>buffer, int aud
         }
         // JUCE FFT
         forwardFFT.performFrequencyOnlyForwardTransform(audioData.data());
-        
-        // Convert to dB
-       /* for(int j = 0; j < audioData.size(); j++){
-            audioData[j] = 20*log10(abs(audioData[j])+1e-12);
-        }*/
 
         // Take only positive frequency part of fft
         std::vector<float>posfftData(1 + (fftSize / 2), 0);
@@ -85,6 +80,11 @@ void onsetDetection::makeNoveltyFunction(juce::AudioBuffer<float>buffer, int aud
     }
     
     //classification.testAccuracy(fftData);
+
+    //Convert to Magnitude Spectrum to dB
+    for (auto i = 0; i < fftData.size(); i++)
+        for (auto j = 0; j < fftData[0].size(); j++)
+            fftData[i][j] = 20.0 * log10f(fftData[i][j]+1e-12);
 
     //Duplicate the first frame so first flux will be zero
     fftData.insert(fftData.begin(), fftData[0]);
