@@ -201,19 +201,19 @@ void recordAudio::metEnabled(bool enable)
     metronome.onMet = enable;
 }
 
-void recordAudio::fillMidiBuffer(juce::Array<int> onsetArray, juce::Array<int> drumArray, juce::Array<int> velocityArray)
+void recordAudio::fillMidiBuffer(std::vector<int> onsetVec, std::vector <int> drumVec, std::vector<int> velVec)
 {
     bufferMidi.clear();
-    bufferMidi.ensureSize(onsetArray.size());
+    bufferMidi.ensureSize(onsetVec.size());
 
     //creates Midi notes for each onset and adds them into a Midi buffer
-    for (auto i = 0; i < onsetArray.size(); ++i)
+    for (auto i = 0; i < onsetVec.size(); ++i)
     {
-        auto message = juce::MidiMessage::noteOn(1, drumArray[i], (juce::uint8) 100);
-        bufferMidi.addEvent(message, onsetArray[i]);
+        auto message = juce::MidiMessage::noteOn(1, drumVec[i], (juce::uint8) velVec[i]);
+        bufferMidi.addEvent(message, onsetVec[i]);
 
         auto messageOff = juce::MidiMessage::noteOff(message.getChannel(), message.getNoteNumber());
-        bufferMidi.addEvent(messageOff, onsetArray[i] + 5000);
+        bufferMidi.addEvent(messageOff, onsetVec[i] + 5000);
     }
     sendActionMessage("Done Analyzing");
 }

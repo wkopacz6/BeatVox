@@ -22,8 +22,8 @@ void classifyAudio::tester(juce::AudioBuffer<float> buffer, double sampleRate)
 {
 
     mSampleRate = 44100;
-    std::vector<float> peaksSec = { 1.838775510, 2.481632653, 9.071428571, 10.046938775, 10.973469387, 11.932653061, 12.387755102, 12.824489795,
-        13.736734693, 14.200000000, 14.681632653, 15.600000000,16.061224489,16.197959183, 16.563265306, 17.487755102 };
+    std::vector<float> peaksSec = { 6.855691609,7.134331065,7.386848072,7.656780045,7.690158730,7.727891156,7.762721088,7.800453514
+    ,7.841814058,8.167619047 };
 
     std::vector<int> peaksSamp(peaksSec.size(), 0);
     for (auto i = 0; i < peaksSamp.size(); i++)
@@ -64,14 +64,14 @@ std::vector<double> classifyAudio::normalizeFeatures(std::vector<double> feature
 }
 
 
-void classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::vector<int>peaks, double sampleRate)
+std::vector<int> classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::vector<int>peaks, double sampleRate)
 {
     mSampleRate = sampleRate;
 
     mFormatManager.registerBasicFormats();
 
     juce::File myFile{ juce::File::getSpecialLocation(juce::File::SpecialLocationType::userDocumentsDirectory) };
-    auto mySamples = myFile.findChildFiles(juce::File::TypesOfFileToFind::findFiles, true, "putfile_bui.wav");
+    auto mySamples = myFile.findChildFiles(juce::File::TypesOfFileToFind::findFiles, true, "battleclip_daq.wav");
 
     auto reader = mFormatManager.createReaderFor(mySamples[0]);
     juce::AudioSampleBuffer bufferTest((int)reader->numChannels, (int)reader->lengthInSamples);
@@ -81,6 +81,8 @@ void classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::vector<int>p
     for (int i = 0; i < bufferTest.getNumSamples(); i++) {
        audio[i] = bufferTest.getSample(0, i);
     }
+
+    //testAccuracy1(audio);
 
   /*  std::vector<float>audio(buffer.getNumSamples(), 0);
     for (int i = 0; i < buffer.getNumSamples(); i++) {
@@ -97,13 +99,11 @@ void classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::vector<int>p
         audio[i] = audio[i] / absmax;
     }
     
-    //testAccuracy1(audio);
 
     auto mel_basis = getMelFilterBank(mSampleRate);
   
     //initialize midi drum array
-    std::vector<int> drumArray;
-    drumArray.reserve(onset.peaks.size());
+    std::vector<int> drumArray(peaks.size(),0);
   
     for (auto i = 0; i < peaks.size(); i++)
     {
@@ -127,6 +127,12 @@ void classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::vector<int>p
         length = end_ind - start_ind;
 
         int numPad = int(fftSize / 2);
+
+        std::vector<float> sectionTest(length, 0);
+        for (auto j = 0; j < length; j++)
+            sectionTest[j] = audio[start_ind + j];
+
+        testAccuracy1(sectionTest);
 
         std::vector<float> section((size_t)(length + (2.0 * numPad)), 0);
    
@@ -162,22 +168,19 @@ void classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::vector<int>p
         testnode[normalizedVec.size()].index = -1;
 
         auto label = 0.0;
-        for (int n=0; n < onset.peaks.size(); n++)
+        
+        if (mSampleRate == 48000)
         {
-            if (mSampleRate == 48000)
-            {
-                label = svm_predict(model48000, testnode);
-                drumArray[n] = label;
-            }
-            else
-            {
-                label = svm_predict(model44100, testnode);
-                drumArray[n] = label;
-            }
+            label = svm_predict(model48000, testnode);
+            drumArray[i] = label;
+        }
+        else
+        {
+             label = svm_predict(model44100, testnode);
+             drumArray[i] = label;
         }
 
-        DBG(label);
-        //testAccuracy(cepCoeff);
+        testAccuracy(cepCoeff);
     }
     return drumArray;
 }

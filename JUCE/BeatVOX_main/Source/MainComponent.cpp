@@ -213,7 +213,7 @@ void MainComponent::dumpDataToCSV()
     //classification.splitAudio(recorder.bufferRecordedAudio, segments.peaks);
     segments.testSegmentation();
     
-    //classification.tester(recorder.bufferRecordedAudio, recorder.mSampleRate);
+    classification.tester(recorder.bufferRecordedAudio, recorder.mSampleRate);
     DBG("done");
 }
 
@@ -260,35 +260,14 @@ void MainComponent::buttonAnalyzePressed()
     segments.convertIndiciesToTime(segments.peaks);
     segments.convertTimeToSamples(segments.peaksInSeconds);
     
-    //for midi numbers
-    std::vector<int> finalLabels = classification.splitAudio(recorder.bufferRecordedAudio, segments.peaks, recorder.mSampleRate);
-    int* midiLabels = finalLabels.data();
-    for (int i = 0; i < finalLabels.size(); i++)
-    {
-        midiArray.add(midiLabels[i]);
-    }
-    
-    //For onsets
-    for (int i = 0; i < segments.peaksInSeconds.size(); i++)
-    {
-        onsetArray.add(segments.peaksInSamples[i]);
-    }
-    
-    //for velocities
-    std::vector<int> velocityArray;
-    velocityArray.resize(finalLabels.size());
-    for (int i=0; i < finalLabels.size(); i++)
-    {
-        velocityArray[i]=100;
-    }
-    int* velocityLabels = velocityArray.data();
-    for (int i = 0; i < finalLabels.size(); i++)
-    {
-        velocityConstant.add(velocityLabels[i]);
-    }
+    std::vector<int> onsetVec = segments.peaks;
+
+    std::vector<int> drumVec = classification.splitAudio(recorder.bufferRecordedAudio, onsetVec, recorder.mSampleRate);
+   
+    std::vector<int> velVec(onsetVec.size(), 100);
     
     buttonAnalyze.setEnabled(false);
-    recorder.fillMidiBuffer(onsetArray, midiArray, velocityConstant);
+    recorder.fillMidiBuffer(onsetVec, drumVec, velVec);
 }
 
 void MainComponent::buttonPlayMidiPressed()

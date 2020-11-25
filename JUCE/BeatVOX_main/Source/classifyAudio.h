@@ -11,7 +11,6 @@
 #include <JuceHeader.h>
 #include <cmath>
 #include <math.h>
-#include "onsetDetection.h"
 
 #pragma once
 
@@ -48,7 +47,6 @@ public:
     void testAccuracy1(std::vector<float> section);
 
 private:
-    onsetDetection onset;
     juce::dsp::FFT forwardFFT; // FFT object to perform forward fft on
 
     double mSampleRate{ 0 };

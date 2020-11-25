@@ -28,7 +28,7 @@ public:
     void resetRecording();
     void metEnabled(bool enable);
     void tester();
-    void fillMidiBuffer(juce::Array<int> onsetArray, juce::Array<int> drumArray, juce::Array<int> velocityArray);
+    void fillMidiBuffer(std::vector<int> onsetVec, std::vector <int> drumVec, std::vector<int> velVec);
     void outputMidi();
     void stopOutputMidi();
 
