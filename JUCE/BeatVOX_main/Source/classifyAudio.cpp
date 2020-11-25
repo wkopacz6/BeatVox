@@ -147,8 +147,10 @@ void classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::vector<int>p
         auto cepCoeff = constructDCT(audio_filtered);
         auto meanCepCoeff = meanMfcc(cepCoeff);
         auto normalizedVec = normalizeFeatures(meanCepCoeff);
-        struct svm_model* model44100 = svm_load_model("C:\\Users\\JohnK\\Documents\\GitHub\\BeatVox\\JUCE\\BeatVOX_main\\model_file44100");
-        struct svm_model* model48000 = svm_load_model("C:\\Users\\JohnK\\Documents\\GitHub\\BeatVox\\JUCE\\BeatVOX_main\\model_file48000");
+        // auto fp = juce::File::getCurrentWorkingDirectory().getFullPathName();
+        // fp is the current directory
+        struct svm_model* model44100 = svm_load_model("../../model_file44100");
+        struct svm_model* model48000 = svm_load_model("../../model_file48000");
  
         svm_node* testnode= Malloc(svm_node, dctFilterNum+1);
 
