@@ -100,7 +100,11 @@ void classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::vector<int>p
     //testAccuracy1(audio);
 
     auto mel_basis = getMelFilterBank(mSampleRate);
-
+  
+    //initialize midi drum array
+    std::vector<int> drumArray;
+    drumArray.reserve(onset.peaks.size());
+  
     for (auto i = 0; i < peaks.size(); i++)
     {
         int length = int(mSampleRate * 0.04);
@@ -156,14 +160,24 @@ void classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::vector<int>p
         testnode[normalizedVec.size()].index = -1;
 
         auto label = 0.0;
-        if (mSampleRate == 48000)
-            label = svm_predict(model48000, testnode);
-        else
-            label = svm_predict(model44100, testnode);
+        for (int n=0; n < onset.peaks.size(); n++)
+        {
+            if (mSampleRate == 48000)
+            {
+                label = svm_predict(model48000, testnode);
+                drumArray[n] = label;
+            }
+            else
+            {
+                label = svm_predict(model44100, testnode);
+                drumArray[n] = label;
+            }
+        }
 
         DBG(label);
         //testAccuracy(cepCoeff);
     }
+    return drumArray;
 }
 
 std::vector<std::vector<float>> classifyAudio::doFFT(std::vector<float> audio)
