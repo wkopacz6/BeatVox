@@ -246,7 +246,7 @@ void recordAudio::tester()
     for (auto sample = 0; sample < bufferRecordedAudio.getNumSamples(); ++sample)
     {
         
-        juce::String dataString1 = (juce::String) bufferRecordedAudio.getSample(0, sample);
+        juce::String dataString1 = (juce::String) (double)bufferRecordedAudio.getSample(0, sample);
         output2.writeString(dataString1);
 
         output2.writeString("\n");

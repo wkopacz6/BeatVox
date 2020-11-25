@@ -187,7 +187,7 @@ pks = pick_peaks(novelty_func, .2, 1024, 768, 44100)[0]
 
 dif = np.c_[np.transpose(novelty_func), JUCE_onsets[:, 0]]
 diff_nov = np.diff(dif, axis=1)
-diff_peaks = np.diff(pks, JUCE_onsets.loc[:, 1])
+print(diff_peaks = np.diff(pks, JUCE_onsets.loc[:, 1]))
 
 
 

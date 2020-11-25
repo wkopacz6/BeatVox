@@ -213,7 +213,7 @@ void MainComponent::dumpDataToCSV()
     //classification.splitAudio(recorder.bufferRecordedAudio, segments.peaks);
     segments.testSegmentation();
     
-    classification.tester(recorder.bufferRecordedAudio, recorder.mSampleRate);
+    // classification.tester(recorder.bufferRecordedAudio, recorder.mSampleRate);
     DBG("done");
 }
 

@@ -32,18 +32,17 @@ void onsetDetection::makeNoveltyFunction(juce::AudioBuffer<float>buffer, int aud
     //int numberOfZeros = fftSize - (audioNumOfSamples%(hopLength));
     // turn buffer into vector
     //std::vector<float>audio(audioNumOfSamples+numberOfZeros, 0);
-    std::vector<float>audio(audioNumOfSamples, 0);
+    std::vector<double>audio(audioNumOfSamples, 0);
     for(int i = 0; i < audioNumOfSamples; i++){
         audio[i] = buffer.getSample(0, i);
     }
     // Normalize the audio
-    float absmax = 0;
+    double absmax = 0;
     for (size_t i = 0; i < audioNumOfSamples; ++i)
     {
         absmax = std::max(absmax, std::abs(audio[i]));
     }
-    float x = round(absmax*1000000);
-    absmax = x/1000000;
+    absmax = round(absmax*100000)/100000;
     for (size_t i = 0; i < audioNumOfSamples; ++i)
     {
         audio[i] = audio[i] / absmax;
@@ -58,7 +57,7 @@ void onsetDetection::makeNoveltyFunction(juce::AudioBuffer<float>buffer, int aud
     fftData.resize(numOfFFTs);*/
     
     for(int i = 0; i < numOfFFTs; i++) {
-        std::vector<float> audioData(fftSize*2);
+        std::vector<double> audioData(fftSize*2);
         
         // Prepare for FFT
         for (int n = 0; n < (fftSize); n++){
@@ -66,14 +65,15 @@ void onsetDetection::makeNoveltyFunction(juce::AudioBuffer<float>buffer, int aud
             audioData[n] = hannWindowMultiplier * audio[n+(hopLength*i)];
         }
         // JUCE FFT
-        forwardFFT.performFrequencyOnlyForwardTransform(audioData.data());
+        std::vector<float> audioDataFloat(audioData.begin(), audioData.end());
+        forwardFFT.performFrequencyOnlyForwardTransform(audioDataFloat.data());
 
         // Take only positive frequency part of fft
         std::vector<float>posfftData(1 + (fftSize / 2), 0);
 
         for (int j = 0; j <= fftSize / 2; j++)
         {
-            posfftData[j] = audioData[j];
+            posfftData[j] = audioDataFloat[j];
         }
 
         fftData[i] = posfftData;
