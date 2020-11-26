@@ -23,15 +23,12 @@ void classifyAudio::tester(juce::AudioBuffer<float> buffer, double sampleRate)
 
     mSampleRate = 44100;
     std::vector<float> peaksSec = { 6.855691609,7.134331065,7.386848072,7.656780045,7.690158730,7.727891156,7.762721088,7.800453514
-    ,7.841814058,8.167619047 };
+    ,7.841814058,8.167619047,8.655238095,8.933877551,9.206712018, 9.273106575 ,9.486258503,9.738231292,9.893514739,9.993877551,10.112244897,
+    10.250340136, 10.534603174, 10.809795918, 10.891428571, 11.098231292 };
 
     std::vector<int> peaksSamp(peaksSec.size(), 0);
     for (auto i = 0; i < peaksSamp.size(); i++)
         peaksSamp[i] = (int)(peaksSec[i] * mSampleRate);
-
-    //juce::AudioBuffer<float> buffer(1, 40000);
-    //buffer.setSize(1, 40000, true);
-    //buffer.clear();
     
     splitAudio(buffer, peaksSamp, mSampleRate);
 
@@ -153,22 +150,20 @@ std::vector<int> classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::
         auto cepCoeff = constructDCT(audio_filtered);
         auto meanCepCoeff = meanMfcc(cepCoeff);
         auto normalizedVec = normalizeFeatures(meanCepCoeff);
-        // auto fp = juce::File::getCurrentWorkingDirectory().getFullPathName();
-        // fp is the current directory
+ 
         struct svm_model* model44100 = svm_load_model("../../model_file44100");
         struct svm_model* model48000 = svm_load_model("../../model_file48000");
  
-        svm_node* testnode= Malloc(svm_node, dctFilterNum+1);
+        struct svm_node* testnode = Malloc(svm_node, normalizedVec.size() + 1);
 
         for (int j = 0; j < normalizedVec.size(); j++)
         {
-                testnode[j].index = j;
-                testnode[j].value = normalizedVec[j];
+            testnode[j].index = j+1;
+            testnode[j].value = normalizedVec[j];
         }
         testnode[normalizedVec.size()].index = -1;
 
         auto label = 0.0;
-        
         if (mSampleRate == 48000)
         {
             label = svm_predict(model48000, testnode);
@@ -180,7 +175,8 @@ std::vector<int> classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::
              drumArray[i] = label;
         }
 
-        testAccuracy(cepCoeff);
+        DBG(label);
+        //testAccuracy(cepCoeff);
     }
     return drumArray;
 }
