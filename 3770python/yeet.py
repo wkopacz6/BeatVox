@@ -42,7 +42,7 @@ def test(audio_path, ground_truth_path):
 
 
     print('start parsing ' + 'snare_hex')
-    audio = 'callout_azeem.wav'
+    audio = 'callout_Turn-Table.wav'
     y, sr = librosa.core.load(audio, sr=fsamp)
     y = normalize(y)
     os.chdir(ground_truth_path)
@@ -110,13 +110,13 @@ def test(audio_path, ground_truth_path):
     outputLabel = svm_predict(label, normalized_mfcc, model)
     outputLabel = np.transpose(np.array(outputLabel[0]))
     os.chdir(r'C:\Users\Joshua\Documents\GitHub\BeatVox\3770python')
-    outputLabel.tofile("callout_azeem_test.csv", sep=',')
+    outputLabel.tofile("callout_Turn-Table.csv", sep=',')
     print('Finished')
 
 
+a b = librosa.core.load('callout_Turn-Table.wav', sr = None)
 
 
-
-audio_path_test = r'C:\Users\Joshua\Documents\GitHub\3770python\beatboxset1'
-ground_truth_path_test = r'C:\Users\Joshua\Documents\GitHub\3770python\annotation'
+audio_path_test = r'C:\Users\Joshua\Documents\GitHub\BeatVox\3770python\beatboxset1'
+ground_truth_path_test = r'C:\Users\Joshua\Documents\GitHub\BeatVox\3770python\annotation'
 test(audio_path_test, ground_truth_path_test)
