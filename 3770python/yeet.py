@@ -6,6 +6,8 @@ from libsvm.svm import svm_problem, svm_parameter
 from libsvm.svmutil import *
 import os
 
+from numpy import random
+
 
 def normalize(audio_sample):
     return audio_sample / max(abs(audio_sample))
@@ -28,8 +30,8 @@ def test(audio_path, ground_truth_path):
         total_beat_count = total_beat_count + row
 
     # initialize empty feature vector (size = total number of beats * mfcc dimension)
-    features = np.empty([350, 18])
-    label = np.empty([350])
+    features = np.empty([297, 18])
+    label = np.empty([297])
 
     os.chdir(audio_path)
     file_name = os.listdir()
@@ -38,42 +40,54 @@ def test(audio_path, ground_truth_path):
     index = 0
     fsamp = 44100
 
-    for audio in file_name:
-        print('start parsing ' + audio)
-        y, sr = librosa.core.load(audio, sr=fsamp)
-        y = normalize(y)
-        os.chdir(ground_truth_path)
-        current_onset = pd.read_csv(audio[0:-3] + 'csv')
-        row, col = current_onset.shape
-        if (audio == 'callout_adiao.wav'):
-            break
 
-        for x in range(row):
+    print('start parsing ' + 'snare_hex')
+    audio = 'callout_azeem.wav'
+    y, sr = librosa.core.load(audio, sr=fsamp)
+    y = normalize(y)
+    os.chdir(ground_truth_path)
+    current_onset = pd.read_csv(audio[0:-3] + 'csv')
+    row, col = current_onset.shape
 
-            print(str(current_onset['Timestamp'][x]) + ' ' + audio + ' ' + current_onset['Type'][x] + ' ' + str(x) + ' ' + str(index))
-            start_sample = int(sr * current_onset['Timestamp'][x])
+    for x in range(row):
 
-            # if this beat is the last beat of the track, set it to 0.25 seconds
-            if x == row - 1:
-                end_sample = start_sample + int(sr * 0.04)
-            else:
-                end_sample = int(start_sample + 0.04*sr)
-                #end_sample = int((sr * current_onset['Timestamp'][x + 1] - start_sample)*0.2) + start_sample
-            single_beat = y[start_sample: end_sample: 1]
-
-            # if fft window is larger than the total samples of the beat, pad zeros to both left and right sides of the signal
-            n_fft_window = 1024
-            hop_size = 768
-
-            mfccs = librosa.feature.mfcc(y=single_beat, n_mfcc=18, n_fft=n_fft_window, hop_length = hop_size, sr=sr)
-            feature_vector = np.mean(mfccs, axis=1)
-            features[index,:] = feature_vector
-
-            index = index + 1
+        if current_onset['Type'][x] == 'k':
+            label[index] = 36
+        elif current_onset['Type'][x] == 'hc' or current_onset['Type'][x] == 'ho':
+            label[index] = 38
+        # elif current_onset['Type'][x] == 'ho':
+        #     label[index] = 3
+        elif current_onset['Type'][x] == 'sb' or current_onset['Type'][x] == 'sk' or current_onset['Type'][
+            x] == 's':
+            label[index] = 42
+        else:
+            label[index] = np.random.choice([36, 38, 42],1)
 
 
+        print(str(current_onset['Timestamp'][x]) + ' ' + audio + ' ' + current_onset['Type'][x] + ' ' + str(x) + ' ' + str(index))
+        start_sample = int(sr * current_onset['Timestamp'][x])
 
-            os.chdir(audio_path)
+        # if this beat is the last beat of the track, set it to 0.25 seconds
+        if x == row - 1:
+            end_sample = start_sample + int(sr * 0.04)
+        else:
+            end_sample = int(start_sample + 0.04*sr)
+            #end_sample = int((sr * current_onset['Timestamp'][x + 1] - start_sample)*0.2) + start_sample
+        single_beat = y[start_sample: end_sample: 1]
+
+        # if fft window is larger than the total samples of the beat, pad zeros to both left and right sides of the signal
+        n_fft_window = 1024
+        hop_size = 768
+
+        mfccs = librosa.feature.mfcc(y=single_beat, n_mfcc=18, n_fft=n_fft_window, hop_length = hop_size, sr=sr)
+        feature_vector = np.mean(mfccs, axis=1)
+        features[index,:] = feature_vector
+
+        index = index + 1
+
+
+
+        os.chdir(audio_path)
 
 
     print(len(label))
@@ -92,9 +106,11 @@ def test(audio_path, ground_truth_path):
      -21.82624054, -20.05064392])
     vec2_44100 = np.array([-23.18715858, 237.5743866, 44.8717041, 132.29042053, 69.93689728, 76.80852509, 70.79082489, 48.25970459, 41.93119049, 37.43262863, 36.47388077, 39.49528122, 21.26286507, 28.64596558, 33.27782822, 31.86940575, 21.46536827, 20.09148598])
 
-    outputLabel = svm_predict(label, normalize_testing(features, vec1_44100, vec2_44100), model)
+    normalized_mfcc = normalize_testing(features, vec1_44100, vec2_44100)
+    outputLabel = svm_predict(label, normalized_mfcc, model)
     outputLabel = np.transpose(np.array(outputLabel[0]))
-    outputLabel.tofile("battleclip_test.csv", sep=',')
+    os.chdir(r'C:\Users\Joshua\Documents\GitHub\BeatVox\3770python')
+    outputLabel.tofile("callout_azeem_test.csv", sep=',')
     print('Finished')
 
 
