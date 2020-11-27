@@ -10,6 +10,8 @@
 
 #include <JuceHeader.h>
 #include "Metronome.h"
+#include "classifyAudio.h"
+#include "onsetDetection.h"
 #pragma once
 
 class recordAudio : public juce::AudioAppComponent, 
@@ -28,6 +30,8 @@ public:
     void resetRecording();
     void metEnabled(bool enable);
     void tester();
+    void testAlgorithm();
+    void doAlgorithm();
     void fillMidiBuffer(std::vector<int> onsetVec, std::vector <int> drumVec, std::vector<int> velVec);
     void outputMidi();
     void stopOutputMidi();
@@ -54,5 +58,7 @@ private:
     juce::MidiOutput* midiOutput{ nullptr };
 
     Metronome metronome;
+    classifyAudio classification;
+    onsetDetection onset;
     
 };

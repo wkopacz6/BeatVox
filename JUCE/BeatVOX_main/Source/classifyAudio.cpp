@@ -14,7 +14,10 @@
 #define Malloc(type,n) (type *)malloc((n)*sizeof(type))
 
 
-classifyAudio::classifyAudio() : forwardFFT(fftOrder){};
+classifyAudio::classifyAudio() : forwardFFT(fftOrder)
+{
+    mFormatManager.registerBasicFormats();
+};
 
 classifyAudio::~classifyAudio() {};
 
@@ -29,43 +32,15 @@ void classifyAudio::tester(juce::AudioBuffer<float> buffer, double sampleRate)
     std::vector<int> peaksSamp(peaksSec.size(), 0);
     for (auto i = 0; i < peaksSamp.size(); i++)
         peaksSamp[i] = (int)(peaksSec[i] * mSampleRate);
-    
+
+
     splitAudio(buffer, peaksSamp, mSampleRate);
 
 }
 
-std::vector<double> classifyAudio::normalizeFeatures(std::vector<double> featureVec)
-{   
-    if (featureVec.size() != minVals44100.size() || featureVec.size() != maxVals44100.size())
-        DBG("cannot perform feature normalization");
-
-    std::vector<double> minVals, maxVals;
-
-    if (mSampleRate == 48000) 
-    {
-        minVals = minVals48000;
-        maxVals = maxVals48000;
-    }
-    else
-    {
-        minVals = minVals44100;
-        maxVals = maxVals44100;
-    }
-    std::vector<double> normFeatureVec(featureVec.size());
-
-    for (auto i = 0; i < minVals.size(); i++)
-    {
-        normFeatureVec[i] = (featureVec[i] - minVals[i]) / (maxVals[i] - minVals[i]);
-    }
-    return normFeatureVec;
-}
-
-
 std::vector<int> classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::vector<int>peaks, double sampleRate)
 {
     mSampleRate = sampleRate;
-
-    mFormatManager.registerBasicFormats();
 
     juce::File myFile{ juce::File::getSpecialLocation(juce::File::SpecialLocationType::userDocumentsDirectory) };
     auto mySamples = myFile.findChildFiles(juce::File::TypesOfFileToFind::findFiles, true, "battleclip_daq.wav");
@@ -79,7 +54,7 @@ std::vector<int> classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::
        audio[i] = bufferTest.getSample(0, i);
     }
 
-    //testAccuracy1(audio);
+    //testAccuracy1D(audio);
 
   /*  std::vector<float>audio(buffer.getNumSamples(), 0);
     for (int i = 0; i < buffer.getNumSamples(); i++) {
@@ -129,7 +104,7 @@ std::vector<int> classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::
         for (auto j = 0; j < length; j++)
             sectionTest[j] = audio[start_ind + j];
 
-        testAccuracy1(sectionTest);
+        //testAccuracy1D(sectionTest);
 
         std::vector<float> section((size_t)(length + (2.0 * numPad)), 0);
    
@@ -175,8 +150,8 @@ std::vector<int> classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::
              drumArray[i] = label;
         }
 
-        DBG(label);
-        //testAccuracy(cepCoeff);
+        //DBG(label);
+        //testAccuracy2D(cepCoeff);
     }
     return drumArray;
 }
@@ -452,24 +427,6 @@ std::vector<std::vector<float>> classifyAudio::dotProduct(std::vector<std::vecto
     return output;
 }
 
-std::vector<double> classifyAudio::arange(double start_in, double end_in, double spacing)
-{
-    std::vector<double>aranged;
-    double start = static_cast<double>(start_in);
-    double end = static_cast<double>(end_in);
-    double num = static_cast<double>(spacing);
-    double current = start;
-    aranged.push_back(start);
- 
-
-    while ((current + num) < end) 
-    {
-            aranged.push_back(current + spacing);
-            current += spacing;
-    }
-    return aranged;
-}
-
 std::vector<double> classifyAudio::meanMfcc(std::vector<std::vector<float>> matrix)
 {
     std::vector<double>mean(matrix.size());
@@ -488,6 +445,32 @@ std::vector<double> classifyAudio::meanMfcc(std::vector<std::vector<float>> matr
         mean[i] = rowsum/index;        
     }
     return mean;
+}
+
+std::vector<double> classifyAudio::normalizeFeatures(std::vector<double> featureVec)
+{
+    if (featureVec.size() != minVals44100.size() || featureVec.size() != maxVals44100.size())
+        DBG("cannot perform feature normalization");
+
+    std::vector<double> minVals, maxVals;
+
+    if (mSampleRate == 48000)
+    {
+        minVals = minVals48000;
+        maxVals = maxVals48000;
+    }
+    else
+    {
+        minVals = minVals44100;
+        maxVals = maxVals44100;
+    }
+    std::vector<double> normFeatureVec(featureVec.size());
+
+    for (auto i = 0; i < minVals.size(); i++)
+    {
+        normFeatureVec[i] = (featureVec[i] - minVals[i]) / (maxVals[i] - minVals[i]);
+    }
+    return normFeatureVec;
 }
 
 std::vector<double> classifyAudio::linspace(double start_in, double end_in, int num_in)
@@ -516,7 +499,25 @@ std::vector<double> classifyAudio::linspace(double start_in, double end_in, int 
     return linspaced;
 }
 
-void classifyAudio::testAccuracy(std::vector<std::vector<float>> cepCoeff) {
+std::vector<double> classifyAudio::arange(double start_in, double end_in, double spacing)
+{
+    std::vector<double>aranged;
+    double start = static_cast<double>(start_in);
+    double end = static_cast<double>(end_in);
+    double num = static_cast<double>(spacing);
+    double current = start;
+    aranged.push_back(start);
+
+
+    while ((current + num) < end)
+    {
+        aranged.push_back(current + spacing);
+        current += spacing;
+    }
+    return aranged;
+}
+
+void classifyAudio::testAccuracy2D(std::vector<std::vector<float>> cepCoeff) {
     juce::File myFile;
 
     auto parentDir = juce::File::getSpecialLocation(juce::File::userDocumentsDirectory);
@@ -525,7 +526,7 @@ void classifyAudio::testAccuracy(std::vector<std::vector<float>> cepCoeff) {
     myFile.deleteFile();
 
     juce::FileOutputStream output2(myFile);
- 
+
     for (auto frame = 0; frame < cepCoeff[0].size(); ++frame)
     {
         output2.writeString("frame" + (juce::String)frame + ",");
@@ -535,7 +536,7 @@ void classifyAudio::testAccuracy(std::vector<std::vector<float>> cepCoeff) {
 
     for (auto mfcc = 0; mfcc < cepCoeff.size(); ++mfcc)
     {
-        
+
         for (auto frame = 0; frame < cepCoeff[0].size(); ++frame)
         {
 
@@ -552,7 +553,7 @@ void classifyAudio::testAccuracy(std::vector<std::vector<float>> cepCoeff) {
 
 }
 
-void classifyAudio::testAccuracy1(std::vector<float> section)
+void classifyAudio::testAccuracy1D(std::vector<float> section)
 {
     juce::File myFile;
 

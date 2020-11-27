@@ -205,16 +205,7 @@ void MainComponent::stop()
 
 void MainComponent::dumpDataToCSV()
 {
-    recorder.tester();
-    segments.makeNoveltyFunction(recorder.bufferRecordedAudio, recorder.bufferRecordedAudio.getNumSamples());
-    segments.pickPeaks(segments.noveltyFunction);
-    segments.convertIndiciesToTime(segments.peaks);
-    segments.convertTimeToSamples(segments.peaksInSeconds);
-    //classification.splitAudio(recorder.bufferRecordedAudio, segments.peaks);
-    segments.testSegmentation();
-    
-    // classification.tester(recorder.bufferRecordedAudio, recorder.mSampleRate);
-    DBG("done");
+    recorder.testAlgorithm();
 }
 
 //graphically informs the user that recording has finished
@@ -255,19 +246,8 @@ void MainComponent::metPressed()
 
 void MainComponent::buttonAnalyzePressed()
 {
-    segments.makeNoveltyFunction(recorder.bufferRecordedAudio, recorder.bufferRecordedAudio.getNumSamples());
-    segments.pickPeaks(segments.noveltyFunction);
-    segments.convertIndiciesToTime(segments.peaks);
-    segments.convertTimeToSamples(segments.peaksInSeconds);
-    
-    std::vector<int> onsetVec = segments.peaks;
-
-    std::vector<int> drumVec = classification.splitAudio(recorder.bufferRecordedAudio, onsetVec, recorder.mSampleRate);
-   
-    std::vector<int> velVec(onsetVec.size(), 100);
-    
+    recorder.doAlgorithm();
     buttonAnalyze.setEnabled(false);
-    recorder.fillMidiBuffer(onsetVec, drumVec, velVec);
 }
 
 void MainComponent::buttonPlayMidiPressed()

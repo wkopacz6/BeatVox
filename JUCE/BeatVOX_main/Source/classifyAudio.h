@@ -43,13 +43,13 @@ public:
     std::vector<std::vector<float>> dotProduct(std::vector<std::vector<float>> matrix1, std::vector<std::vector<float>> matrix2);
     std::vector<double> meanMfcc(std::vector<std::vector<float>> matrix);
     void tester(juce::AudioBuffer<float> buffer, double sampleRate);
-    void testAccuracy(std::vector<std::vector<float>> cepCoeff);
-    void testAccuracy1(std::vector<float> section);
+    void testAccuracy2D(std::vector<std::vector<float>> cepCoeff);
+    void testAccuracy1D(std::vector<float> section);
 
 private:
     juce::dsp::FFT forwardFFT; // FFT object to perform forward fft on
 
-    double mSampleRate{ 0 };
+    double mSampleRate{ 0.0 };
     double pi = 3.1415926535897932385;
     std::vector<double> minVals44100 = {-648.47772217, -41.23974609, -152.00854492, -23.61817169, -61.95689011, -38.56236649, -37.30766678, -67.04342651, -40.2208519, -41.70504379, -31.27592278, -24.66895866, -28.49080849, -37.02992249, -32.1645546, -24.17269897, -21.82624054, -20.05064392};
     std::vector<double> maxVals44100 = {-23.18715858, 237.5743866, 44.8717041, 132.29042053, 69.93689728, 76.80852509, 70.79082489, 48.25970459, 41.93119049, 37.43262863, 36.47388077, 39.49528122, 21.26286507, 28.64596558, 33.27782822, 31.86940575, 21.46536827, 20.09148598};

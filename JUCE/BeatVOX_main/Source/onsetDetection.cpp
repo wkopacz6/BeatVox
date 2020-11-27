@@ -23,9 +23,9 @@ onsetDetection:: ~onsetDetection() {
     
 }
 
-void onsetDetection::makeNoveltyFunction(juce::AudioBuffer<float>buffer, int audioNumOfSamples) {
+void onsetDetection::makeNoveltyFunction(juce::AudioBuffer<float>buffer, int audioNumOfSamples, double sampleRate) {
     
-    
+    mSampleRate = sampleRate;
     double pi = 3.141592653589793;
     
     //zero pad
@@ -181,14 +181,14 @@ void onsetDetection::pickPeaks(std::vector<float>noveltyFunction) {
 void onsetDetection::convertIndiciesToTime(std::vector<int>peaksInIndicies){
     if (peaksInIndicies.size() > 0){
         for (int i = 0; i < peaksInIndicies.size(); i++){
-            peaksInSeconds.push_back(peaksInIndicies[i] * hopLength / Audio.mSampleRate);
+            peaksInSeconds.push_back(peaksInIndicies[i] * hopLength / mSampleRate);
         }
     }
 }
 void onsetDetection::convertTimeToSamples(std::vector<float>peaksInTime){
     if (peaksInTime.size() > 0){
         for (int i = 0; i < peaksInTime.size(); i++){
-            peaksInSamples.push_back(peaksInTime[i] * Audio.mSampleRate);
+            peaksInSamples.push_back(peaksInTime[i] * mSampleRate);
         }
     }
 }

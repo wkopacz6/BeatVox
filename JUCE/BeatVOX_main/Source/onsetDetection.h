@@ -8,7 +8,6 @@
   ==============================================================================
 */
 
-#include "recordAudio.h"
 #include "classifyAudio.h"
 #include <cmath>
 #include <math.h>
@@ -26,7 +25,7 @@ public:
     onsetDetection();
     ~onsetDetection();
     
-    void makeNoveltyFunction(juce::AudioBuffer<float>buffer, int audioNumOfSamples);
+    void makeNoveltyFunction(juce::AudioBuffer<float>buffer, int audioNumOfSamples, double sampleRate);
     void pickPeaks(std::vector<float>noveltyFunction);
     void convertIndiciesToTime(std::vector<int>peaksInIndicies);
     void testSegmentation();
@@ -41,10 +40,10 @@ public:
 
 private:
     
+    double mSampleRate{ 0.0 };
    
     juce::dsp::FFT forwardFFT; // FFT object to perform forward fft on
     juce::dsp::WindowingFunction<float> hannWindow; 
-    recordAudio Audio;
     classifyAudio classification;
         
     

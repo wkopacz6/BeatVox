@@ -218,6 +218,30 @@ void recordAudio::fillMidiBuffer(std::vector<int> onsetVec, std::vector <int> dr
     sendActionMessage("Done Analyzing");
 }
 
+void recordAudio::doAlgorithm()
+{
+    onset.makeNoveltyFunction(bufferRecordedAudio, bufferRecordedAudio.getNumSamples(), mSampleRate);
+    onset.pickPeaks(onset.noveltyFunction);
+    onset.convertIndiciesToTime(onset.peaks);
+    onset.convertTimeToSamples(onset.peaksInSeconds);
+
+    std::vector<float> peaksSec = { 6.855691609,7.134331065,7.386848072,7.656780045,7.690158730,7.727891156,7.762721088,7.800453514
+    ,7.841814058,8.167619047,8.655238095,8.933877551,9.206712018, 9.273106575 ,9.486258503,9.738231292,9.893514739,9.993877551,10.112244897,
+    10.250340136, 10.534603174, 10.809795918, 10.891428571, 11.098231292 };
+
+    std::vector<int> peaksSamp(peaksSec.size(), 0);
+    for (auto i = 0; i < peaksSamp.size(); i++)
+        peaksSamp[i] = (int)(peaksSec[i] * 44100);
+
+    //std::vector<int> onsetVec = segments.peaks;
+    std::vector<int> onsetVec = peaksSamp;
+
+    std::vector<int> drumVec = classification.splitAudio(bufferRecordedAudio, onsetVec, 44100);
+
+    std::vector<int> velVec(onsetVec.size(), 100);
+
+    fillMidiBuffer(onsetVec, drumVec, velVec);
+}
 
 void recordAudio::outputMidi()
 {
@@ -230,6 +254,16 @@ void recordAudio::stopOutputMidi()
     midiOutput->clearAllPendingMessages();
 }
 
+void recordAudio::testAlgorithm()
+{
+    onset.makeNoveltyFunction(bufferRecordedAudio, bufferRecordedAudio.getNumSamples(), mSampleRate);
+    onset.pickPeaks(onset.noveltyFunction);
+    onset.convertIndiciesToTime(onset.peaks);
+    onset.convertTimeToSamples(onset.peaksInSeconds);
+    onset.testSegmentation();
+
+    classification.tester(bufferRecordedAudio, mSampleRate);
+}
 
 void recordAudio::tester()
 {
