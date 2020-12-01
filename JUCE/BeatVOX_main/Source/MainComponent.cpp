@@ -192,8 +192,6 @@ void MainComponent::reset()
     buttonStopMidi.setEnabled(false);
 
     doneAnalyzing = false;
-    segments.peaks.clear();
-    segments.peaksInSeconds.clear();
 
 }
 

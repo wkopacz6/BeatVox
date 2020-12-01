@@ -18,12 +18,12 @@ hannWindow(fftSize, juce::dsp::WindowingFunction<float>::hann){
 }
 
 onsetDetection:: ~onsetDetection() {
-    peaks.clear();
-    peaksInSeconds.clear();
-    
+    //peaks.clear();
+    //peaksInSeconds.clear();
+    //
 }
 
-void onsetDetection::makeNoveltyFunction(juce::AudioBuffer<float>buffer, int audioNumOfSamples, double sampleRate) {
+std::vector<float> onsetDetection::makeNoveltyFunction(juce::AudioBuffer<float>buffer, int audioNumOfSamples, double sampleRate) {
     
     mSampleRate = sampleRate;
     double pi = 3.141592653589793;
@@ -144,12 +144,14 @@ void onsetDetection::makeNoveltyFunction(juce::AudioBuffer<float>buffer, int aud
     {
         RMS[i] = RMS[i] / absmax_nov;
     }
-    noveltyFunction = RMS;
+    auto noveltyFunction = RMS;
+
+    return noveltyFunction;
     
 }
 
-void onsetDetection::pickPeaks(std::vector<float>noveltyFunction) {
-    
+std::vector<int> onsetDetection::pickPeaks(std::vector<float>noveltyFunction) {
+
     // Get adaptive threshold using median filter ( 5 points )
     std::vector<float>adaptiveThreshold(noveltyFunction.size(), 0);
     std::vector<float>noveltyFunctionZeroPadded(noveltyFunction.size()+4, 0); //for now assuming it adds 2 zero at the beginning and end
@@ -169,6 +171,7 @@ void onsetDetection::pickPeaks(std::vector<float>noveltyFunction) {
         adaptiveThreshold[i-2] = currentBlock[2] + .2;
     }
     //pick the peaks
+    std::vector<int> peaks;
     for(int i = 1; i < noveltyFunction.size()-1; i++){
         if (noveltyFunction[i-1] < noveltyFunction[i] &&
             noveltyFunction[i+1] < noveltyFunction[i] &&
@@ -178,23 +181,31 @@ void onsetDetection::pickPeaks(std::vector<float>noveltyFunction) {
             
         }
     }
+
+    return peaks;
 }
-void onsetDetection::convertIndiciesToTime(std::vector<int>peaksInIndicies){
+
+std::vector<float> onsetDetection::convertIndiciesToTime(std::vector<int>peaksInIndicies){
+    std::vector<float> peaksInSeconds;
     if (peaksInIndicies.size() > 0){
         for (int i = 0; i < peaksInIndicies.size(); i++){
             peaksInSeconds.push_back(peaksInIndicies[i] * hopLength / mSampleRate);
         }
     }
-}
-void onsetDetection::convertTimeToSamples(std::vector<float>peaksInTime){
-    if (peaksInTime.size() > 0){
-        for (int i = 0; i < peaksInTime.size(); i++){
-            peaksInSamples.push_back(peaksInTime[i] * mSampleRate);
-        }
-    }
+    return peaksInSeconds;
 }
 
-void onsetDetection::testSegmentation(){
+std::vector<int> onsetDetection::convertTimeToSamples(std::vector<float>peaksInTime){
+    std::vector<int> peaksInSamples;
+    if (peaksInTime.size() > 0){
+        for (int i = 0; i < peaksInTime.size(); i++){
+            peaksInSamples.push_back((int)(peaksInTime[i] * mSampleRate));
+        }
+    }
+    return peaksInSamples;
+}
+
+void onsetDetection::testSegmentation(std::vector<float>noveltyFunction, std::vector<int> peaks, std::vector<float> peaksInSeconds){
     juce::File myFile;
 
     auto parentDir = juce::File::getSpecialLocation(juce::File::userDocumentsDirectory);

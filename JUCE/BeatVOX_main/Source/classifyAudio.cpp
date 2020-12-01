@@ -56,7 +56,7 @@ std::vector<int> classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::
 
     //testAccuracy1D(audio);
 
-  /*  std::vector<float>audio(buffer.getNumSamples(), 0);
+    /*std::vector<float>audio(buffer.getNumSamples(), 0);
     for (int i = 0; i < buffer.getNumSamples(); i++) {
         audio[i] = buffer.getSample(0, i);
     }*/
@@ -150,7 +150,7 @@ std::vector<int> classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::
              drumArray[i] = label;
         }
 
-        //DBG(label);
+        DBG(label);
         //testAccuracy2D(cepCoeff);
     }
     return drumArray;

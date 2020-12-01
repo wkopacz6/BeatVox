@@ -25,17 +25,18 @@ public:
     onsetDetection();
     ~onsetDetection();
     
-    void makeNoveltyFunction(juce::AudioBuffer<float>buffer, int audioNumOfSamples, double sampleRate);
-    void pickPeaks(std::vector<float>noveltyFunction);
-    void convertIndiciesToTime(std::vector<int>peaksInIndicies);
-    void testSegmentation();
-    void convertTimeToSamples(std::vector<float>peaksInTime);
+    std::vector<float> makeNoveltyFunction(juce::AudioBuffer<float>buffer, int audioNumOfSamples, double sampleRate);
+    std::vector<int> pickPeaks(std::vector<float>noveltyFunction);
+    std::vector<float> convertIndiciesToTime(std::vector<int>peaksInIndicies);
+    std::vector<int> convertTimeToSamples(std::vector<float>peaksInTime);
+    void testSegmentation(std::vector<float>noveltyFunction, std::vector<int> peaks, std::vector<float> peaksInSeconds);
     
-    std::vector<std::vector<float>>fftData;
-    std::vector<float>noveltyFunction;
+    
+    /*std::vector<std::vector<float>>fftData;
+    * std::vector<float> noveltyFunction
     std::vector<int>peaks;
     std::vector<float>peaksInSeconds;
-    std::vector<float>peaksInSamples;
+    std::vector<float>peaksInSamples;*/
     
 
 private:
