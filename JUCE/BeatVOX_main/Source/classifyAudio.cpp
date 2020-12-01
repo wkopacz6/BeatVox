@@ -42,7 +42,7 @@ std::vector<int> classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::
 {
     mSampleRate = sampleRate;
 
-    juce::File myFile{ juce::File::getSpecialLocation(juce::File::SpecialLocationType::userDocumentsDirectory) };
+    /*juce::File myFile{ juce::File::getSpecialLocation(juce::File::SpecialLocationType::userDocumentsDirectory) };
     auto mySamples = myFile.findChildFiles(juce::File::TypesOfFileToFind::findFiles, true, "battleclip_daq.wav");
 
     auto reader = mFormatManager.createReaderFor(mySamples[0]);
@@ -52,14 +52,14 @@ std::vector<int> classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::
     std::vector<float>audio(bufferTest.getNumSamples(), 0);
     for (int i = 0; i < bufferTest.getNumSamples(); i++) {
        audio[i] = bufferTest.getSample(0, i);
-    }
+    }*/
 
     //testAccuracy1D(audio);
 
-    /*std::vector<float>audio(buffer.getNumSamples(), 0);
+    std::vector<float>audio(buffer.getNumSamples(), 0);
     for (int i = 0; i < buffer.getNumSamples(); i++) {
         audio[i] = buffer.getSample(0, i);
-    }*/
+    }
 
     float absmax = 0;
     for (size_t i = 0; i < audio.size(); ++i)
