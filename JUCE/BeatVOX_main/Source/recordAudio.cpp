@@ -256,13 +256,14 @@ void recordAudio::stopOutputMidi()
 
 void recordAudio::testAlgorithm()
 {
+    
     onset.makeNoveltyFunction(bufferRecordedAudio, bufferRecordedAudio.getNumSamples(), mSampleRate);
     onset.pickPeaks(onset.noveltyFunction);
     onset.convertIndiciesToTime(onset.peaks);
     onset.convertTimeToSamples(onset.peaksInSeconds);
     onset.testSegmentation();
 
-    classification.tester(bufferRecordedAudio, mSampleRate);
+    //classification.tester(bufferRecordedAudio, mSampleRate);
 }
 
 void recordAudio::tester()

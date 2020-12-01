@@ -35,6 +35,7 @@ void onsetDetection::makeNoveltyFunction(juce::AudioBuffer<float>buffer, int aud
     std::vector<double>audio(audioNumOfSamples, 0);
     for(int i = 0; i < audioNumOfSamples; i++){
         audio[i] = buffer.getSample(0, i);
+        audio[i] = round(audio[i]*100000000)/100000000;
     }
     // Normalize the audio
     double absmax = 0;

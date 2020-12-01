@@ -3,14 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="763f2f80-24bc-451b-90e1-b0b4bebeefa4" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/3770python/venv/Lib/site-packages/audioread-2.1.8.dist-info/.pbr.json.icloud" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/JUCE/BeatVOX_main/Builds/MacOSX/RecorderAttempt_2.xcodeproj/project.xcworkspace/xcuserdata/walterkopacz.xcuserdatad/UserInterfaceState.xcuserstate" beforeDir="false" afterPath="$PROJECT_DIR$/JUCE/BeatVOX_main/Builds/MacOSX/RecorderAttempt_2.xcodeproj/project.xcworkspace/xcuserdata/walterkopacz.xcuserdatad/UserInterfaceState.xcuserstate" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/JUCE/BeatVOX_main/Builds/MacOSX/RecorderAttempt_2.xcodeproj/xcuserdata/walterkopacz.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist" beforeDir="false" afterPath="$PROJECT_DIR$/JUCE/BeatVOX_main/Builds/MacOSX/RecorderAttempt_2.xcodeproj/xcuserdata/walterkopacz.xcuserdatad/xcdebugger/Breakpoints_v2.xcbkptlist" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/JUCE/BeatVOX_main/Builds/MacOSX/build/Debug/RecorderAttempt_2.app/Contents/Info.plist" beforeDir="false" afterPath="$PROJECT_DIR$/JUCE/BeatVOX_main/Builds/MacOSX/build/Debug/RecorderAttempt_2.app/Contents/Info.plist" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/JUCE/BeatVOX_main/Builds/MacOSX/build/Debug/RecorderAttempt_2.app/Contents/MacOS/RecorderAttempt_2" beforeDir="false" afterPath="$PROJECT_DIR$/JUCE/BeatVOX_main/Builds/MacOSX/build/Debug/RecorderAttempt_2.app/Contents/MacOS/RecorderAttempt_2" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/JUCE/BeatVOX_main/Source/MainComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/JUCE/BeatVOX_main/Source/MainComponent.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/JUCE/BeatVOX_main/Source/onsetDetection.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/JUCE/BeatVOX_main/Source/onsetDetection.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/JUCE/BeatVOX_main/Source/recordAudio.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/JUCE/BeatVOX_main/Source/recordAudio.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Python/venv1/OnsetDetection.py" beforeDir="false" afterPath="$PROJECT_DIR$/Python/venv1/OnsetDetection.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -302,6 +300,16 @@
           <url>file://$PROJECT_DIR$/Python/venv1/OnsetDetection.py</url>
           <line>188</line>
           <option name="timeStamp" value="78" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Python/venv1/OnsetDetection.py</url>
+          <line>20</line>
+          <option name="timeStamp" value="79" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$USER_HOME$/PycharmProjects/BeatVoxPrototype/venv1/lib/python3.8/site-packages/librosa/core/spectrum.py</url>
+          <line>257</line>
+          <option name="timeStamp" value="81" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
