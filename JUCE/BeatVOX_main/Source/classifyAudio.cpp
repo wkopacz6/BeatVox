@@ -17,6 +17,10 @@
 classifyAudio::classifyAudio() : forwardFFT(fftOrder)
 {
     mFormatManager.registerBasicFormats();
+
+
+    model44100 = svm_load_model("../../AdditionalFiles/model_file44100");
+    model48000 = svm_load_model("../../AdditionalFiles/model_file48000");
 };
 
 classifyAudio::~classifyAudio() {};
@@ -80,7 +84,6 @@ std::vector<int> classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::
     for (auto i = 0; i < peaks.size(); i++)
     {
         int length = int(mSampleRate * 0.04);
-        //auto length = audio.size();
 
         auto start_ind = peaks[i];
         auto end_ind = start_ind + length;
@@ -104,7 +107,6 @@ std::vector<int> classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::
         for (auto j = 0; j < length; j++)
             sectionTest[j] = audio[start_ind + j];
 
-        //testAccuracy1D(sectionTest);
 
         std::vector<float> section((size_t)(length + (2.0 * numPad)), 0);
    
@@ -125,9 +127,6 @@ std::vector<int> classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::
         auto cepCoeff = constructDCT(audio_filtered);
         auto meanCepCoeff = meanMfcc(cepCoeff);
         auto normalizedVec = normalizeFeatures(meanCepCoeff);
- 
-        struct svm_model* model44100 = svm_load_model("../../model_file44100");
-        struct svm_model* model48000 = svm_load_model("../../model_file48000");
  
         struct svm_node* testnode = Malloc(svm_node, normalizedVec.size() + 1);
 
@@ -150,8 +149,6 @@ std::vector<int> classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::
              drumArray[i] = label;
         }
 
-        DBG(label);
-        //testAccuracy2D(cepCoeff);
     }
     return drumArray;
 }

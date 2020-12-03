@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="aSL4ov" name="RecorderAttempt_2" projectType="guiapp" useAppConfig="0"
+<JUCERPROJECT id="aSL4ov" name="BeatVOX" projectType="guiapp" useAppConfig="0"
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1">
-  <MAINGROUP id="tYHnyg" name="RecorderAttempt_2">
+  <MAINGROUP id="tYHnyg" name="BeatVOX">
     <GROUP id="{BAD37735-A74E-7EE1-9848-D4A5049016CC}" name="Source">
       <FILE id="kksNyq" name="classifyAudio.cpp" compile="1" resource="0"
             file="Source/classifyAudio.cpp"/>
