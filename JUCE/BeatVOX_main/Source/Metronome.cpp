@@ -15,11 +15,14 @@ Metronome::Metronome()
     mFormatManager.registerBasicFormats();
 
     juce::File myFile{ juce::File::getSpecialLocation(juce::File::SpecialLocationType::userDocumentsDirectory) };
-    auto mySamples = myFile.findChildFiles(juce::File::TypesOfFileToFind::findFiles, true, "Cowbell-2.wav");
+    auto beatvoxDir = myFile.findChildFiles(juce::File::TypesOfFileToFind::findDirectories, true, "BeatVOX_main");
+    auto addFilesDir = beatvoxDir[0].findChildFiles(juce::File::TypesOfFileToFind::findDirectories, true, "AdditionalFiles");
 
-    if (mySamples[0].exists())
+    auto metFile = addFilesDir[0].findChildFiles(juce::File::TypesOfFileToFind::findFiles, true, "Cowbell-2.wav");
+
+    if (metFile[0].exists())
     {
-        auto formatReader = mFormatManager.createReaderFor(mySamples[0]);
+        auto formatReader = mFormatManager.createReaderFor(metFile[0]);
         pMet.reset(new juce::AudioFormatReaderSource(formatReader, true));
     }
     else

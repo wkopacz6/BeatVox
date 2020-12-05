@@ -18,9 +18,23 @@ classifyAudio::classifyAudio() : forwardFFT(fftOrder)
 {
     mFormatManager.registerBasicFormats();
 
+    juce::File myFile{ juce::File::getSpecialLocation(juce::File::SpecialLocationType::userDocumentsDirectory) };
+    auto mySamples = myFile.findChildFiles(juce::File::TypesOfFileToFind::findDirectories, true, "BeatVOX_main");
+    auto addFiles = mySamples[0].findChildFiles(juce::File::TypesOfFileToFind::findDirectories, true, "AdditionalFiles");
 
-    model44100 = svm_load_model("../../AdditionalFiles/model_file44100");
-    model48000 = svm_load_model("../../AdditionalFiles/model_file48000");
+    auto model1Dir = addFiles[0].findChildFiles(juce::File::TypesOfFileToFind::findFiles, true, "model_file44100");
+    auto model1 = model1Dir[0].getFullPathName();
+    auto model1STD = model1.toStdString();
+    const char* model1Char = model1STD.c_str();
+
+    auto model2Dir = addFiles[0].findChildFiles(juce::File::TypesOfFileToFind::findFiles, true, "model_file48000");
+    auto model2 = model2Dir[0].getFullPathName();
+    auto model2STD = model2.toStdString();
+    const char* model2Char = model2STD.c_str();
+
+    model44100 = svm_load_model(model1Char);
+    model48000 = svm_load_model(model2Char);
+
 };
 
 classifyAudio::~classifyAudio() {};
