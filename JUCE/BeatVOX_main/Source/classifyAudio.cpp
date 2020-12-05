@@ -148,7 +148,7 @@ std::vector<int> classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::
              label = svm_predict(model44100, testnode);
              drumArray[i] = label;
         }
-
+        
     }
     return drumArray;
 }

@@ -96,7 +96,7 @@ std::vector<float> onsetDetection::makeNoveltyFunction(juce::AudioBuffer<float>b
     
     for(int i = 0; i < fftData.size() - 1; i++){
         for(int j = 0; j < (fftData[i].size()); j++){
-            flux[i][j] = fftData[i][j] - fftData[i+1][j];
+            flux[i][j] = fftData[i+1][j] - fftData[i][j];
             
         }
     }
@@ -122,11 +122,11 @@ std::vector<float> onsetDetection::makeNoveltyFunction(juce::AudioBuffer<float>b
     std::vector<float>mean(numOfFFTs);
     
     for(int i = 0; i < flux.size(); i++){
-        std::vector<float> sum(flux[i].size());
+        float sum = 0.0;
         for(int j = 0; j < flux[i].size(); j++){
-            sum[i] = sum[i] + flux[i][j];
+            sum = sum + flux[i][j];
         }
-        mean[i] = sum[i] / flux[i].size();
+        mean[i] = sum / flux[i].size();
     }
     
     std::vector<float>RMS(mean.size());
