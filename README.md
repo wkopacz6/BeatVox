@@ -3,9 +3,14 @@
 ## What is BeatVOX?
 BeatVOX is an application that can convert an audio recording of beatboxing into a corresponding MIDI drum pattern, which can be streamed directly into your DAW or to any other MIDI application of your choosing via a virtual MIDI port.
   
-## Download and Installation
-To download BeatVOX, simply download the ZIP file of all files on this GitHub branch (the "Released" branch).  Then, extract and place these files into your computer's Documents directory.  Keep all files in their original folder layout and do not rename anything.  To launch the application, run the executable inside the "BeatVOX_v1.0" folder.  If files are missing or misplaced, the application will provide an error message.
+## Download and Launching
+To download BeatVOX, simply download the ZIP file of all files on this GitHub branch (the "Released" branch).  Then, extract and place these files into your computer's Documents directory.  Keep all files in their original folder layout and do not rename anything.  
+
+### Windows
+To launch the application, run the executable inside the "BeatVOX_v1.0" folder.  If files are missing or misplaced, the application will provide an error message.
   
+### Mac
+Unfortunately, an application file is not available at this time.  To launch the application, the code must be ran in an IDE.  To do this, first ensure JUCE is installed and configured -- the free version is sufficient.  Here is a link: https://juce.com/get-juce.  Also ensure some programming IDE is installed.  Apple's Xcode is a free and JUCE-supported option.  Once this is done, open the "BeatVOX_v1.0.jucer" with Projucer.  Then, click the "export to IDE" button near the top right of the window.  Finally, run the program.
 ## Startup
 BeatVOX will boot utilizing your computer's default audio input and output devices.  These devices can be changed via pressing the "Settings" button in the top right corner of the application.  Within this settings menu, parameters such as the sample rate, buffer size, and MIDI output device can be modified as well.  By default, the MIDI output device is undefined, due to discrepancies between operating systems, so be sure to manually choose an available output to transmit your MIDI information.  Instructions on setting up a virtual MIDI port are provided later in the document.
 
