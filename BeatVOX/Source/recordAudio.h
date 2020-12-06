@@ -29,8 +29,6 @@ public:
     void createAudioBuffer(double numBars, double bpm);
     void resetRecording();
     void metEnabled(bool enable);
-    void tester();
-    void testAlgorithm();
     void doAlgorithm();
     void fillMidiBuffer(std::vector<int> onsetVec, std::vector <int> drumVec, std::vector<int> velVec);
     void outputMidi();

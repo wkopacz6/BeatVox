@@ -30,7 +30,6 @@ private:
     juce::TextButton buttonRecord    { "Record" };
     juce::TextButton buttonReset     { "Reset" };
     juce::TextButton buttonStop      { "Stop Recording" };
-    juce::TextButton buttonDump      { "Dump to\n .csv file" };
     juce::TextButton buttonMet       { "Metronome Off" };
     juce::TextButton buttonAnalyze   { "Analyze" };
     juce::TextButton buttonPlayMidi  { "<Set MIDI Output>" };
@@ -57,14 +56,11 @@ private:
     void metPressed();
     void done();
     void error();
-    void dumpDataToCSV();
     void buttonAnalyzePressed();
     void buttonPlayMidiPressed();
     void ioSetup();
     
     recordAudio recorder;
-    onsetDetection segments;
-    classifyAudio classification;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };

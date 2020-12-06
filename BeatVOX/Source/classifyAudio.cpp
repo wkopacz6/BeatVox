@@ -19,7 +19,7 @@ classifyAudio::classifyAudio() : forwardFFT(fftOrder)
     mFormatManager.registerBasicFormats();
 
     juce::File myFile{ juce::File::getSpecialLocation(juce::File::SpecialLocationType::userDocumentsDirectory) };
-    auto mySamples = myFile.findChildFiles(juce::File::TypesOfFileToFind::findDirectories, true, "BeatVOX_main");
+    auto mySamples = myFile.findChildFiles(juce::File::TypesOfFileToFind::findDirectories, true, "BeatVOX");
     auto addFiles = mySamples[0].findChildFiles(juce::File::TypesOfFileToFind::findDirectories, true, "AdditionalFiles");
 
     auto model1Dir = addFiles[0].findChildFiles(juce::File::TypesOfFileToFind::findFiles, true, "model_file44100");
@@ -39,40 +39,10 @@ classifyAudio::classifyAudio() : forwardFFT(fftOrder)
 
 classifyAudio::~classifyAudio() {};
 
-void classifyAudio::tester(juce::AudioBuffer<float> buffer, double sampleRate)
-{
-
-    mSampleRate = 44100;
-    std::vector<float> peaksSec = { 6.855691609,7.134331065,7.386848072,7.656780045,7.690158730,7.727891156,7.762721088,7.800453514
-    ,7.841814058,8.167619047,8.655238095,8.933877551,9.206712018, 9.273106575 ,9.486258503,9.738231292,9.893514739,9.993877551,10.112244897,
-    10.250340136, 10.534603174, 10.809795918, 10.891428571, 11.098231292 };
-
-    std::vector<int> peaksSamp(peaksSec.size(), 0);
-    for (auto i = 0; i < peaksSamp.size(); i++)
-        peaksSamp[i] = (int)(peaksSec[i] * mSampleRate);
-
-
-    splitAudio(buffer, peaksSamp, mSampleRate);
-
-}
 
 std::vector<int> classifyAudio::splitAudio(juce::AudioBuffer<float>buffer, std::vector<int>peaks, double sampleRate)
 {
     mSampleRate = sampleRate;
-
-    /*juce::File myFile{ juce::File::getSpecialLocation(juce::File::SpecialLocationType::userDocumentsDirectory) };
-    auto mySamples = myFile.findChildFiles(juce::File::TypesOfFileToFind::findFiles, true, "battleclip_daq.wav");
-
-    auto reader = mFormatManager.createReaderFor(mySamples[0]);
-    juce::AudioSampleBuffer bufferTest((int)reader->numChannels, (int)reader->lengthInSamples);
-    reader->read(&bufferTest, 0, (int)reader->lengthInSamples, 0, true, true);
-
-    std::vector<float>audio(bufferTest.getNumSamples(), 0);
-    for (int i = 0; i < bufferTest.getNumSamples(); i++) {
-       audio[i] = bufferTest.getSample(0, i);
-    }*/
-
-    //testAccuracy1D(audio);
 
     std::vector<float>audio(buffer.getNumSamples(), 0);
     for (int i = 0; i < buffer.getNumSamples(); i++) {
@@ -526,65 +496,6 @@ std::vector<double> classifyAudio::arange(double start_in, double end_in, double
         current += spacing;
     }
     return aranged;
-}
-
-void classifyAudio::testAccuracy2D(std::vector<std::vector<float>> cepCoeff) {
-    juce::File myFile;
-
-    auto parentDir = juce::File::getSpecialLocation(juce::File::userDocumentsDirectory);
-
-    myFile = parentDir.getChildFile("Test_Classification_mfcc.csv");
-    myFile.deleteFile();
-
-    juce::FileOutputStream output2(myFile);
-
-    for (auto frame = 0; frame < cepCoeff[0].size(); ++frame)
-    {
-        output2.writeString("frame" + (juce::String)frame + ",");
-    }
-
-    output2.writeString("\n");
-
-    for (auto mfcc = 0; mfcc < cepCoeff.size(); ++mfcc)
-    {
-
-        for (auto frame = 0; frame < cepCoeff[0].size(); ++frame)
-        {
-
-            juce::String dataString1 = (juce::String) cepCoeff[mfcc][frame];
-            output2.writeString(dataString1);
-            output2.writeString(",");
-
-        }
-
-        output2.writeString("\n");
-    }
-    output2.flush();
-    myFile.~File();
-
-}
-
-void classifyAudio::testAccuracy1D(std::vector<float> section)
-{
-    juce::File myFile;
-
-    auto parentDir = juce::File::getSpecialLocation(juce::File::userDocumentsDirectory);
-
-    myFile = parentDir.getChildFile("Test_Classification_recording.csv");
-    myFile.deleteFile();
-
-    juce::FileOutputStream output2(myFile);
-
-    output2.writeString("Data\n");
-
-    for (auto i = 0; i < section.size(); ++i)
-    {
-        juce::String dataString1 = (juce::String) section[i];
-        output2.writeString(dataString1);
-        output2.writeString("\n");
-    }
-    output2.flush();
-    myFile.~File();
 }
 
 

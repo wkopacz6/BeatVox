@@ -11,16 +11,13 @@
 #include <math.h>
 #include "onsetDetection.h"
 
-onsetDetection::onsetDetection() : forwardFFT(fftOrder),
-hannWindow(fftSize, juce::dsp::WindowingFunction<float>::hann){
+onsetDetection::onsetDetection() : forwardFFT(fftOrder){
 
      
 }
 
 onsetDetection:: ~onsetDetection() {
-    //peaks.clear();
-    //peaksInSeconds.clear();
-    //
+
 }
 
 std::vector<float> onsetDetection::makeNoveltyFunction(juce::AudioBuffer<float>buffer, int audioNumOfSamples, double sampleRate) {
@@ -28,10 +25,6 @@ std::vector<float> onsetDetection::makeNoveltyFunction(juce::AudioBuffer<float>b
     mSampleRate = sampleRate;
     double pi = 3.141592653589793;
     
-    //zero pad
-    //int numberOfZeros = fftSize - (audioNumOfSamples%(hopLength));
-    // turn buffer into vector
-    //std::vector<float>audio(audioNumOfSamples+numberOfZeros, 0);
     std::vector<double>audio(audioNumOfSamples, 0);
     for(int i = 0; i < audioNumOfSamples; i++){
         audio[i] = buffer.getSample(0, i);
@@ -49,13 +42,9 @@ std::vector<float> onsetDetection::makeNoveltyFunction(juce::AudioBuffer<float>b
         audio[i] = audio[i] / absmax;
     }
     // Allocate array for FFT data
-    
-    //classification.testAccuracy1(audio);
 
     int numOfFFTs = 1 + int((audio.size() - fftSize) / hopLength);
     std::vector<std::vector<float>> fftData(numOfFFTs, std::vector<float>(fftSize / 2 + 1));
-    /*int numOfFFTs = ceil((audioNumOfSamples)/(hopLength));
-    fftData.resize(numOfFFTs);*/
     
     for(int i = 0; i < numOfFFTs; i++) {
         std::vector<double> audioData(fftSize*2);
@@ -79,8 +68,6 @@ std::vector<float> onsetDetection::makeNoveltyFunction(juce::AudioBuffer<float>b
 
         fftData[i] = posfftData;
     }
-    
-    //classification.testAccuracy(fftData);
 
     //Convert to Magnitude Spectrum to dB
     for (auto i = 0; i < fftData.size(); i++)
@@ -204,38 +191,6 @@ std::vector<int> onsetDetection::convertTimeToSamples(std::vector<float>peaksInT
     }
     return peaksInSamples;
 }
-
-void onsetDetection::testSegmentation(std::vector<float>noveltyFunction, std::vector<int> peaks, std::vector<float> peaksInSeconds){
-    juce::File myFile;
-
-    auto parentDir = juce::File::getSpecialLocation(juce::File::userDocumentsDirectory);
-
-    myFile = parentDir.getChildFile("Test_Segmentation.csv");
-    myFile.deleteFile();
-
-    juce::FileOutputStream output2(myFile);
-    output2.writeString("Novelty Function\n");
-    //Output npvelty fucntion to CSV
-    for (auto sample = 0; sample < noveltyFunction.size(); ++sample)
-    {
-        juce::String dataString1 = (juce::String) noveltyFunction[sample];
-        output2.writeString(dataString1);
-        if (sample < peaks.size()){
-            juce::String dataString2 = (juce::String) peaks[sample];
-            juce::String dataString3 = (juce::String) peaksInSeconds[sample];
-            output2.writeString(",");
-            output2.writeString(dataString2);
-            output2.writeString(",");
-            output2.writeString(dataString3);
-        }
-
-        output2.writeString("\n");
-    }
-    output2.flush();
-    myFile.~File();
-    DBG("Done writing");
-}
-
 
     
 

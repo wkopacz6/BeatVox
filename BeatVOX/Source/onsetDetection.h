@@ -29,14 +29,6 @@ public:
     std::vector<int> pickPeaks(std::vector<float>noveltyFunction);
     std::vector<float> convertIndiciesToTime(std::vector<int>peaksInIndicies);
     std::vector<int> convertTimeToSamples(std::vector<float>peaksInTime);
-    void testSegmentation(std::vector<float>noveltyFunction, std::vector<int> peaks, std::vector<float> peaksInSeconds);
-    
-    
-    /*std::vector<std::vector<float>>fftData;
-    * std::vector<float> noveltyFunction
-    std::vector<int>peaks;
-    std::vector<float>peaksInSeconds;
-    std::vector<float>peaksInSamples;*/
     
 
 private:
@@ -44,7 +36,6 @@ private:
     double mSampleRate{ 0.0 };
    
     juce::dsp::FFT forwardFFT; // FFT object to perform forward fft on
-    juce::dsp::WindowingFunction<float> hannWindow; 
     classifyAudio classification;
         
     

@@ -24,10 +24,12 @@ MainComponent::MainComponent()
     addAndMakeVisible (numberOfBarsLabel);
     numberOfBarsLabel.setText ("Number of Bars", juce::dontSendNotification);
     numberOfBarsLabel.attachToComponent (&barCount, true);
+    numberOfBarsLabel.setEditable(false);
     
     addAndMakeVisible (newBpmLabel);
     newBpmLabel.setText ("BPM", juce::dontSendNotification);
     newBpmLabel.attachToComponent (&newBpm, true);
+    newBpmLabel.setEditable(false);
     
 
     //initialize all buttons and sliders with lambdas
@@ -46,10 +48,6 @@ MainComponent::MainComponent()
     addAndMakeVisible(buttonStop);
     buttonStop.setEnabled(false);
     buttonStop.onClick = [this]() { stop(); };
-
-    addAndMakeVisible(buttonDump);
-    buttonDump.setEnabled(false);
-    buttonDump.onClick = [this]() { dumpDataToCSV(); };
 
     addAndMakeVisible(buttonMet);
     buttonMet.setEnabled(true);
@@ -137,13 +135,12 @@ void MainComponent::resized()
     buttonRecord    .setBounds(10,  50, getWidth() - 20, 30);
     buttonStop      .setBounds(10,  90, getWidth() - 20, 30);
     buttonReset     .setBounds(10, 130, getWidth() - 20, 30);
-    buttonDump      .setBounds(10, 170, getWidth() - 20, 30);
-    barCount        .setBounds(10, 210, getWidth() - 20, 30);
-    newBpm          .setBounds(10, 250, getWidth() - 20, 30);
-    buttonMet       .setBounds(10, 290, getWidth() /  4, 30);
-    buttonAnalyze   .setBounds(getWidth()/4, 330, getWidth()/2, 30);
-    buttonPlayMidi  .setBounds(getWidth()/4, 370, getWidth()/4, 20);
-    buttonStopMidi  .setBounds(getWidth()/2, 370, getWidth()/4, 20);
+    barCount        .setBounds(10, 170, getWidth() - 20, 30);
+    newBpm          .setBounds(10, 210, getWidth() - 20, 30);
+    buttonMet       .setBounds(10, 250, getWidth() - 320, 20);
+    buttonAnalyze   .setBounds(getWidth()/4, 310, getWidth()/2, 30);
+    buttonPlayMidi  .setBounds(getWidth()/4, 350, getWidth()/4, 20);
+    buttonStopMidi  .setBounds(getWidth()/2, 350, getWidth()/4, 20);
     errorBox        .setBounds(10, 405, getWidth() - 20, 20);
     audioSetupButton.setBounds(360, 15, getWidth() /  8, 20);
 }
@@ -180,16 +177,17 @@ void MainComponent::reset()
         buttonRecord.setEnabled(true);
 
     buttonReset .setEnabled(false);
-    buttonDump  .setEnabled(false);
     barCount    .setEnabled(true);
     newBpm      .setEnabled(true);
 
     if (!recorder.erroredMet)
-        buttonMet   .setEnabled(true);
+        buttonMet.setEnabled(true);
 
     buttonAnalyze.setEnabled(false);
     buttonPlayMidi.setEnabled(false);
     buttonStopMidi.setEnabled(false);
+
+    recorder.stopOutputMidi();
 
     doneAnalyzing = false;
 
@@ -201,11 +199,6 @@ void MainComponent::stop()
         recorder.stopRecording();
 }
 
-void MainComponent::dumpDataToCSV()
-{
-    recorder.testAlgorithm();
-}
-
 //graphically informs the user that recording has finished
 void MainComponent::done()
 {
@@ -213,7 +206,6 @@ void MainComponent::done()
     buttonRecord.setColour(juce::TextButton::buttonColourId, juce::Colours::green);
     buttonRecord.setButtonText("Done!");
 
-    buttonDump .setEnabled(true);
     buttonReset.setEnabled(true);
     buttonStop .setEnabled(false);
 

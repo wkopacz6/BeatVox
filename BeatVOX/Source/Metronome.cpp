@@ -15,7 +15,7 @@ Metronome::Metronome()
     mFormatManager.registerBasicFormats();
 
     juce::File myFile{ juce::File::getSpecialLocation(juce::File::SpecialLocationType::userDocumentsDirectory) };
-    auto beatvoxDir = myFile.findChildFiles(juce::File::TypesOfFileToFind::findDirectories, true, "BeatVOX_main");
+    auto beatvoxDir = myFile.findChildFiles(juce::File::TypesOfFileToFind::findDirectories, true, "BeatVOX");
     auto addFilesDir = beatvoxDir[0].findChildFiles(juce::File::TypesOfFileToFind::findDirectories, true, "AdditionalFiles");
 
     auto metFile = addFilesDir[0].findChildFiles(juce::File::TypesOfFileToFind::findFiles, true, "Cowbell-2.wav");

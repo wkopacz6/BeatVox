@@ -245,41 +245,5 @@ void recordAudio::stopOutputMidi()
     midiOutput->clearAllPendingMessages();
 }
 
-void recordAudio::testAlgorithm()
-{
-    tester();
 
-    auto noveltyFunction = onset.makeNoveltyFunction(bufferRecordedAudio, bufferRecordedAudio.getNumSamples(), mSampleRate);
-    auto peaks = onset.pickPeaks(noveltyFunction);
-    auto peaksInSeconds = onset.convertIndiciesToTime(peaks);
-    auto peaksInSamples = onset.convertTimeToSamples(peaksInSeconds);
-    onset.testSegmentation(noveltyFunction, peaks, peaksInSeconds);
-
-    //classification.tester(bufferRecordedAudio, mSampleRate);
-}
-
-void recordAudio::tester()
-{
-    juce::File myFile;
-
-    auto parentDir = juce::File::getSpecialLocation(juce::File::userDocumentsDirectory);
-
-    myFile = parentDir.getChildFile("Test_Audio_Recording.csv");
-    myFile.deleteFile();
-
-    juce::FileOutputStream output2(myFile);
-    output2.writeString("Channel1\n");
-    
-    for (auto sample = 0; sample < bufferRecordedAudio.getNumSamples(); ++sample)
-    {
-        
-        juce::String dataString1 = (juce::String) (double)bufferRecordedAudio.getSample(0, sample);
-        output2.writeString(dataString1);
-
-        output2.writeString("\n");
-    }
-    output2.flush();  
-    myFile.~File();
-    DBG("Done writing");
-}
 
