@@ -19,7 +19,7 @@ classifyAudio::classifyAudio() : forwardFFT(fftOrder)
     mFormatManager.registerBasicFormats();
 
     juce::File myFile{ juce::File::getSpecialLocation(juce::File::SpecialLocationType::userDocumentsDirectory) };
-    auto mySamples = myFile.findChildFiles(juce::File::TypesOfFileToFind::findDirectories, true, "BeatVOX");
+    auto mySamples = myFile.findChildFiles(juce::File::TypesOfFileToFind::findDirectories, true, "BeatVOX_v1.0");
     auto addFiles = mySamples[0].findChildFiles(juce::File::TypesOfFileToFind::findDirectories, true, "AdditionalFiles");
 
     auto model1Dir = addFiles[0].findChildFiles(juce::File::TypesOfFileToFind::findFiles, true, "model_file44100");
