@@ -41,6 +41,7 @@ public:
  
     std::unique_ptr<juce::AudioDeviceSelectorComponent> audioSetupComp;
     juce::AudioBuffer<float> bufferRecordedAudio;
+    juce::MidiOutput* midiOutput{ nullptr };
     double mSampleRate{ 0.0 };
 
 private:
@@ -53,7 +54,6 @@ private:
     int mBufferSize      { 0 };
 
     juce::MidiBuffer bufferMidi;
-    juce::MidiOutput* midiOutput{ nullptr };
 
     Metronome metronome;
     classifyAudio classification;

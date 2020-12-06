@@ -111,7 +111,7 @@ MainComponent::MainComponent()
     //When user changes audio devices, the changeListenerCallback function is called
     recorder.addActionListener(this);
 
-    setSize(450, 430);
+    setSize(450, 400);
 
 
 }
@@ -137,11 +137,11 @@ void MainComponent::resized()
     buttonReset     .setBounds(10, 130, getWidth() - 20, 30);
     barCount        .setBounds(10, 170, getWidth() - 20, 30);
     newBpm          .setBounds(10, 210, getWidth() - 20, 30);
-    buttonMet       .setBounds(10, 250, getWidth() - 320, 20);
-    buttonAnalyze   .setBounds(getWidth()/4, 310, getWidth()/2, 30);
-    buttonPlayMidi  .setBounds(getWidth()/4, 350, getWidth()/4, 20);
-    buttonStopMidi  .setBounds(getWidth()/2, 350, getWidth()/4, 20);
-    errorBox        .setBounds(10, 405, getWidth() - 20, 20);
+    buttonMet       .setBounds(10, 250, getWidth() - 340, 20);
+    buttonAnalyze   .setBounds(getWidth()/4, 290, getWidth()/2, 40);
+    buttonPlayMidi  .setBounds(getWidth()/4, 340, getWidth()/4, 20);
+    buttonStopMidi  .setBounds(getWidth()/2, 340, getWidth()/4, 20);
+    errorBox        .setBounds(10, 375, getWidth() - 20, 20);
     audioSetupButton.setBounds(360, 15, getWidth() /  8, 20);
 }
 
@@ -187,7 +187,8 @@ void MainComponent::reset()
     buttonPlayMidi.setEnabled(false);
     buttonStopMidi.setEnabled(false);
 
-    recorder.stopOutputMidi();
+    if (recorder.midiOutput != nullptr)
+        recorder.stopOutputMidi();
 
     doneAnalyzing = false;
 
