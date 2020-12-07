@@ -1,7 +1,7 @@
 # BeatVOX
 
 ## What is BeatVOX?
-BeatVOX is an application that can convert an audio recording of beatboxing into a corresponding MIDI drum pattern, which can be streamed directly into your DAW or to any other MIDI application of your choosing via a virtual MIDI port.
+BeatVOX is an application that can convert an audio recording of beatboxing into a corresponding MIDI drum pattern, which can be streamed directly into your DAW or to any other MIDI application of your choosing via a virtual MIDI port.  Be sure to check out the demo video linked at the bottom of the document.
   
 ## Download and Launching
 To download BeatVOX, simply download the ZIP file of all files on this GitHub branch (the "Released" branch).  Then, extract and place these files into your computer's Documents directory.  Keep all files in their original folder layout and do not rename anything.  
