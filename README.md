@@ -25,3 +25,7 @@ Here's a link to instructions for both MAC and Windows:  https://dialogaudio.com
 ## Things to be Aware of
 Currently, BeatVOX only functions with sampling rates of 44100Hz and 48000Hz and can only process kick, snare, and hi-hat sounds.  During the MIDI conversion, a kick is mapped to the MIDI note 36, a snare is mapped to 38, and a hi-hat to 42.  This is still a prototype build, so please mind the relative inaccuracy of the drum conversion.
 
+## Demo Video and Paper
+Here is a link to a demo video as well as a detailed paper regarding BeatVOX's functionality and development:
+https://drive.google.com/drive/folders/1mhuZa5Pbmh2EgYIQqRtFaXz7PlzA4K6L?usp=sharing
+
